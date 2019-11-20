@@ -1,0 +1,26 @@
+{
+    "name": "project/mywishlist",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Flavien Chagras"
+        },
+        {
+            "name": "Lucas Blaise"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "illuminate/database": "5.5.*",
+        "php": ">=7.0",
+        "slim/slim": "3.12.2",
+        "slim/twig-view": "^2.5"
+    },
+    "require-dev": {
+        "composer/composer": "^1.9"
+    }
+}
