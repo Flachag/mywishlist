@@ -4,7 +4,7 @@ $container = $app->getContainer();
 $container['view'] = function ($container) {
     $dir = dirname(__DIR__);
     $view = new \Slim\Views\Twig($dir.'/app/views', [
-        'cache' => false //$dir.'/tmp/cache'
+        'cache' => false
     ]);
 
     // Instantiate and add Slim specific extension
