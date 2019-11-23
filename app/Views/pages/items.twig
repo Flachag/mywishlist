@@ -1,0 +1,30 @@
+{% extends "layout.twig"%}
+{% block title 'Objets de la liste' %}
+
+{% block content %}
+    <h1>Liste n°{{ num }}</h1>
+    <div class="body m-5">
+    <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">id</th>
+        <th scope="col">nom</th>
+        <th scope="col">descr</th>
+        <th scope="col">img</th>
+        <th scope="col">url</th>
+        <th scope="col">tarif</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item in items %}
+        <tr>
+            <th scope="row">{{ item.id }}</th>
+            <td>{{ item.nom }}</td>
+            <td>{{ item.descr }}</td>
+            <td><img src="assets/img/{{ item.img }}" height=50 alt="{{ item.img }}"/></td>
+            <td>{{ item.url }}</td>
+            <td>{{ item.tarif }}</td>
+        </tr>
+    {% endfor %}
+
+{% endblock %}

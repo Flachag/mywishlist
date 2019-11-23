@@ -6,15 +6,15 @@ namespace App\Controllers;
 
 use Psr\Http\Message\ResponseInterface;
 
-class Controller{
+class MainController{
     private $container;
 
     public function __construct($container){
         $this->container = $container;
     }
 
-    public function render(ResponseInterface $response, $file){
-        $this->container->view->render($response, $file);
+    public function render(ResponseInterface $response, $file, $data = null){
+        $this->container->view->render($response, $file, $data);
     }
 
     public function redirect($response, $name){

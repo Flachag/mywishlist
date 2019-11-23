@@ -14,3 +14,9 @@ $container['view'] = function ($container) {
 
     return $view;
 };
+
+function afficherImg($name){
+    $name = '<td><img src="img/'.$name;
+    echo $name.'" height="50"/></td>';
+}
+
