@@ -9,6 +9,6 @@ class Liste extends Model{
     public $timestamps = false;
 
     public function item(){
-        return $this->hasMany('wishlist\src\models\Item', 'liste_id');
+        return $this->hasMany('Models\Item', 'liste_id');
     }
 }

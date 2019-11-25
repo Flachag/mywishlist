@@ -2,29 +2,25 @@
 {% block title 'Objets de la liste' %}
 
 {% block content %}
-    <h1>Liste n°{{ num }}</h1>
-    <div class="body m-5">
-    <table class="table table-bordered table-hover">
-    <thead class="thead-dark">
-    <tr>
-        <th scope="col">id</th>
-        <th scope="col">nom</th>
-        <th scope="col">descr</th>
-        <th scope="col">img</th>
-        <th scope="col">url</th>
-        <th scope="col">tarif</th>
-    </tr>
-    </thead>
-    <tbody>
+    <section class="jumbotron text-center mt-4">
+        <div class="container">
+            <h1 class="jumbotron-heading">{{ liste.titre }}</h1>
+            <p class="lead text-muted">{{ liste.description }}</p>
+            <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
+        </div>
+    </section>
+
+    <div class="card-columns">
     {% for item in items %}
-        <tr>
-            <th scope="row">{{ item.id }}</th>
-            <td>{{ item.nom }}</td>
-            <td>{{ item.descr }}</td>
-            <td><img src="assets/img/{{ item.img }}" height=50 alt="{{ item.img }}"/></td>
-            <td>{{ item.url }}</td>
-            <td>{{ item.tarif }}</td>
-        </tr>
+        <div class="card" style="width: 18rem;">
+            <img src="assets/img/{{ item.img }}" class="card-img-top" alt="{{ item.img }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ item.nom }}</h5>
+                <p class="card-text">Réservé: </p>
+                <a href="#" class="btn btn-dark ">Détails</a>
+            </div>
+        </div>
     {% endfor %}
+    </div>
 
 {% endblock %}
