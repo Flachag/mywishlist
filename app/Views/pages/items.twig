@@ -16,7 +16,13 @@
             <img src="assets/img/{{ item.img }}"  class="card-img-top" alt="{{ item.img }}">
             <div class="card-body">
                 <h5 class="card-title">{{ item.nom }}</h5>
-                <p class="card-text">Réservé: </p>
+                <p class="card-text">Réservé:
+                    {% if  item.reservation > 0 %}
+                        Oui
+                    {% else %}
+                        Non
+                    {% endif %}
+                </p>
                 <a href="#" class="btn btn-dark ">Détails</a>
             </div>
         </div>

@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\models\Item;
 use App\models\Liste;
+use App\Models\Reservation;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
@@ -22,14 +23,16 @@ class PagesController extends MainController {
 
         if ($get[0] == "liste" && sizeof($get)==2 && $liste->count()==1) {
             $liste = $liste->first();
+            $items =  $liste->items;
+
             $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
-                "items" => Item::where('liste_id', $liste->no)->get(),
-                "liste" => $liste]);
+                                                                "items" => $items,
+                                                                "liste" => $liste]);
         } else {
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-
+    
     public function postListeCreate(RequestInterface $request, ResponseInterface $response){
         $this->render($response,'pages/listeCreate.twig',  ["current_page" => "listeCreate"]);
     }
