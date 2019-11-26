@@ -18,4 +18,6 @@ require('../app/container.php');
 $app->get('/',PagesController::class.':home')->setName('home');
 $app->get('/nos-listes',PagesController::class.':getListes')->setName('listes');
 $app->get('/objets',PagesController::class.':getItems')->setName('items');
+
+$app->get('/creer-liste',PagesController::class.':getListeCreate')->setName('listeCreate');
 $app->run();

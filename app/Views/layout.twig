@@ -8,6 +8,8 @@
     <link rel="icon" type="image" href="assets/img/w.png">
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="assets/css/all.css">
+    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>
+
     {% block stylesheets %}{% endblock %}
 
     <title>{% block title %}WishList{% endblock %}</title>
@@ -27,7 +29,7 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link {{ current_page == 'creer_liste' ? 'active': '' }}" href="#" >
+                <a class="nav-link {{ current_page == 'creer_liste' ? 'active': '' }}" href="{{ path_for('listeCreate') }}" >
                     Créer une liste
                 </a>
             </li>
