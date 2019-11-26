@@ -21,7 +21,7 @@ class PagesController extends MainController {
         $get = explode("=", $request->getUri()->getQuery());
         $liste = Liste::where('token', $get[1]);
 
-        if ($get[0] == "liste" && sizeof($get)==2 && $liste->count()==1) {
+        if ($get[0] == "token" && sizeof($get)==2 && $liste->count()==1) {
             $liste = $liste->first();
             $items =  $liste->items;
 

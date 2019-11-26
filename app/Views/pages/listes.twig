@@ -2,7 +2,7 @@
 {% block title 'Listes' %}
 
 {% block content %}
-    <div class="body m-5">
+    <div class="body mt-5">
         <table class="table table-bordered table-hover">
             <thead class="thead-dark">
             <tr>
@@ -16,7 +16,7 @@
             </thead>
             <tbody>
             {% for liste in listes %}
-                <tr onclick="document.location = '{{ path_for('items') }}?liste={{ liste.token }}';">
+                <tr onclick="document.location = '{{ path_for('items') }}?token={{ liste.token }}';">
                     <th scope="row">{{ liste.no }}</th>
                     <td>{{ liste.user_id }}</td>
                     <td>{{ liste.titre }}</td>
