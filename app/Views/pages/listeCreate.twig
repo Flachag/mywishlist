@@ -1,19 +1,24 @@
-{% extends "layout.twig"%}
+{% extends "layout.twig" %}
 {% block title 'Creation liste' %}
 
 {% block content %}
     <div class="body m-5">
-        <h4>Titre</h4>
-        <input class="form-control" type="text" placeholder="">
-        <br>
-        <h4>Description</h4>
-        <textarea cols="80" name="ckeditor" id="ckeditor" rows="10"  required></textarea>
-        <script>
-            CKEDITOR.replace('ckeditor');
-        </script>
-        <br>
-        <h4>Expiration</h4>
-        <input type="date" id="start" name="trip-start">
+        <form action="" method="POST">
+            <h4>Titre</h4>
+            <input class="form-control" type="text" placeholder="">
+            <br>
+            <h4>Description</h4>
+            <textarea cols="80" name="ckeditor" id="ckeditor" rows="10" required></textarea>
+            <script>
+                CKEDITOR.replace('ckeditor');
+            </script>
+            <br>
+            <h4>Expiration</h4>
+            <input type="date" id="start" name="trip-start">
+            <br>
+            <br>
+            <button type="Submit" class="btn btn-dark">Créer liste</button>
+        </form>
     </div>
 {% endblock %}
 

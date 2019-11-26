@@ -32,7 +32,8 @@ class PagesController extends MainController {
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-    public function getListeCreate(RequestInterface $request, ResponseInterface $response){
+    
+    public function postListeCreate(RequestInterface $request, ResponseInterface $response){
         $this->render($response,'pages/listeCreate.twig',  ["current_page" => "listeCreate"]);
     }
 }
