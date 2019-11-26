@@ -30,7 +30,7 @@ class PagesController extends MainController {
         }
     }
 
-    public function getListeCreate(RequestInterface $request, ResponseInterface $response){
+    public function postListeCreate(RequestInterface $request, ResponseInterface $response){
         $this->render($response,'pages/listeCreate.twig',  ["current_page" => "listeCreate"]);
     }
 }
