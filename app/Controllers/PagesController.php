@@ -32,8 +32,21 @@ class PagesController extends MainController {
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-    
+
+    public function getListeCreate(RequestInterface $request, ResponseInterface $response){
+        $this->render($response,'pages/listeCreate.twig',  ["current_page" => "listeCreate", "post" => $_POST]);
+    }
+
     public function postListeCreate(RequestInterface $request, ResponseInterface $response){
-        $this->render($response,'pages/listeCreate.twig',  ["current_page" => "listeCreate"]);
+        $lastId = Liste::all()->count();
+        $liste = new Liste();
+        $liste->user_id = $lastId + 1;
+        $liste->titre = strip_tags($_POST['titre']);
+        $liste->description = strip_tags($_POST['description']);
+        $liste->expiration = strip_tags($_POST['expiration']);
+        $liste->token = "nosecure" . ($lastId + 1);
+        $liste->save();
+        //$this->redirect($response, 'home');
+        $this->render($response,'pages/home.twig', ["current_page" => "home"]);
     }
 }

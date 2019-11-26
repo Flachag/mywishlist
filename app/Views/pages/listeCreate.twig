@@ -3,21 +3,20 @@
 
 {% block content %}
     <div class="body m-5">
-        <form action="" method="POST">
+        <form action="" method="post">
             <h4>Titre</h4>
-            <input class="form-control" type="text" placeholder="">
+            <input class="form-control" type="text" name="titre" placeholder="" required>
             <br>
             <h4>Description</h4>
-            <textarea cols="80" name="ckeditor" id="ckeditor" rows="10" required></textarea>
-            <script>
-                CKEDITOR.replace('ckeditor');
-            </script>
+            <textarea cols="111" name="description" id="description" rows="10" required></textarea>
+            <br>
             <br>
             <h4>Expiration</h4>
-            <input type="date" id="start" name="trip-start">
-            <br>
-            <br>
-            <button type="Submit" class="btn btn-dark">Créer liste</button>
+            <input type="date" id="expiration" name="expiration" required>
+
+            <button type="Submit" class="btn btn-dark" style="float: right;"
+                    onclick="document.location = '{{ path_for('listeCreateSend') }}';">Créer liste
+            </button>
         </form>
     </div>
 {% endblock %}

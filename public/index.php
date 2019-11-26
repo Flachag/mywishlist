@@ -19,5 +19,6 @@ $app->get('/',PagesController::class.':home')->setName('home');
 $app->get('/nos-listes',PagesController::class.':getListes')->setName('listes');
 $app->get('/liste',PagesController::class.':getItems')->setName('items');
 
-$app->post('/creer-liste',PagesController::class.':postListeCreate')->setName('listeCreate');
+$app->get('/creer-liste',PagesController::class.':getListeCreate')->setName('listeCreate');
+$app->post('/creer-liste',PagesController::class.':postListeCreate')->setName('listeCreateSend');
 $app->run();
