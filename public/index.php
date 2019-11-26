@@ -20,5 +20,7 @@ $app->get('/nos-listes',PagesController::class.':getListes')->setName('listes');
 $app->get('/objets',PagesController::class.':getItems')->setName('items');
 
 $app->get('/creer-liste',PagesController::class.':getListeCreate')->setName('listeCreate');
-$app->post('/creer-liste',PagesController::class.':postListeCreate')->setName('listeCreateSend');
+$app->get('/modifier-liste',PagesController::class.':getListeEditor')->setName('listeEditor');
+$app->post('/creer-liste',PagesController::class.':postListe')->setName('listeSend');
+$app->post('/modifier-liste',PagesController::class.':postListe')->setName('listeSend');
 $app->run();
