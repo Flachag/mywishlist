@@ -38,10 +38,14 @@ class PagesController extends MainController
             $items = $liste->first()->items;
             foreach ($items as $item){
                 if($item->id == $get[3]){
+                    $find = true;
                     $this->render($response, 'pages/item.twig', ["current_page" => "item",
                                                                         "item" => $item,
                                                                         "liste" => $liste->first()]);
                 }
+            }
+            if (!isset($find)){
+                $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
             }
         } else {
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
