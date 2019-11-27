@@ -23,7 +23,8 @@ class PagesController extends MainController
 
     public function getItems(RequestInterface $request, ResponseInterface $response)
     {
-        $get = explode("=", $request->getUri()->getQuery());
+        $url =  str_replace("?", "=", $request->getUri()->getQuery());
+        $get = explode("=", $url);
         $liste = Liste::where('token', $get[1]);
 
         if ($get[0] == "token" && sizeof($get)==2 && $liste->count()==1) {
@@ -33,6 +34,15 @@ class PagesController extends MainController
             $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
                 "items" => $items,
                 "liste" => $liste]);
+        } elseif ($get[0]=="token" && $get[2]=="item" && sizeof($get)==4 && $liste->count()==1){
+            $items = $liste->first()->items;
+            foreach ($items as $item){
+                if($item->id == $get[3]){
+                    $this->render($response, 'pages/item.twig', ["current_page" => "item",
+                                                                        "item" => $item,
+                                                                        "liste" => $liste->first()]);
+                }
+            }
         } else {
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
@@ -79,5 +89,10 @@ class PagesController extends MainController
 
         //$this->redirect($response, 'home');
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
+    }
+
+    public function getItem(RequestInterface $request, ResponseInterface $response){
+        $get = explode("=", $request->getUri()->getQuery());
+        $this->render($response, 'pages/items.twig', ['current_page' => "item"]);
     }
 }
