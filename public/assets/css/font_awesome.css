@@ -1,0 +1,43 @@
+.fa-wrench:hover {
+    color: gray;
+}
+
+.fa-wrench {
+    display: block;
+}
+
+.fa-trash-alt:hover {
+    color: red;
+}
+
+.card:hover #item-editor {
+    display: inline;
+}
+
+.card:hover #item-delete {
+    display: inline;
+}
+
+#item-editor, #item-delete {
+    display: none;
+    float: left;
+    margin-top: 0.5em;
+}
+
+#item-delete {
+    margin-left: 10px;
+}
+
+.fa-plus:hover {
+    color: gray;
+}
+
+.fa-plus {
+    display: block;
+}
+
+.fa-ban {
+    color: red;
+    margin-top: 1em;
+    margin-left: 3em;
+}
