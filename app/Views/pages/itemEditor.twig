@@ -1,0 +1,34 @@
+{% extends "layout.twig" %}
+{% block title 'Modification item' %}
+
+
+{% block content %}
+    <div class="body m-5">
+        <form action="" method="post">
+            <h4>Titre</h4>
+            <input class="form-control" type="text" name="nom" value=" {{ item.nom }}" required>
+            <br>
+            <h4>Description</h4>
+            <textarea cols="111" name="description" id="description" rows="10" required>{{ item.descr }}</textarea>
+            <br>
+            <br>
+            <div style="display: inline" class="form-group row">
+                <div style="float:left;" class="col-xs-2">
+                    <h4>Prix</h4>
+                    <input class="form-control" type="number" name="tarif" value="{{ item.tarif }}" required>
+                </div>
+                <div style="float:right;" class="col-xs-4">
+                    <h4>Lien externe</h4>
+                    <input class="form-control" type="url" name="url" value="{{ item.url }}">
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <button type="Submit" class="btn btn-dark"
+                    onclick="document.location = '{{ path_for('itemSend') }}';">Modifier item
+            </button>
+        </form>
+    </div>
+{% endblock %}
