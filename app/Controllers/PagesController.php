@@ -38,6 +38,14 @@ class PagesController extends MainController
             $items = $liste->first()->items;
             foreach ($items as $item) {
                 if ($item->id == $get[3]) {
+                    if (!empty($item->img) && !str_contains($item->img, "assets/img/")) {
+                        $headers = @get_headers($item->img);
+                        if (!isset($headers)) {
+                            $img = "assets/img/" . $item->img;
+                            $item->img = $img;
+                            $item->save();
+                        }
+                    }
                     $this->render($response, 'pages/item.twig', ["current_page" => "item",
                         "item" => $item,
                         "liste" => $liste->first()]);
@@ -96,8 +104,8 @@ class PagesController extends MainController
         }
     }
 
-    //pb update par save
-    public function postListe(RequestInterface $request, ResponseInterface $response)
+    public
+    function postListe(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
         if (isset($get[1])) {
@@ -120,21 +128,31 @@ class PagesController extends MainController
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
 
-    public function getItem(RequestInterface $request, ResponseInterface $response)
+    public
+    function getItem(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
         $this->render($response, 'pages/items.twig', ['current_page' => "item"]);
     }
 
-    public function postItem(RequestInterface $request, ResponseInterface $response)
+    public
+    function postItem(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
         if ($get[0] == "item") {
             if (isset($get[1])) {
+                $img = strip_tags($_POST['img']);
+                if (!empty($_POST['img']) && !str_contains(strip_tags($_POST['img']), "assets/img/")) {
+                    $headers = @get_headers(strip_tags($_POST['img']));
+                    if ($headers == false) {
+                        $img = "assets/img/" . strip_tags($_POST['img']);
+                    }
+                }
                 $item = Item::where('id', $get[1])
                     ->update(['nom' => strip_tags($_POST['nom']),
                         'descr' => strip_tags($_POST['description']),
                         'url' => strip_tags($_POST['url']),
+                        'img' => $img,
                         'tarif' => strip_tags($_POST['tarif'])]);
             }
         } else {
@@ -146,9 +164,16 @@ class PagesController extends MainController
                     $item->liste_id = $obj->no;
                     $item->nom = strip_tags($_POST['nom']);
                     $item->descr = strip_tags($_POST['description']);
-                    //$item->img = strip_tags($_POST['img']);
                     $item->url = strip_tags($_POST['url']);
                     $item->tarif = strip_tags($_POST['tarif']);
+                    $img = strip_tags($_POST['img']);
+                    if (!empty($_POST['img']) && !str_contains(strip_tags($_POST['img']), "assets/img/")) {
+                        $headers = @get_headers(strip_tags($_POST['img']));
+                        if ($headers == false) {
+                            $img = "assets/img/" . strip_tags($_POST['img']);
+                        }
+                    }
+                    $item->img = $img;
                     $item->save();
                 }
             }
@@ -157,7 +182,8 @@ class PagesController extends MainController
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
 
-    public function deleteItem(RequestInterface $request, ResponseInterface $response)
+    public
+    function deleteItem(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
         $item = Item::where('id', $get[1]);

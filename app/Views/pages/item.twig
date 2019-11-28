@@ -18,7 +18,7 @@
     </section>
 
     <div class="container mt-4">
-        <img class="rounded float-left img-thumbnail" width=40% src="assets/img/{{ item.img }}">
+        <img class="rounded float-left img-thumbnail" width=40% src="{{ item.img }}">
         <div class="text-center">
             {% if  item.reservation <= 0 %}
                 <i style="float: right;" class="fas fa-wrench" onclick="document.location = '{{ path_for('itemEditor') }}?item={{ item.id }}';"></i>
@@ -30,6 +30,5 @@
             <p><strong>{{ item.tarif }} euros </strong></p>
             <button class="btn btn-dark">Je réserve !</button>
         </div>
-
     </div>
 {% endblock %}
