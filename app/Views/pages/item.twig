@@ -28,7 +28,13 @@
             <h5 class="text-uppercase font-weight-bold m-auto text-center"><strong>{{ item.nom }}</strong></h5>
             <p>{{ item.descr }}</p>
             <p><strong>{{ item.tarif }} euros </strong></p>
-            <button class="btn btn-dark">Je réserve !</button>
+            {% if item.reservation != 0 %}
+                <div class="alert alert-danger">
+                    Cet objet est déjà réservé
+                </div>
+            {% else %}
+                <button class="btn btn-dark">Je réserve !</button>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
