@@ -41,7 +41,7 @@ class PagesController extends MainController
                     $find = true;
                     if (!empty($item->img) && !str_contains($item->img, "assets/img/")) {
                         $headers = @get_headers($item->img);
-                        if (!isset($headers)) {
+                        if ($headers == false) {
                             $img = "assets/img/" . $item->img;
                             $item->img = $img;
                             $item->save();
