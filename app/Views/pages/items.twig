@@ -12,6 +12,8 @@
             <i class="fas fa-wrench" onclick="document.location = '{{ path_for('listeEditor') }}?token={{ liste.token }}';"></i>
             <br>
             <i class="fas fa-plus" onclick="document.location = '{{ path_for('itemCreate') }}?token={{ liste.token }}';"></i>
+            <br>
+            <i class="fas fa-share-alt" onclick="document.location = '{{ path_for('listeShare') }}?token={{ liste.token }}';"></i>
             <h1 class="jumbotron-heading">{{ liste.titre }}</h1>
             <p class="lead text-muted">{{ liste.description }}</p>
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>

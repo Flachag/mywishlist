@@ -29,7 +29,7 @@
 }
 
 .fa-plus:hover {
-    color: gray;
+    color: green;
 }
 
 .fa-plus {
@@ -40,4 +40,12 @@
     color: red;
     margin-top: 1em;
     margin-left: 3em;
+}
+
+.fa-share-alt:hover {
+    color: blue;
+}
+
+.fa-share-alt {
+    display: block;
 }
