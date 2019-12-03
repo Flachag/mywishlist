@@ -19,6 +19,17 @@ class PagesController extends MainController
     public function getListes(RequestInterface $request, ResponseInterface $response)
     {
         $this->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
+        $items = Item::all();
+        foreach ($items as $item){
+            if (!empty($item->img) && !str_contains($item->img, "assets/img/")) {
+                $headers = @get_headers($item->img);
+                if ($headers == false) {
+                    $img = "assets/img/" . $item->img;
+                    $item->img = $img;
+                    $item->save();
+                }
+            }
+        }
     }
 
     public function getItems(RequestInterface $request, ResponseInterface $response)
@@ -34,17 +45,6 @@ class PagesController extends MainController
             $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
                 "items" => $items,
                 "liste" => $liste]);
-            $items = $liste->first()->items;
-            foreach ($items as $item){
-                if (!empty($item->img) && !str_contains($item->img, "assets/img/")) {
-                    $headers = @get_headers($item->img);
-                    if ($headers == false) {
-                        $img = "assets/img/" . $item->img;
-                        $item->img = $img;
-                        $item->save();
-                    }
-                }
-            }
         } elseif ($get[0] == "token" && $get[2] == "item" && sizeof($get) == 4 && $liste->count() == 1) {
             $items = $liste->first()->items;
             foreach ($items as $item) {
