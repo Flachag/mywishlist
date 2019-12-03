@@ -172,7 +172,8 @@ class PagesController extends MainController
                     $item->tarif = strip_tags($_POST['tarif']);
                     $img = strip_tags($_POST['img']);
                     if (!empty($_POST['img']) && !str_contains(strip_tags($_POST['img']), "assets/img/")) {
-                        $headers = @get_headers(strip_tags($_POST['img']));
+                        $headers = @get_headers($_POST['img']);
+                        echo var_dump($headers);
                         if ($headers == false) {
                             $img = "assets/img/" . strip_tags($_POST['img']);
                         }
