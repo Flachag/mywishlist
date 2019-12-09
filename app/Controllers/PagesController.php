@@ -1,21 +1,16 @@
 <?php
-
 namespace App\Controllers;
-
 use App\models\Item;
 use App\models\Liste;
 use App\Models\Reservation;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-
 class PagesController extends MainController
 {
-
     public function home(RequestInterface $request, ResponseInterface $response)
     {
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
-
     public function getListes(RequestInterface $request, ResponseInterface $response)
     {
         $this->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
@@ -31,17 +26,14 @@ class PagesController extends MainController
             }
         }
     }
-
     public function getItems(RequestInterface $request, ResponseInterface $response)
     {
         $url = str_replace("?", "=", $request->getUri()->getQuery());
         $get = explode("=", $url);
         $liste = Liste::where('token', $get[1]);
-
         if ($get[0] == "token" && sizeof($get) == 2 && $liste->count() == 1) {
             $liste = $liste->first();
             $items = $liste->items;
-
             $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
                 "items" => $items,
                 "liste" => $liste]);
@@ -62,12 +54,10 @@ class PagesController extends MainController
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-
     public function getListeCreate(RequestInterface $request, ResponseInterface $response)
     {
         $this->render($response, 'pages/listeCreate.twig', ["current_page" => "listeCreate", "post" => $_POST]);
     }
-
     public function getItemCreate(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
@@ -79,12 +69,10 @@ class PagesController extends MainController
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-
     public function getListeEditor(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
         $liste = Liste::where('token', $get[1]);
-
         if ($liste->count() == 1) {
             $liste = $liste->first();
             $this->render($response, 'pages/listeEditor.twig', ["current_page" => "listeEditor", "post" => $_POST, "liste" => $liste]);
@@ -92,12 +80,10 @@ class PagesController extends MainController
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-
     public function getItemEditor(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
         $item = Item::where('id', $get[1]);
-
         if ($item->count() == 1) {
             $item = $item->first();
             $reservation = Reservation::where('id_item', $get[1]);
@@ -110,7 +96,6 @@ class PagesController extends MainController
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-
     public
     function postListe(RequestInterface $request, ResponseInterface $response)
     {
@@ -130,18 +115,15 @@ class PagesController extends MainController
             $liste->expiration = strip_tags($_POST['expiration']);
             $liste->save();
         }
-
         //$this->redirect($response, 'home');
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
-
     public
     function getItem(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
         $this->render($response, 'pages/items.twig', ['current_page' => "item"]);
     }
-
     public
     function postItem(RequestInterface $request, ResponseInterface $response)
     {
@@ -189,13 +171,11 @@ class PagesController extends MainController
         //$this->redirect($response, 'home');
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
-
     public
     function deleteItem(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
         $item = Item::where('id', $get[1]);
-
         if ($item->count() == 1) {
             $item = $item->first();
             $reservation = Reservation::where('id_item', $get[1]);

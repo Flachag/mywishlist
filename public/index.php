@@ -30,6 +30,7 @@ $app->post('/creer-item',PagesController::class.':postItem')->setName('itemSend'
 $app->post('/modifier-item',PagesController::class.':postItem')->setName('itemSend');
 $app->get('/supprimer-item',PagesController::class.':deleteItem')->setName('itemDelete');
 
-$app->post('/partager-liste',PagesController::class.':shareListe')->setName('listeShare');
+$app->get('/partager-liste',PagesController::class.':shareListe')->setName('listeShare');
 
 $app->run();
+
