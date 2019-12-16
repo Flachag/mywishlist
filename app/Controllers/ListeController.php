@@ -16,10 +16,10 @@ class ListeController extends MainController{
         $this->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
         $items = Item::all();
         foreach ($items as $item){
-            if (!empty($item->img) && !str_contains($item->img, "assets/img/")) {
+            if (!empty($item->img) && !str_contains($item->img, "/mywishlist/public/assets/img/")) {
                 $headers = @get_headers($item->img);
                 if ($headers == false) {
-                    $img = "assets/img/" . $item->img;
+                    $img = "/mywishlist/public/assets/img/" . $item->img;
                     $item->img = $img;
                     $item->save();
                 }

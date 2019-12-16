@@ -16,21 +16,19 @@ class ItemController extends MainController{
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-    public function getItems(RequestInterface $request, ResponseInterface $response)
+    public function getItems(RequestInterface $request, ResponseInterface $response, $args)
     {
-        $url = str_replace("?", "=", $request->getUri()->getQuery());
-        $get = explode("=", $url);
-        $liste = Liste::where('no', $get[1]);
-        if ($get[0] == "no" && sizeof($get) == 2 && $liste->count() == 1) {
+        $liste = Liste::where('no', $args['no']);
+        if (array_key_exists('no', $args) && sizeof($args) == 1 && $liste->count() == 1) {
             $liste = $liste->first();
             $items = $liste->items;
             $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
                 "items" => $items,
                 "liste" => $liste]);
-        } elseif ($get[0] == "no" && $get[2] == "item" && sizeof($get) == 4 && $liste->count() == 1) {
+        } elseif (array_key_exists('no', $args) && array_key_exists('id', $args) && sizeof($args) == 2 && $liste->count() == 1) {
             $items = $liste->first()->items;
             foreach ($items as $item) {
-                if ($item->id == $get[3]) {
+                if ($item->id == $args['id']) {
                     $find = true;
                     $this->render($response, 'pages/item.twig', ["current_page" => "item",
                         "item" => $item,
@@ -44,6 +42,7 @@ class ItemController extends MainController{
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
+
     public function getItemEditor(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
@@ -60,12 +59,7 @@ class ItemController extends MainController{
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
-    public
-    function getItem(RequestInterface $request, ResponseInterface $response)
-    {
-        $get = explode("=", $request->getUri()->getQuery());
-        $this->render($response, 'pages/items.twig', ['current_page' => "item"]);
-    }
+
     public function postItem(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());

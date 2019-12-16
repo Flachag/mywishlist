@@ -2,9 +2,10 @@
 {% block title 'Objets de la liste' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="assets/css/font_awesome.css"/>
-    <link rel="stylesheet" type="text/css" href="assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/mywishlist/public/assets/css/font_awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="/mywishlist/public/assets/css/app.css">
 {% endblock %}
+
 {% block content %}
     <section class="jumbotron text-center mt-4">
         <div class="container">
@@ -43,7 +44,7 @@
                             <i id="item-delete" class="fas fa-trash-alt"
                                onclick="document.location = '{{ path_for('itemDelete') }}?item={{ item.id }}';"></i>
                         {% endif %}
-                        <a href="{{ path_for('items') }}?token={{ liste.token }}?item={{ item.id }}"
+                        <a href="{{ path_for('items', { 'no': liste.no, 'id': item.id}) }}"
                            class="btn btn-dark">Détails</a>
                     </div>
                 </div>
