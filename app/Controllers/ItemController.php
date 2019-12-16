@@ -20,14 +20,14 @@ class ItemController extends MainController{
     {
         $url = str_replace("?", "=", $request->getUri()->getQuery());
         $get = explode("=", $url);
-        $liste = Liste::where('token', $get[1]);
-        if ($get[0] == "token" && sizeof($get) == 2 && $liste->count() == 1) {
+        $liste = Liste::where('no', $get[1]);
+        if ($get[0] == "no" && sizeof($get) == 2 && $liste->count() == 1) {
             $liste = $liste->first();
             $items = $liste->items;
             $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
                 "items" => $items,
                 "liste" => $liste]);
-        } elseif ($get[0] == "token" && $get[2] == "item" && sizeof($get) == 4 && $liste->count() == 1) {
+        } elseif ($get[0] == "no" && $get[2] == "item" && sizeof($get) == 4 && $liste->count() == 1) {
             $items = $liste->first()->items;
             foreach ($items as $item) {
                 if ($item->id == $get[3]) {

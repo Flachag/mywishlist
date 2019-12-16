@@ -16,7 +16,7 @@
             </thead>
             <tbody>
             {% for liste in listes %}
-                <tr onclick="document.location = '{{ path_for('items') }}?token={{ liste.token }}';">
+                <tr onclick="document.location = '{{ path_for('items') }}?no={{ liste.no }}';">
                     <th scope="row">{{ liste.no }}</th>
                     <td>{{ liste.user_id }}</td>
                     <td>{{ liste.titre }}</td>
