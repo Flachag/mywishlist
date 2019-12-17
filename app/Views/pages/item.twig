@@ -4,15 +4,18 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="assets/css/font_awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="/mywishlist/public/assets/css/font_awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="/mywishlist/public/assets/css/app.css">
 {% endblock %}
 
 {% block content %}
     <section class="jumbotron text-center mt-4">
         <div class="container">
-            <i style="display: block;}" class="fas fa-wrench"
-               onclick="document.location = '{{ path_for('listeEditor') }}?token={{ liste.token }}';"></i>
-            <br>
+            {% if  token != "" %}
+                <i style="display: block;}" class="fas fa-wrench"
+                   onclick="document.location = '{{ path_for('listeEditor') }}?token={{ liste.token }}';"></i>
+                <br>
+            {% endif %}
             <i class="fas fa-share-alt" id="copie" onclick="copy()"></i>
             <h1 class="jumbotron-heading">{{ liste.titre }}</h1>
             <p class="lead text-muted">{{ liste.description }}</p>
@@ -23,12 +26,14 @@
     <div class="container mt-4">
         <img class="rounded float-left img-thumbnail" width=40% src="{{ item.img }}">
         <div class="text-center">
-            {% if  item.reservation <= 0 %}
-                <i style="float: right;" class="fas fa-wrench"
-                   onclick="document.location = '{{ path_for('itemEditor') }}?item={{ item.id }}';"></i>
-                <br>
-                <i style="float: right;" class="fas fa-trash-alt"
-                   onclick="document.location = '{{ path_for('itemDelete') }}?item={{ item.id }}';"></i>
+            {% if  token != "" %}
+                {% if  item.reservation <= 0 %}
+                    <i style="float: right;" class="fas fa-wrench"
+                       onclick="document.location = '{{ path_for('itemEditor') }}?item={{ item.id }}';"></i>
+                    <br>
+                    <i style="float: right;" class="fas fa-trash-alt"
+                       onclick="document.location = '{{ path_for('itemDelete') }}?item={{ item.id }}';"></i>
+                {% endif %}
             {% endif %}
             <h5 class="text-uppercase font-weight-bold m-auto text-center"><strong>{{ item.nom }}</strong></h5>
             <p>{{ item.descr }}</p>

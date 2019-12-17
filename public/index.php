@@ -20,6 +20,7 @@ $app->get('/', HomeController::class . ':home')->setName('home');
 $app->get('/nos-listes', ListeController::class . ':getListes')->setName('listes');
 
 $app->get('/liste/{no}[/item/{id}]', ItemController::class . ':getItems')->setName('items');
+$app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItems')->setName('itemsEdit');
 
 $app->get('/creer-liste', ListeController::class . ':getListeCreate')->setName('listeCreate');
 $app->get('/modifier-liste', ListeController::class . ':getListeEditor')->setName('listeEditor');

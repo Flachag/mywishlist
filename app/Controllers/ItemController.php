@@ -1,12 +1,17 @@
 <?php
+
 namespace App\Controllers;
+
 use App\models\Item;
 use App\models\Liste;
 use App\Models\Reservation;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-class ItemController extends MainController{
-    public function getItemCreate(RequestInterface $request, ResponseInterface $response){
+
+class ItemController extends MainController
+{
+    public function getItemCreate(RequestInterface $request, ResponseInterface $response)
+    {
         $get = explode("=", $request->getUri()->getQuery());
         $liste = Liste::where('token', $get[1]);
         if ($liste->count() == 1) {
@@ -16,30 +21,44 @@ class ItemController extends MainController{
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
+
     public function getItems(RequestInterface $request, ResponseInterface $response, $args)
     {
+
         $liste = Liste::where('no', $args['no']);
-        if (array_key_exists('no', $args) && sizeof($args) == 1 && $liste->count() == 1) {
-            $liste = $liste->first();
-            $items = $liste->items;
-            $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
-                "items" => $items,
-                "liste" => $liste]);
-        } elseif (array_key_exists('no', $args) && array_key_exists('id', $args) && sizeof($args) == 2 && $liste->count() == 1) {
-            $items = $liste->first()->items;
-            foreach ($items as $item) {
-                if ($item->id == $args['id']) {
-                    $find = true;
-                    $this->render($response, 'pages/item.twig', ["current_page" => "item",
-                        "item" => $item,
-                        "liste" => $liste->first()]);
+        $token = "";
+        $listeTemp = null;
+        if (array_key_exists('token', $args)) {
+            $token = $args['token'];
+            $listeTemp = Liste::where('token', $args['token'])->first();
+        }
+        if ($token != "" && $listeTemp != ($liste->first())) {
+            $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+        } else {
+            if (!array_key_exists('id', $args) && array_key_exists('no', $args) && sizeof($args) <= 2 && $liste->count() == 1) {
+                $liste = $liste->first();
+                $items = $liste->items;
+                $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
+                    "items" => $items,
+                    "liste" => $liste,
+                    "token" => $token]);
+            } elseif (array_key_exists('no', $args) && array_key_exists('id', $args) && sizeof($args) <= 3 && $liste->count() == 1) {
+                $items = $liste->first()->items;
+                foreach ($items as $item) {
+                    if ($item->id == $args['id']) {
+                        $find = true;
+                        $this->render($response, 'pages/item.twig', ["current_page" => "item",
+                            "item" => $item,
+                            "liste" => $liste->first(),
+                            "token" => $token]);
+                    }
                 }
-            }
-            if (!isset($find)) {
+                if (!isset($find)) {
+                    $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+                }
+            } else {
                 $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
             }
-        } else {
-            $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
 
@@ -106,6 +125,7 @@ class ItemController extends MainController{
         //$this->redirect($response, 'home');
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
+
     public function deleteItem(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
