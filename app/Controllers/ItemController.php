@@ -16,7 +16,7 @@ class ItemController extends MainController
         $liste = Liste::where('token', $get[1]);
         if ($liste->count() == 1) {
             $liste = $liste->first();
-            $this->render($response, 'pages/itemCreate.twig', ["current_page" => "itemCreate", "post" => $_POST, "liste" => $liste]);
+            $this->render($response, 'pages/itemCreate.twig', ["current_page" => "itemCreate", "liste" => $liste]);
         } else {
             $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
@@ -62,20 +62,30 @@ class ItemController extends MainController
         }
     }
 
-    public function getItemEditor(RequestInterface $request, ResponseInterface $response)
+    public function getItemManage(RequestInterface $request, ResponseInterface $response)
     {
         $get = explode("=", $request->getUri()->getQuery());
-        $item = Item::where('id', $get[1]);
-        if ($item->count() == 1) {
-            $item = $item->first();
-            $reservation = Reservation::where('id_item', $get[1]);
-            if ($reservation->count() == 1) {
-                $this->render($response, 'pages/reserved.twig', ["current_page" => "reserved"]);
-            } else {
-                $this->render($response, 'pages/itemEditor.twig', ["current_page" => "itemEditor", "post" => $_POST, "item" => $item]);
+        $item = null;
+        if ($get[0] != "") {
+            $item = Item::where('id', $get[1]);
+            if ($item->count() == 1) {
+                $item = $item->first();
+                $reservation = Reservation::where('id_item', $get[1]);
+                if ($reservation->count() == 1) {
+                    $this->render($response, 'pages/reserved.twig', ["current_page" => "reserved"]);
+                }
+                else {
+                    $this->render($response, 'pages/itemManage.twig', ["current_page" => "itemManage", "item" => $item]);
+                }
             }
-        } else {
-            $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+            else {
+                $liste = Liste::where('token', $get[1]);
+                if ($liste->count() == 1) {
+                    $this->render($response, 'pages/itemManage.twig', ["current_page" => "itemManage", "item" => $item]);
+                }else {
+                    $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+                }
+            }
         }
     }
 

@@ -11,10 +11,10 @@
         <div class="container">
             {% if  token != "" %}
                 <i class="fas fa-wrench"
-                   onclick="document.location = '{{ path_for('listeEditor') }}?token={{ liste.token }}';"></i>
+                   onclick="document.location = '{{ path_for('listeManage') }}/token/{{ liste.token }}';"></i>
                 <br>
                 <i class="fas fa-plus"
-                   onclick="document.location = '{{ path_for('itemCreate') }}?token={{ liste.token }}';"></i>
+                   onclick="document.location = '{{ path_for('itemManage') }}?token={{ liste.token }}';"></i>
                 <br>
             {% endif %}
             <i class="fas fa-share-alt" id="copie" onclick="copy()"></i>
@@ -43,13 +43,13 @@
                         {% if  token != "" %}
                             {% if  item.reservation <= 0 %}
                                 <i id="item-editor" class="fas fa-wrench"
-                                   onclick="document.location = '{{ path_for('itemEditor') }}?item={{ item.id }}';"></i>
+                                   onclick="document.location = '{{ path_for('itemManage') }}?item={{ item.id }}';"></i>
                                 <i id="item-delete" class="fas fa-trash-alt"
                                    onclick="document.location = '{{ path_for('itemDelete') }}?item={{ item.id }}';"></i>
                             {% endif %}
                         {% endif %}
                         {% if  token != "" %}
-                            <a href="{{ path_for('itemsEdit', { 'no': liste.no, 'token': token, 'id': item.id}) }}"
+                            <a href="{{ path_for('items', { 'no': liste.no, 'token': token, 'id': item.id}) }}"
                                class="btn btn-dark">Détails</a>
                         {% else %}
                             <a href="{{ path_for('items', { 'no': liste.no, 'id': item.id}) }}"

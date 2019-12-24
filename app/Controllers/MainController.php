@@ -4,6 +4,7 @@
 namespace App\Controllers;
 
 
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 class MainController{
@@ -18,7 +19,7 @@ class MainController{
     }
 
     public function redirect($response, $name){
-        return $response->withStatus(302)->withHeader('Location', $this->router->pathFor($name));
+        return $this->withStatus(302)->withHeader('Location', $this->router->pathFor($name));
     }
 
     public function __get($name) {

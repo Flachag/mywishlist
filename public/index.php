@@ -22,15 +22,12 @@ $app->get('/nos-listes', ListeController::class . ':getListes')->setName('listes
 $app->get('/liste/{no}[/item/{id}]', ItemController::class . ':getItems')->setName('items');
 $app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItems')->setName('itemsEdit');
 
-$app->get('/creer-liste', ListeController::class . ':getListeCreate')->setName('listeCreate');
-$app->get('/modifier-liste', ListeController::class . ':getListeEditor')->setName('listeEditor');
-$app->post('/creer-liste', ListeController::class . ':postListe')->setName('listeSend');
-$app->post('/modifier-liste', ListeController::class . ':postListe')->setName('listeSend');
+$app->get('/gestion-liste[/token/{token}]', ListeController::class . ':getListeManage')->setName('listeManage');
+$app->post('/gestion-liste[/token/{token}]', ListeController::class . ':postListe')->setName('listeSend');
 
-$app->get('/creer-item', ItemController::class . ':getItemCreate')->setName('itemCreate');
-$app->get('/modifier-item', ItemController::class . ':getItemEditor')->setName('itemEditor');
-$app->post('/creer-item', ItemController::class . ':postItem')->setName('itemSend');
-$app->post('/modifier-item', ItemController::class . ':postItem')->setName('itemSend');
+$app->get('/gestion-item[/token/{token}]', ItemController::class . ':getItemManage')->setName('itemManage');
+$app->post('/gestion-item[/token/{token}]', ItemController::class . ':postItem')->setName('itemSend');
+
 $app->get('/supprimer-item', ItemController::class . ':deleteItem')->setName('itemDelete');
 
 $app->post('/partager-liste', ListeController::class . ':shareListe')->setName('listeShare');

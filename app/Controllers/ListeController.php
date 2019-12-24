@@ -9,13 +9,14 @@ use App\models\Liste;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class ListeController extends MainController{
+class ListeController extends MainController
+{
 
     public function getListes(RequestInterface $request, ResponseInterface $response)
     {
         $this->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
         $items = Item::all();
-        foreach ($items as $item){
+        foreach ($items as $item) {
             if (!empty($item->img) && !str_contains($item->img, "/mywishlist/public/assets/img/")) {
                 $headers = @get_headers($item->img);
                 if ($headers == false) {
@@ -27,26 +28,26 @@ class ListeController extends MainController{
         }
     }
 
-    public function getListeEditor(RequestInterface $request, ResponseInterface $response)
+    public function getListeManage(RequestInterface $request, ResponseInterface $response)
     {
-        $get = explode("=", $request->getUri()->getQuery());
-        $liste = Liste::where('token', $get[1]);
-
-        if ($liste->count() == 1) {
-            $liste = $liste->first();
-            $this->render($response, 'pages/listeEditor.twig', ["current_page" => "listeEditor", "post" => $_POST, "liste" => $liste]);
+        $get = explode("/token/", $request->getUri());
+        $liste = null;
+        if (isset($get[1])) {
+            $liste = Liste::where('token', $get[1]);
+            if ($liste->count() == 1) {
+                $liste = $liste->first();
+                $this->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
+            } else {
+                $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+            }
         } else {
-            $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+            $this->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
         }
     }
 
-    public function getListeCreate(RequestInterface $request, ResponseInterface $response)
+    public function postListe(RequestInterface $request, ResponseInterface $response)
     {
-        $this->render($response, 'pages/listeCreate.twig', ["current_page" => "listeCreate", "post" => $_POST]);
-    }
-
-    public function postListe(RequestInterface $request, ResponseInterface $response){
-        $get = explode("=", $request->getUri()->getQuery());
+        $get = explode("/token/", $request->getUri());
         if (isset($get[1])) {
             $liste = Liste::where('token', $get[1])
                 ->update(['titre' => strip_tags($_POST['titre']),
@@ -62,7 +63,6 @@ class ListeController extends MainController{
             $liste->expiration = strip_tags($_POST['expiration']);
             $liste->save();
         }
-
         //$this->redirect($response, 'home');
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }

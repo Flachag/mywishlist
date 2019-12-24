@@ -1,11 +1,10 @@
 {% extends "layout.twig" %}
-{% block title 'Modification item' %}
-
+{% block title 'Gestion item' %}
 
 {% block content %}
     <div class="body m-5">
         <form action="" method="post">
-            <h4>Titre</h4>
+            <h4>Nom</h4>
             <input class="form-control" type="text" name="nom" value=" {{ item.nom }}" required>
             <br>
             <h4>Description</h4>
@@ -13,7 +12,7 @@
             <br>
             <br>
             <div style="display: inline" class="form-group row">
-                <div style="float:left;" class="col-xs-2">
+                <div style="float: left;" class="col-xs-2">
                     <h4>Prix</h4>
                     <input class="form-control" type="number" name="tarif" value="{{ item.tarif }}" required>
                 </div>
@@ -23,7 +22,7 @@
                     <input class="form-control" type="text" name="img" value="{{ item.img }}">
                 </div>
 
-                <div style="float:right;" class="col-xs-4">
+                <div style="float: right;" class="col-xs-4">
                     <h4>Lien externe</h4>
                     <input class="form-control" type="url" name="url" value="{{ item.url }}">
                 </div>
@@ -32,9 +31,20 @@
             <br>
             <br>
             <br>
-            <button type="Submit" class="btn btn-dark"
-                    onclick="document.location = '{{ path_for('itemSend') }}';">Modifier item
-            </button>
+            {% if  item.nom != "" %}
+                <button type="Submit" class="btn btn-dark"
+                        onclick="document.location = '{{ path_for('itemSend') }}';">Modifier item
+                </button>
+            {% else %}
+                <button type="Submit" class="btn btn-dark"
+                        onclick="document.location = '{{ path_for('itemSend') }}';">Créer item
+                </button>
+            {% endif %}
+
         </form>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>
 {% endblock %}

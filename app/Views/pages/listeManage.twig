@@ -1,6 +1,5 @@
 {% extends "layout.twig" %}
-{% block title 'Modification liste' %}
-
+{% block title 'Gestion liste' %}
 
 {% block content %}
     <div class="body m-5">
@@ -14,10 +13,16 @@
             <br>
             <h4>Expiration</h4>
             <input type="date" id="expiration" name="expiration" value="{{ liste.expiration }}" required>
+            {% if  liste.titre != "" %}
+                <button type="Submit" class="btn btn-dark" style="float: right;"
+                        onclick="document.location = '{{ path_for('listeSend') }}';">Modifier liste
+                </button>
+            {% else %}
+                <button type="Submit" class="btn btn-dark" style="float: right;"
+                        onclick="document.location = '{{ path_for('listeSend') }}';">Créer liste
+                </button>
+            {% endif %}
 
-            <button type="Submit" class="btn btn-dark" style="float: right;"
-                    onclick="document.location = '{{ path_for('listeSend') }}';">Modifier liste
-            </button>
         </form>
     </div>
 {% endblock %}
