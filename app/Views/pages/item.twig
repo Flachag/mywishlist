@@ -4,15 +4,15 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="/mywishlist/public/assets/css/font_awesome.css"/>
-    <link rel="stylesheet" type="text/css" href="/mywishlist/public/assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/font_awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/app.css">
 {% endblock %}
 
 {% block content %}
     <section class="jumbotron text-center mt-4">
         <div class="container">
             {% if  token != "" %}
-                <i style="display: block;}" class="fas fa-wrench"
+                <i class="fas fa-wrench"
                    onclick="document.location = '{{ path_for('listeManage') }}?token={{ liste.token }}';"></i>
                 <br>
             {% endif %}
