@@ -1,20 +1,27 @@
 <?php
-namespace App\models;
+
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model {
-    protected $table = 'item';
-    protected $primaryKey = 'id' ;
+    protected $table = "item";
+    protected $primaryKey = "id";
     public $timestamps = false;
-    protected $appends = ['reservation'];
+    protected $appends = ['book'];
 
-    public function liste(){
+    public function liste() {
         return $this->belongsTo('App\Models\Liste', 'no');
     }
 
-    public function getReservationAttribute()
+    public function reservation() {
+        $res = $this->hasOne('App\Models\Reservation', 'item_id');
+        $this->attributes['book'] = !$res->get()->isEmpty();
+        return $res;
+    }
+    public function getBookAttribute()
     {
-        return $this->attributes['reservation'] = Reservation::where('id_item',$this->id)->count();
+        $this->reservation();
+        return $this->attributes['book'];
     }
 }

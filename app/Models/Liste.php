@@ -1,23 +1,15 @@
+<?php
 
-
-namespace App\models;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Liste extends Model
-{
-    protected $table = 'liste';
-    protected $primaryKey = 'id';
+class Liste extends Model {
+    protected $table = "liste";
+    protected $primaryKey = "no";
     public $timestamps = false;
-    protected $appends = ['items'];
 
-    public function item()
-    {
-        return $this->hasMany('App\Models\Item', 'liste_id');
-    }
-
-    public function getItemsAttribute()
-    {
-        return $this->attributes['items'] = Item::where('liste_id', $this->no)->get();
+    public function items() {
+        return $this->hasMany('\App\Models\Item', 'liste_id');
     }
 }
