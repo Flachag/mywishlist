@@ -50,6 +50,12 @@ $container['notFoundHandler'] = function ($c) {
 
 $app->get('/', HomeController::class . ':home')->setName('home');
 
+$app->post('/create-liste', ListeController::class . ':createListe')->setName('createListe');
+
+
+
+
+// ANCIENNES ROUTES
 $app->get('/nos-listes', ListeController::class . ':getListes')->setName('listes');
 
 $app->get('/liste/{no}[/item/{id}]', ItemController::class . ':getItem')->setName('item');
