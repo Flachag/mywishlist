@@ -1,9 +1,30 @@
 {% extends "layout.twig"%}
 
+{% block flash %}
+    {% if flash.error is defined %}
+        {% for error in flash.error %}
+            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert">
+                <strong>Mince!</strong> {{ error | raw }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% if flash.success is defined %}
+        {% for success in flash.success %}
+            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert">
+                <strong>Super!</strong> {{ success | raw }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
 {% block content %}
-    <div class="content">
-        <h1>Bienvenue</h1>
-        <p>Lorem ipsum dolor sit amet.</p>
+    <div class="jumbotron my-2">
+        <h1 class="display-4">Bienvenue!</h1>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque metus magna, egestas quis tortor sed, imperdiet sodales diam. Suspendisse odio massa, tristique sed felis id, volutpat sagittis felis. Etiam quis feugiat metus. Vivamus eu maximus nibh. Nulla laoreet porttitor felis id semper. Mauris quis libero sit amet tellus cursus tristique. Nunc dignissim urna non erat ullamcorper mattis. </p>
     </div>
-
 {% endblock %}
