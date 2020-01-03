@@ -1,23 +1,17 @@
 RewriteEngine On
-#
+
 # RewriteBase indispensable sur webetu :
 
-RewriteBase /MyWishlist/public/index.php
+# RewriteBase /www/username0/mywishlist
 
-#
+
 # Pour interdire l'accès aux répertoires contenant du code
 RewriteRule ^sql(/.*|)$ - [NC,F]
 RewriteRule ^src(/.*|)$ - [NC,F]
 RewriteRule ^vendor(/.*|)$ - [NC,F]
 
-#
 # réécriture pour slim
 
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
-
-#
-# Pour l'upload d'images
-php_value upload_max_filesize 10M
-php_value post_max_size 12M

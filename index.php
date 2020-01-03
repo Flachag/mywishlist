@@ -1,19 +1,52 @@
 <?php
-require_once "../vendor/autoload.php";
+session_start();
+require_once("vendor/autoload.php");
 
+use App\Config\Database;
 use App\Controllers\HomeController;
-use App\Controllers\ListeController;
 use App\Controllers\ItemController;
-use App\Controllers\ReservationController;
-use App\Config\Database as DB;
+use App\Controllers\ListeController;
+use Slim\App;
+use Slim\Flash\Messages;
+use Slim\Http\Environment;
+use Slim\Http\Uri;
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
 
-DB::connect();
-$app = new \Slim\App([
+Database::connect();
+
+$app = new App([
     'settings' => [
         'displayErrorDetails' => true
     ]
 ]);
-require('../app/container.php');
+
+$container = $app->getContainer();
+$container['view'] = function ($container) {
+    $view = new Twig(__DIR__ . '/app/Views', [
+        'cache' => false
+    ]);
+
+    // Instantiate and add Slim specific extension
+    $router = $container->get('router');
+    $uri = Uri::createFromEnvironment(new Environment($_SERVER));
+    $view->addExtension(new TwigExtension($router, $uri));
+
+    $view->getEnvironment()->addGlobal("base_path", $container->request->getUri()->getBasePath());
+    return $view;
+};
+
+$container['flash'] = function () {
+    return new Messages();
+};
+
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $c->view->render($response, 'pages/404.twig')
+            ->withStatus(404)
+            ->withHeader('Content-Type', 'text/html');
+    };
+};
 
 $app->get('/', HomeController::class . ':home')->setName('home');
 
