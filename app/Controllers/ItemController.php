@@ -12,36 +12,6 @@ use Slim\Exception\NotFoundException;
 
 class ItemController extends MainController
 {
-    public function getItems(RequestInterface $request, ResponseInterface $response, $args)
-    {
-        try {
-            $liste = Liste::where('no', $args['no'])->firstOrFail();
-            $token = "";
-            if (array_key_exists('token', $args)) {
-                $token = $args['token'];
-            }
-            if (!array_key_exists('id', $args) && array_key_exists('no', $args) && sizeof($args) <= 2) {
-                $items = $liste->items;
-                $this->view->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
-                    "items" => $items,
-                    "liste" => $liste,
-                    "token" => $token]);
-            } elseif (array_key_exists('no', $args) && array_key_exists('id', $args) && sizeof($args) <= 3) {
-                $items = $liste->items;
-                foreach ($items as $item) {
-                    if ($item->id == $args['id']) {
-                        $this->view->render($response, 'pages/item.twig', ["current_page" => "item",
-                            "item" => $item,
-                            "liste" => $liste,
-                            "token" => $token]);
-                    }
-                }
-            }
-        } catch (ModelNotFoundException $e){
-            throw new NotFoundException($request, $response);
-        }
-    }
-
     public function getItemManage(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (array_key_exists('token', $args)) {

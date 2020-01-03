@@ -6,26 +6,33 @@ namespace App\Controllers;
 
 use App\models\Item;
 use App\models\Liste;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class ListeController extends MainController
 {
 
-    public function getListes(RequestInterface $request, ResponseInterface $response)
-    {
-        $this->view->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
-        $items = Item::all();
-        foreach ($items as $item) {
-            if (!empty($item->img) && !str_contains($item->img, "/mywishlist/public/assets/img/")) {
-                $headers = get_headers($item->img);
-                if (!$headers || strpos($headers[0], '404')) {
-                    $img = "/mywishlist/public/assets/img/" . $item->img;
-                    $item->img = $img;
-                    $item->save();
-                }
-            }
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function getListe(Request $request, Response $response, array $args): Response {
+        try {
+            $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+            $this->view->render($response, 'pages/liste.twig', [
+                "liste" => $liste,
+                "items" => $liste->items()->get(),
+            ]);
+        } catch (ModelNotFoundException $e) {
+            $this->flash->addMessage('error', "Cette liste n'existe pas...");
+            $response = $response->withRedirect($this->router->pathFor('home'));
         }
+        return $response;
     }
 
     public function getListeManage(RequestInterface $request, ResponseInterface $response, $args)
