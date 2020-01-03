@@ -25,10 +25,10 @@ $app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':get
 $app->get('/gestion-liste[/token/{token}]', ListeController::class . ':getListeManage')->setName('listeManage');
 $app->post('/gestion-liste[/token/{token}]', ListeController::class . ':postListe')->setName('listeSend');
 
-$app->get('/gestion-item[/token/{token}]', ItemController::class . ':getItemManage')->setName('itemManage');
-$app->post('/gestion-item[/token/{token}]', ItemController::class . ':postItem')->setName('itemSend');
+$app->get('/gestion-item/token/{token}[/item/{id}]', ItemController::class . ':getItemManage')->setName('itemManage');
+$app->post('/gestion-item/token/{token}[/item/{id}]', ItemController::class . ':postItem')->setName('itemSend');
 
-$app->get('/supprimer-item', ItemController::class . ':deleteItem')->setName('itemDelete');
+$app->get('/supprimer-item/item/{id}', ItemController::class . ':deleteItem')->setName('itemDelete');
 
 $app->post('/partager-liste', ListeController::class . ':shareListe')->setName('listeShare');
 

@@ -11,10 +11,10 @@
         <div class="container">
             {% if  token != "" %}
                 <i class="fas fa-wrench"
-                   onclick="document.location = '{{ path_for('listeManage') }}/token/{{ liste.token }}';"></i>
+                   onclick="document.location = '{{ path_for('listeManage', { 'token': liste.token }) }}';"></i>
                 <br>
                 <i class="fas fa-plus"
-                   onclick="document.location = '{{ path_for('itemManage') }}?token={{ liste.token }}';"></i>
+                   onclick="document.location = '{{ path_for('itemManage', { 'token': liste.token }) }}';"></i>
                 <br>
             {% endif %}
             <i class="fas fa-share-alt" id="copie" onclick="copy()"></i>
@@ -43,9 +43,9 @@
                         {% if  token != "" %}
                             {% if  item.reservation <= 0 %}
                                 <i id="item-editor" class="fas fa-wrench"
-                                   onclick="document.location = '{{ path_for('itemManage') }}?item={{ item.id }}';"></i>
+                                   onclick="document.location = '{{ path_for('itemManage', { 'token': liste.token, 'id': item.id }) }}';"></i>
                                 <i id="item-delete" class="fas fa-trash-alt"
-                                   onclick="document.location = '{{ path_for('itemDelete') }}?item={{ item.id }}';"></i>
+                                   onclick="document.location = '{{ path_for('itemDelete', { 'id': item.id}) }}';"></i>
                             {% endif %}
                         {% endif %}
                         {% if  token != "" %}

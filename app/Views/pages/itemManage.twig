@@ -33,18 +33,14 @@
             <br>
             {% if  item.nom != "" %}
                 <button type="Submit" class="btn btn-dark"
-                        onclick="document.location = '{{ path_for('itemSend') }}';">Modifier item
+                        onclick="document.location = '{{ path_for('itemSend', { 'token': token }) }}';">Modifier item
                 </button>
             {% else %}
                 <button type="Submit" class="btn btn-dark"
-                        onclick="document.location = '{{ path_for('itemSend') }}';">Créer item
+                        onclick="document.location = '{{ path_for('itemSend', { 'token': token }) }}';">Créer item
                 </button>
             {% endif %}
 
         </form>
     </div>
-{% endblock %}
-
-{% block scripts %}
-    <script type="text/javascript" src="assets/ckeditor/ckeditor.js"></script>
 {% endblock %}

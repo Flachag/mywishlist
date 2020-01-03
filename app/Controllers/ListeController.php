@@ -18,8 +18,8 @@ class ListeController extends MainController
         $items = Item::all();
         foreach ($items as $item) {
             if (!empty($item->img) && !str_contains($item->img, "/mywishlist/public/assets/img/")) {
-                $headers = @get_headers($item->img);
-                if ($headers == false) {
+                $headers = get_headers($item->img);
+                if (!$headers || strpos($headers[0], '404')) {
                     $img = "/mywishlist/public/assets/img/" . $item->img;
                     $item->img = $img;
                     $item->save();
@@ -28,12 +28,11 @@ class ListeController extends MainController
         }
     }
 
-    public function getListeManage(RequestInterface $request, ResponseInterface $response)
+    public function getListeManage(RequestInterface $request, ResponseInterface $response, $args)
     {
-        $get = explode("/token/", $request->getUri());
         $liste = null;
-        if (isset($get[1])) {
-            $liste = Liste::where('token', $get[1]);
+        if (array_key_exists('token', $args)) {
+            $liste = Liste::where('token', $args['token']);
             if ($liste->count() == 1) {
                 $liste = $liste->first();
                 $this->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
@@ -45,11 +44,10 @@ class ListeController extends MainController
         }
     }
 
-    public function postListe(RequestInterface $request, ResponseInterface $response)
+    public function postListe(RequestInterface $request, ResponseInterface $response, $args)
     {
-        $get = explode("/token/", $request->getUri());
-        if (isset($get[1])) {
-            $liste = Liste::where('token', $get[1])
+        if (array_key_exists('token', $args)) {
+            $liste = Liste::where('token', $args['token'])
                 ->update(['titre' => strip_tags($_POST['titre']),
                     'description' => strip_tags($_POST['description']),
                     'expiration' => strip_tags($_POST['expiration'])]);
