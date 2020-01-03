@@ -14,7 +14,7 @@ class ListeController extends MainController
 
     public function getListes(RequestInterface $request, ResponseInterface $response)
     {
-        $this->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
+        $this->view->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
         $items = Item::all();
         foreach ($items as $item) {
             if (!empty($item->img) && !str_contains($item->img, "/assets/img/")) {
@@ -36,34 +36,33 @@ class ListeController extends MainController
             $liste = Liste::where('token', $get[1]);
             if ($liste->count() == 1) {
                 $liste = $liste->first();
-                $this->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
+                $this->view->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
             } else {
-                $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+                $this->view->render($response, 'pages/404.twig', ["current_page" => "404"]);
             }
         } else {
-            $this->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
+            $this->view->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
         }
     }
 
-    public function postListe(RequestInterface $request, ResponseInterface $response)
+    public function createList(RequestInterface $request, ResponseInterface $response, array $args)
     {
-        $get = explode("/token/", $request->getUri());
-        if (isset($get[1])) {
-            $liste = Liste::where('token', $get[1])
-                ->update(['titre' => strip_tags($_POST['titre']),
-                    'description' => strip_tags($_POST['description']),
-                    'expiration' => strip_tags($_POST['expiration'])]);
-        } else {
-            $liste = new Liste();
-            $lastId = Liste::all()->count();
-            $liste->user_id = $lastId + 1;
-            $liste->token = "nosecure" . ($lastId + 1);
-            $liste->titre = strip_tags($_POST['titre']);
-            $liste->description = strip_tags($_POST['description']);
-            $liste->expiration = strip_tags($_POST['expiration']);
-            $liste->save();
-        }
+        $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
+        $description = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
+        $expiration = $request->getParsedBodyParam('expiration');
+
+        if (new DateTime() > new DateTime($expiration)) throw new Exception("La date d'expiration ne peut être déjà passée.");
+
+        $liste = new Liste();
+        $lastId = Liste::all()->count();
+        $liste->user_id = $lastId + 1;
+        $liste->token_edit = "nosecure" . ($lastId + 1);
+        $liste->token =
+        $liste->titre = $titre;
+        $liste->description = $description;
+        $liste->expiration = $expiration;
+        $liste->save();
         //$this->redirect($response, 'home');
-        $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
+        $this->view->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
 }

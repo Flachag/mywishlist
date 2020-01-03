@@ -11,18 +11,20 @@
                 <th scope="col">Titre</th>
                 <th scope="col">Description</th>
                 <th scope="col">Expiration</th>
-                <th scope="col">Token</th>
+                <th scope="col">Token share</th>
+                <th scope="col">Token edit</th>
             </tr>
             </thead>
             <tbody>
             {% for liste in listes %}
-                <tr onclick="document.location = '{{ path_for('items', { 'no': liste.no })}}';">
+                <tr onclick="document.location = '{{ path_for('item', { 'no': liste.no })}}';">
                     <th scope="row">{{ liste.no }}</th>
                     <td>{{ liste.user_id }}</td>
                     <td>{{ liste.titre }}</td>
                     <td>{{ liste.description }}</td>
                     <td>{{ liste.expiration }}</td>
                     <td>{{ liste.token }}</td>
+                    <td>{{ liste.token_edit }}</td>
                 </tr>
             {% endfor %}
             </tbody>

@@ -48,10 +48,10 @@
                             {% endif %}
                         {% endif %}
                         {% if  token != "" %}
-                            <a href="{{ path_for('items', { 'no': liste.no, 'token': token, 'id': item.id}) }}"
+                            <a href="{{ path_for('item', { 'no': liste.no, 'token': token, 'id': item.id}) }}"
                                class="btn btn-dark">Détails</a>
                         {% else %}
-                            <a href="{{ path_for('items', { 'no': liste.no, 'id': item.id}) }}"
+                            <a href="{{ path_for('item', { 'no': liste.no, 'id': item.id}) }}"
                                class="btn btn-dark">Détails</a>
                         {% endif %}
                     </div>

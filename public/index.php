@@ -19,8 +19,8 @@ $app->get('/', HomeController::class . ':home')->setName('home');
 
 $app->get('/nos-listes', ListeController::class . ':getListes')->setName('listes');
 
-$app->get('/liste/{no}[/item/{id}]', ItemController::class . ':getItems')->setName('items');
-$app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItems')->setName('itemsEdit');
+$app->get('/liste/{no}[/item/{id}]', ItemController::class . ':getItem')->setName('item');
+$app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItem')->setName('itemsEdit');
 
 $app->get('/gestion-liste[/token/{token}]', ListeController::class . ':getListeManage')->setName('listeManage');
 $app->post('/gestion-liste[/token/{token}]', ListeController::class . ':postListe')->setName('listeSend');
@@ -32,4 +32,5 @@ $app->get('/supprimer-item', ItemController::class . ':deleteItem')->setName('it
 
 $app->post('/partager-liste', ListeController::class . ':shareListe')->setName('listeShare');
 
+$app->get('/reservation', ReservationController::class . ':getReservation')->setName('book');
 $app->run();
