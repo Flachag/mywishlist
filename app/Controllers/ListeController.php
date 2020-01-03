@@ -14,7 +14,7 @@ class ListeController extends MainController
 
     public function getListes(RequestInterface $request, ResponseInterface $response)
     {
-        $this->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
+        $this->view->render($response, 'pages/listes.twig', ["current_page" => "voir_listes", "listes" => Liste::all()]);
         $items = Item::all();
         foreach ($items as $item) {
             if (!empty($item->img) && !str_contains($item->img, "/mywishlist/public/assets/img/")) {
@@ -35,15 +35,17 @@ class ListeController extends MainController
             $liste = Liste::where('token', $args['token']);
             if ($liste->count() == 1) {
                 $liste = $liste->first();
-                $this->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
+                $this->view->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
             } else {
-                $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+                $this->view->render($response, 'pages/404.twig', ["current_page" => "404"]);
             }
         } else {
-            $this->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
+            $this->view->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
         }
     }
 
+
+    // je comprends pas pourquoi y en a 2 pour créer ici
     public function postListe(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (array_key_exists('token', $args)) {
@@ -61,7 +63,26 @@ class ListeController extends MainController
             $liste->expiration = strip_tags($_POST['expiration']);
             $liste->save();
         }
+    }
+
+    public function createList(RequestInterface $request, ResponseInterface $response, array $args)
+    {
+        $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
+        $description = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
+        $expiration = $request->getParsedBodyParam('expiration');
+
+        if (new DateTime() > new DateTime($expiration)) throw new Exception("La date d'expiration ne peut être déjà passée.");
+
+        $liste = new Liste();
+        $lastId = Liste::all()->count();
+        $liste->user_id = $lastId + 1;
+        $liste->token_edit = "nosecure" . ($lastId + 1);
+        $liste->token =
+        $liste->titre = $titre;
+        $liste->description = $description;
+        $liste->expiration = $expiration;
+        $liste->save();
         //$this->redirect($response, 'home');
-        $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
+        $this->view->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
 }

@@ -16,8 +16,11 @@ $container['view'] = function ($container) {
     return $view;
 };
 
-function afficherImg($name){
-    $name = '<td><img src="img/'.$name;
-    echo $name.'" height="50"/></td>';
-}
+$container['notFoundHandler'] = function ($c) {
+    return function ($request, $response) use ($c) {
+        return $c->view->render($response, 'pages/404.twig')
+            ->withStatus(404)
+            ->withHeader('Content-Type', 'text/html');
+    };
+};
 

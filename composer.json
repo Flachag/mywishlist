@@ -19,7 +19,7 @@
         "php": ">=7.0",
         "slim/slim": "3.12.2",
         "slim/twig-view": "^2.5",
-        "dflydev/fig-cookies": "^2.0"
+        "dflydev/fig-cookies": "1.0.2"
     },
     "require-dev": {
         "composer/composer": "^1.9"

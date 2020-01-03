@@ -5,48 +5,40 @@ namespace App\Controllers;
 use App\models\Item;
 use App\models\Liste;
 use App\Models\Reservation;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Exception\NotFoundException;
 
 class ItemController extends MainController
 {
     public function getItems(RequestInterface $request, ResponseInterface $response, $args)
     {
-
-        $liste = Liste::where('no', $args['no']);
-        $token = "";
-        $listeTemp = null;
-        if (array_key_exists('token', $args)) {
-            $token = $args['token'];
-            $listeTemp = Liste::where('token', $args['token'])->first();
-        }
-        if ($token != "" && $listeTemp != ($liste->first())) {
-            $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
-        } else {
-            if (!array_key_exists('id', $args) && array_key_exists('no', $args) && sizeof($args) <= 2 && $liste->count() == 1) {
-                $liste = $liste->first();
+        try {
+            $liste = Liste::where('no', $args['no'])->firstOrFail();
+            $token = "";
+            if (array_key_exists('token', $args)) {
+                $token = $args['token'];
+            }
+            if (!array_key_exists('id', $args) && array_key_exists('no', $args) && sizeof($args) <= 2) {
                 $items = $liste->items;
-                $this->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
+                $this->view->render($response, 'pages/items.twig', ["current_page" => "voir_objets",
                     "items" => $items,
                     "liste" => $liste,
                     "token" => $token]);
-            } elseif (array_key_exists('no', $args) && array_key_exists('id', $args) && sizeof($args) <= 3 && $liste->count() == 1) {
-                $items = $liste->first()->items;
+            } elseif (array_key_exists('no', $args) && array_key_exists('id', $args) && sizeof($args) <= 3) {
+                $items = $liste->items;
                 foreach ($items as $item) {
                     if ($item->id == $args['id']) {
-                        $find = true;
-                        $this->render($response, 'pages/item.twig', ["current_page" => "item",
+                        $this->view->render($response, 'pages/item.twig', ["current_page" => "item",
                             "item" => $item,
-                            "liste" => $liste->first(),
+                            "liste" => $liste,
                             "token" => $token]);
                     }
                 }
-                if (!isset($find)) {
-                    $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
-                }
-            } else {
-                $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
             }
+        } catch (ModelNotFoundException $e){
+            throw new NotFoundException($request, $response);
         }
     }
 
@@ -116,12 +108,11 @@ class ItemController extends MainController
                 }
             }
         }
-//$this->redirect($response, 'home');
+        //$this->redirect($response, 'home');
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
 
-    public
-    function deleteItem(RequestInterface $request, ResponseInterface $response, $args)
+    public function deleteItem(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (array_key_exists('id', $args)) {
             $item = Item::where('id', $args['id']);
@@ -138,7 +129,7 @@ class ItemController extends MainController
                 $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
             }
         } else {
-            $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
+            $this->view->render($response, 'pages/404.twig', ["current_page" => "404"]);
         }
     }
 }
