@@ -9,9 +9,37 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Exception\NotFoundException;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 class ItemController extends MainController
 {
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function getItem(Request $request, Response $response, array $args): Response {
+        try {
+            $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+            $item = Item::where(['id' => $args['id'], 'liste_id' => $liste->no])->firstOrFail();
+            $reserver = $item->book;
+            $this->view->render($response, 'pages/item.twig', [
+                "liste" => $liste,
+                "item" => $item,
+                "reserver" => $reserver
+            ]);
+        } catch (ModelNotFoundException $e) {
+            $this->flash->addMessage('error', "Cet objet n'existe pas...");
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        } catch (Exception $e) {
+            $this->flash->addMessage('error', "Une erreur est survenue, veuillez réessayer ultérieurement.");
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        }
+        return $response;
+    }
+
     public function getItemManage(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (array_key_exists('token', $args)) {

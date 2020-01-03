@@ -4,14 +4,13 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/font_awesome.css"/>
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/assets/css/app.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/css/app.css">
 {% endblock %}
 
 {% block content %}
     <section class="jumbotron text-center mt-4">
         <div class="container">
-            {% if  token != "" %}
+            {% if  token == liste.token_edit %}
                 <i class="fas fa-wrench"
                    onclick="document.location = '{{ path_for('listeManage') }}?token={{ liste.token }}';"></i>
                 <br>
@@ -22,29 +21,19 @@
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
         </div>
     </section>
-
     <div class="container mt-4">
         <div class="row">
-            <img class="col-sm-4 rounded img-thumbnail" width=40% src="{{ item.img }}">
+            <img class="col-sm-4 rounded" style="height: 18rem" src="{{ base_path }}/public/img/{{ item.img }}">
             <div class="col-sm-8 text-center">
-                {% if  token != "" %}
-                    {% if  item.reservation <= 0 %}
-                        <i style="float: right;" class="fas fa-wrench"
-                           onclick="document.location = '{{ path_for('itemManage') }}?item={{ item.id }}';"></i>
-                        <br>
-                        <i style="float: right;" class="fas fa-trash-alt"
-                           onclick="document.location = '{{ path_for('itemDelete') }}?item={{ item.id }}';"></i>
-                    {% endif %}
-                {% endif %}
                 <h5 class="text-uppercase font-weight-bold m-auto text-center"><strong>{{ item.nom }}</strong></h5>
                 <p>{{ item.descr }}</p>
                 <p><strong>{{ item.tarif }} euros </strong></p>
-                {% if item.reservation != 0 %}
+                {% if item.book %}
                     <div class="alert alert-danger">
                         Cet objet est déjà réservé
                     </div>
                 {% else %}
-                    <a href="{{ path_for('book') }}" class="btn btn-dark">Je réserve !</a>
+                    <button type="button" class="btn btn-dark">Réserver</button>
                 {% endif %}
             </div>
         </div>
