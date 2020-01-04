@@ -12,7 +12,7 @@ use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class ItemController extends MainController
+class ItemController extends Controller
 {
     /**
      * @param Request $request

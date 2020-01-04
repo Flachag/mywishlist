@@ -6,13 +6,14 @@ namespace App\Controllers;
 
 use App\models\Item;
 use App\models\Liste;
+use DateTime;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class ListeController extends MainController
+class ListeController extends Controller
 {
 
     /**
@@ -72,24 +73,44 @@ class ListeController extends MainController
         }
     }
 
-    public function createList(RequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
-        $description = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
-        $expiration = $request->getParsedBodyParam('expiration');
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     */
+    public function createForm(Request $request, Response $response, array $args){
+        $this->view->render($response, 'pages/createListe.twig');
+    }
 
-        if (new DateTime() > new DateTime($expiration)) throw new Exception("La date d'expiration ne peut être déjà passée.");
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function createListe(Request $request, Response $response, array $args): Response {
+        try {
+            $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
+            $description = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
+            $expiration = $request->getParsedBodyParam('expiration');
 
-        $liste = new Liste();
-        $lastId = Liste::all()->count();
-        $liste->user_id = $lastId + 1;
-        $liste->token_edit = "nosecure" . ($lastId + 1);
-        $liste->token =
-        $liste->titre = $titre;
-        $liste->description = $description;
-        $liste->expiration = $expiration;
-        $liste->save();
-        //$this->redirect($response, 'home');
-        $this->view->render($response, 'pages/home.twig', ["current_page" => "home"]);
+            if (new DateTime() > new DateTime($expiration)) throw new Exception("La date d'expiration ne peut être déjà passée.");
+
+            $liste = new Liste();
+            $liste->titre = $titre;
+            $liste->description = $description;
+            $liste->expiration = $expiration;
+            $liste->token = bin2hex(random_bytes(10));
+            $liste->token_edit = bin2hex(random_bytes(10));
+            $liste->save();
+
+            $link = $this->router->pathFor('liste', ['token' => $liste->token]);
+            $this->flash->addMessage('success', "Votre liste a été créée! Cliquez <a href='$link'>ici</a> pour y accéder.");
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        } catch (Exception $e) {
+            $this->flash->addMessage('error', $e->getMessage());
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        }
+        return $response;
     }
 }
