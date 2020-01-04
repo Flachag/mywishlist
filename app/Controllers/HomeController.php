@@ -2,14 +2,24 @@
 
 namespace App\Controllers;
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
-class HomeController extends Controller
-{
+/**
+ * Class HomeController
+ * @package App\Controllers
+ */
+class HomeController extends Controller {
 
-    public function home(RequestInterface $request, ResponseInterface $response)
-    {
-        $this->view->render($response, 'pages/home.twig', ["current_page" => "home"]);
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     */
+    public function home(Request $request, Response $response, array $args) {
+        $this->view->render($response, 'pages/home.twig', [
+            "current_page" => "home",
+            "flash" => $this->flash->getMessages()
+        ]);
     }
 }

@@ -3,7 +3,7 @@
 ## Fonctionnalités
 - [x] ~~**1. Afficher une liste de souhaits _[FAIT @Flavien]_**~~
 - [X] ~~**2. Afficher un item d'une liste _[FAIT @Flavien]_**~~
-- [ ] ~~**6. Créer une liste _[FAIT @Flavien]_**~~
+- [X] ~~**6. Créer une liste _[FAIT @Flavien]_**~~
 - [X] ~~**7. Modifier les informations générales d'une de ses listes _[FAIT @Lucas]_**~~
 - [X] ~~**8. Ajouter des items _[FAIT @Lucas]_**~~
 - [X] ~~**9. Modifier un item _[FAIT @Lucas]_**~~
