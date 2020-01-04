@@ -18,6 +18,7 @@ use Slim\Http\Response;
 class ListeController extends CookiesController
 {
     /**
+     * Methode qui permet d'afficher une liste
      * @param Request $request
      * @param Response $response
      * @param array $args
@@ -112,6 +113,7 @@ class ListeController extends CookiesController
     }
 
     /**
+     * Methode qui redirige vers la forme de creation de liste
      * @param Request $request
      * @param Response $response
      * @param array $args
@@ -121,6 +123,7 @@ class ListeController extends CookiesController
     }
 
     /**
+     * Methode permettant la creation de liste
      * @param Request $request
      * @param Response $response
      * @param array $args
