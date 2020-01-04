@@ -27,7 +27,7 @@ Participant
 - [X] ~~**2. Afficher un item d'une liste _[EN COURS @Flavien]_**~~
 - [X] ~~**3. Réserver un item d'une liste _[FAIT @Flavien]_**~~
 - [X] ~~**4. Ajouter un message avec sa réservation _[FAIT @Flavien]_**~~
-- [ ] ~~**5. Ajouter un message dans une liste _[EN COURS @Flavien]_**
+- [X] ~~**5. Ajouter un message dans une liste _[EN COURS @Flavien]_**~~
 Créateur
 - [X] ~~**6. Créer une liste _[FAIT @Flavien]_**~~
 - [ ] ~~**7. Modifier les informations générales d'une de ses listes _[EN COURS @Lucas & @Flavien]_**
@@ -38,5 +38,5 @@ Créateur
 - [ ] ~~**12. Modifier une image d'un item _[EN COURS @Lucas & @Flavien]_**
 - [ ] ~~**13. Supprimer une image d'un item _[EN COURS @Lucas & @Flavien]_**
 - [ ] **14. Partager une liste _[EN COURS @Lucas & @Flavien]_**
-- [ ] **15. Consulter les réservations d'une de ses listes avant échéance _[EN COURS @Lucas & @Flavien]_**
-- [ ] **16. Consulter les réservations et messages d'une de ses listes après échéance _[EN COURS @Lucas & @Flavien]_**
+- [X] ~~**15. Consulter les réservations d'une de ses listes avant échéance _[FAIT @Flavien]_**~~
+- [X] ~~**16. Consulter les réservations et messages d'une de ses listes après échéance _[FAIT @Flavien]_**~~

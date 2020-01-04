@@ -84,6 +84,15 @@ INSERT INTO `liste` (`no`, `user_id`, `titre`, `description`, `expiration`, `tok
 (3, 3, 'C\'est l\'anniversaire de Charlie', 'Pour lui préparer une fête dont il se souviendra :)', '2017-12-12', 'edit3', 'share3'),
 (18, NULL, ' Je teste', 'Ceci est un test\r\n', '2020-04-23', 'e17666a4d79eb51f3b17', '9c8d698b1835b30e989f');
 
+
+CREATE TABLE `message` (
+                           `id` int(11) NOT NULL AUTO_INCREMENT,
+                           `liste_id` int(11) NOT NULL,
+                           `message` text NOT NULL,
+                           `expediteur` text,
+                           PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- --------------------------------------------------------
 
 --
