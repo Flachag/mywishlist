@@ -27,4 +27,28 @@
         <h1 class="display-4">Bienvenue!</h1>
         <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque metus magna, egestas quis tortor sed, imperdiet sodales diam. Suspendisse odio massa, tristique sed felis id, volutpat sagittis felis. Etiam quis feugiat metus. Vivamus eu maximus nibh. Nulla laoreet porttitor felis id semper. Mauris quis libero sit amet tellus cursus tristique. Nunc dignissim urna non erat ullamcorper mattis. </p>
     </div>
+
+    {% if listes is not empty %}
+        <div class="body mt-5">
+            <h1>Mes listes</h1>
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Expiration</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for liste in listes %}
+                    <tr onclick="document.location = '{{ path_for('liste', { 'token': liste.token }) }}';">
+                        <td>{{ liste.titre }}</td>
+                        <td>{{ liste.description }}</td>
+                        <td>{{ liste.expiration }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 {% endblock %}
