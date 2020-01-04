@@ -13,7 +13,7 @@ use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class ListeController extends Controller
+class ListeController extends CookiesController
 {
 
     /**
@@ -25,9 +25,11 @@ class ListeController extends Controller
     public function getListe(Request $request, Response $response, array $args): Response {
         try {
             $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+            $this->loadCookiesFromRequest($request);
             $this->view->render($response, 'pages/liste.twig', [
                 "liste" => $liste,
                 "items" => $liste->items()->get(),
+                "creator" => in_array($liste->token_edit, $this->getCreationTokens())
             ]);
         } catch (ModelNotFoundException $e) {
             $this->flash->addMessage('error', "Cette liste n'existe pas...");
@@ -94,6 +96,8 @@ class ListeController extends Controller
             $description = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
             $expiration = $request->getParsedBodyParam('expiration');
 
+            $this->loadCookiesFromRequest($request);
+
             if (new DateTime() > new DateTime($expiration)) throw new Exception("La date d'expiration ne peut être déjà passée.");
 
             $liste = new Liste();
@@ -104,6 +108,8 @@ class ListeController extends Controller
             $liste->token_edit = bin2hex(random_bytes(10));
             $liste->save();
 
+            $this->addCreationToken($liste->token_edit);
+            $response = $this->createResponseCookie($response);
             $link = $this->router->pathFor('liste', ['token' => $liste->token]);
             $this->flash->addMessage('success', "Votre liste a été créée! Cliquez <a href='$link'>ici</a> pour y accéder.");
             $response = $response->withRedirect($this->router->pathFor('home'));
