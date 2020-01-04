@@ -1,16 +1,25 @@
-# mywishlist
-Instructions pour visualiser le site:
-    - Après avoir cloner le repo, faire un composer install
-    - Récupérer le fichier .sql afin d'avoir une base de données correcte
-    - Créer un fichier config.ini dans le dossier /mywishlist/app/Config/
-      Ce fichier doit ressembler à cela:
-      driver = mysql
-      username = "votre username"
-      password = "votre password"
-      host = "adresse de la base'
-      database = "nom de la base"
-      charset = utf8
-      collation = utf8_unicode_ci
+## Installation
+
+Utilisez [composer](https://getcomposer.org/) pour installer MyWishList.
+
+```bash
+git clone https://github.com/Wilders/MyWishList.git
+cd MyWishList
+composer install
+```
+
+Il faut créer un fichier de configuration pour la base de donnée nommé **config.ini** dans le répertoire /mywishlist/app/config.
+En insérant:
+
+| Paramètre     | Valeur d'exemple | Description               |
+| :------------:|:----------------:|:-------------------------:|
+| driver        | mysql            | Driver de votre SGBD      |
+| host          | localhost        | Hôte de votre BDD         |
+| database      | wishlist         | Nom de votre BDD          |
+| username      | root             | Nom d'user de votre BDD   |
+| password      | root             | Mot de passe de votre BDD |
+| charset       | utf8             | Méthode d'encodage        |
+| collation     | utf8_unicode_ci  | Collation de la BDD       |
 
 ## Fonctionnalités
 Participant
