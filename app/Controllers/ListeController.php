@@ -30,7 +30,8 @@ class ListeController extends CookiesController
             $this->view->render($response, 'pages/liste.twig', [
                 "liste" => $liste,
                 "items" => $liste->items()->get(),
-                "creator" => in_array($liste->token_edit, $this->getCreationTokens())
+                "creator" => in_array($liste->token_edit, $this->getCreationTokens()),
+                "expiration" => $liste->haveExpired()
             ]);
         } catch (ModelNotFoundException $e) {
             $this->flash->addMessage('error', "Cette liste n'existe pas...");

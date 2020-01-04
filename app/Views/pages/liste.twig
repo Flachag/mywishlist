@@ -22,16 +22,22 @@
         {% for item in items %}
             <div class="p-2 bd-highlight">
                 <div class="card" style="width: 18rem">
-                    <img src="{{ base_path }}/public/img/{{ item.img }}" class="card-img-top" alt="{{ item.img }}">
+                    <img src="{{ base_path }}/public/img/{{ item.img }}" class="card-img-top rounded-top" alt="{{ item.img }}">
                     <div class="card-body text-center">
                         <h5 class="text-uppercase font-weight-bold m-auto text-center"><strong>{{ item.nom }}</strong>
                         </h5>
-                        <p class="card-text text-center">Réservé:
-                            {% if item.book == true %}
-                                Oui
+                        <p class="card-text">
+                            {%  if creator and item.book %}
+                                <span class="card-text badge badge-danger">Reservé</span>
+                            {% elseif item.book==true %}
+                                <span class="card-text badge badge-danger">Reservé par {{ item.name }}</span>
+                            {%  elseif expiration==true %}
+                                <span class="card-text badge badge-dark">Expiré</span>
                             {% else %}
-                                Non
+                                <span class="card-text badge badge-secondary">{{ item.tarif }} €</span>
+                                <span class="card-text badge badge-success">Disponible</span>
                             {% endif %}
+
                         </p>
                         {% if  token != "" %}
                             {% if  item.reservation <= 0 %}
