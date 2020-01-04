@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\models\Item;
 use App\models\Liste;
 use App\Models\Reservation;
+use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -58,6 +59,7 @@ class ItemController extends CookiesController
 
             if(in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous ne pouvez pas réserver un objet de votre prore liste.");
 
+            if ($liste->haveExpired()) throw new Exception("Cette liste a déjà expiré, il n'est plus possible de réserver des objets.");
             if (Reservation::where('item_id', '=', $item_id)->exists()) throw new Exception("Cet objet est déjà reservé.");
 
             $r = new Reservation();

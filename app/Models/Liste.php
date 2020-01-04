@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
 class Liste extends Model {
@@ -11,5 +12,9 @@ class Liste extends Model {
 
     public function items() {
         return $this->hasMany('\App\Models\Item', 'liste_id');
+    }
+
+    public function haveExpired(): bool {
+        return new DateTime() > new DateTime($this->expiration);
     }
 }
