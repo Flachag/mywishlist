@@ -58,10 +58,10 @@ $app->get('/create-liste', ListeController::class . ':createForm')->setName('for
 $app->post('/create-liste', ListeController::class . ':createListe')->setName('createListe');
 $app->post('/liste/{token:[a-zA-Z0-9]+}/message', ListeController::class.':addMessage')->setName('addMessage');
 
-$app->get('/liste/{token:[a-zA-Z0-9]+}/admin/{token_edit:[0-9]+}', ListeController::class . ':adminListe')->setName('formListeAdmin');
+$app->get('/liste/{token:[a-zA-Z0-9]+}/admin/{token_edit:[a-zA-Z0-9]+}', ListeController::class . ':adminListe')->setName('formListeAdmin');
 
 // ANCIENNES ROUTES
-$app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItem')->setName('itemsEdit');
+/*$app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItem')->setName('itemsEdit');
 
 $app->get('/gestion-liste[/token/{token}]', ListeController::class . ':getListeManage')->setName('listeManage');
 $app->post('/gestion-liste[/token/{token}]', ListeController::class . ':postListe')->setName('listeSend');
@@ -72,4 +72,5 @@ $app->post('/gestion-item/token/{token}[/item/{id}]', ItemController::class . ':
 $app->get('/supprimer-item/item/{id}', ItemController::class . ':deleteItem')->setName('itemDelete');
 
 $app->post('/partager-liste', ListeController::class . ':shareListe')->setName('listeShare');
+*/
 $app->run();

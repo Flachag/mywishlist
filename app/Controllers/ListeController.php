@@ -75,43 +75,6 @@ class ListeController extends CookiesController
         return $response;
     }
 
-    public function getListeManage(RequestInterface $request, ResponseInterface $response, $args)
-    {
-        $liste = null;
-        if (array_key_exists('token', $args)) {
-            $liste = Liste::where('token', $args['token']);
-            if ($liste->count() == 1) {
-                $liste = $liste->first();
-                $this->view->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
-            } else {
-                $this->view->render($response, 'pages/404.twig', ["current_page" => "404"]);
-            }
-        } else {
-            $this->view->render($response, 'pages/listeManage.twig', ["current_page" => "listeManage", "liste" => $liste]);
-        }
-    }
-
-
-    // je comprends pas pourquoi y en a 2 pour créer ici
-    public function postListe(RequestInterface $request, ResponseInterface $response, $args)
-    {
-        if (array_key_exists('token', $args)) {
-            $liste = Liste::where('token', $args['token'])
-                ->update(['titre' => strip_tags($_POST['titre']),
-                    'description' => strip_tags($_POST['description']),
-                    'expiration' => strip_tags($_POST['expiration'])]);
-        } else {
-            $liste = new Liste();
-            $lastId = Liste::all()->count();
-            $liste->user_id = $lastId + 1;
-            $liste->token = "nosecure" . ($lastId + 1);
-            $liste->titre = strip_tags($_POST['titre']);
-            $liste->description = strip_tags($_POST['description']);
-            $liste->expiration = strip_tags($_POST['expiration']);
-            $liste->save();
-        }
-    }
-
     /**
      * Methode qui redirige vers la forme de creation de liste
      * @param Request $request

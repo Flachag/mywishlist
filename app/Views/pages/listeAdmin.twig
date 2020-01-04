@@ -1,6 +1,29 @@
-{% extends "layout.twig"%}
+{% extends "layout.twig" %}
 {% block title 'Gestion liste' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/public/css/font_awesome.css">
+{% endblock %}
+
 {% block content %}
-<h1>TEST</h1>
+    <section class="jumbotron text-center mt-4">
+        <div class="container">
+            <i class="fas fa-wrench"></i>
+            <h1 class="jumbotron-heading">{{ liste.titre }}</h1>
+            <p class="lead text-muted">{{ liste.description }}</p>
+            <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
+        </div>
+    </section>
+
+
+    {% for item in items %}
+        <div class="card my-3">
+            <div class="card-body">
+                <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70" class="rounded-top" alt="{{ item.img }}">
+                <span style="font-size: 22px; margin-left: 1em;">{{ item.nom }}</span>
+                <span style="margin-left: 1em;">{{ item.tarif }}€</span>
+            </div>
+        </div>
+    {% endfor %}
+
 {% endblock %}
