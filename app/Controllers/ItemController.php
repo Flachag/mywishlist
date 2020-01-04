@@ -38,7 +38,8 @@ class ItemController extends CookiesController {
                 "reserver" => $reserver,
                 "name" => $this->getName(),
                 "expiration" => $liste->haveExpired(),
-                "message" => $message
+                "message" => $message,
+                "creator" => in_array($liste->token_edit, $this->getCreationTokens()),
             ]);
         } catch (ModelNotFoundException $e) {
             $this->flash->addMessage('error', "Cet objet n'existe pas...");

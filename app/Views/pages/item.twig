@@ -14,6 +14,9 @@
             <h1 class="jumbotron-heading">{{ liste.titre }}</h1>
             <p class="lead text-muted">{{ liste.description }}</p>
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
+            {% if creator == true %}
+                <a href="" class="btn btn-outline-dark float-right">Administrer</a>
+            {% endif %}
         </div>
     </section>
     <div class="container mt-4">
@@ -24,15 +27,21 @@
                 <p>{{ item.descr }}</p>
                 <p><strong>{{ item.tarif }} euros </strong></p>
                 {% if item.book and expiration==false %}
-                    <div class="alert alert-danger">
-                        Cet objet est déjà réservé
-                    </div>
+                    {% if creator == true %}
+                        <div class="alert alert-danger">
+                            Cet objet est déjà réservé
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger">
+                            Cet objet est déjà réservé par {{ item.name }}
+                        </div>
+                    {% endif %}
                 {% elseif item.book and expiration %}
                     <div class="alert alert-success">
                         Cet objet a été réservé par {{ item.name }}.
                     </div>
                     <div>
-                        <p>Il vous a laissé un message !</p>
+                        <p>Il a laissé un message !</p>
                         <p>{{ message }}</p>
                     </div>
                 {% else %}
