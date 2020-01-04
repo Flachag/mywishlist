@@ -12,7 +12,7 @@ use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class ItemController extends Controller
+class ItemController extends CookiesController
 {
     /**
      * @param Request $request
@@ -40,6 +40,48 @@ class ItemController extends Controller
         return $response;
     }
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
+    public function bookItem(Request $request, Response $response, array $args): Response {
+        try {
+            $name = filter_var($request->getParsedBodyParam('name'), FILTER_SANITIZE_STRING);
+            $message = filter_var($request->getParsedBodyParam('message'), FILTER_SANITIZE_STRING);
+            $item_id = filter_var($args['id'], FILTER_SANITIZE_NUMBER_INT);
+            $token = filter_var($args['token'], FILTER_SANITIZE_STRING);
+
+            $liste = Liste::where('token', '=', $token)->firstOrFail();
+            $this->loadCookiesFromRequest($request);
+
+            if(in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous ne pouvez pas réserver un objet de votre prore liste.");
+
+            if (Reservation::where('item_id', '=', $item_id)->exists()) throw new Exception("Cet objet est déjà reservé.");
+
+            $r = new Reservation();
+            $r->item_id = $item_id;
+            $r->message = $message;
+            $r->nom = $name;
+            $r->save();
+
+            $this->changeName($name);
+            $response = $this->createResponseCookie($response);
+
+            $this->flash->addMessage('success', "$name, votre réservation a été enregistrée !");
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        } catch (ModelNotFoundException $e) {
+            $this->flash->addMessage('error', 'Nous n\'avons pas pu trouver cet objet.');
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        } catch (Exception $e) {
+            $this->flash->addMessage('error', $e->getMessage());
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        }
+        return $response;
+    }
+
+    //ANCIEN
     public function getItemManage(RequestInterface $request, ResponseInterface $response, $args)
     {
         if (array_key_exists('token', $args)) {

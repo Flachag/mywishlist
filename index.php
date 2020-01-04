@@ -56,6 +56,7 @@ $app->get('/liste/{token:[a-zA-Z0-9]+}', ListeController::class . ':getListe')->
 $app->get('/create-liste', ListeController::class . ':createForm')->setName('formListe');
 $app->post('/create-liste', ListeController::class . ':createListe')->setName('createListe');
 
+$app->post('/liste/{token:[a-zA-Z0-9]+}/book/{id:[0-9]+}', ItemController::class . ':bookItem')->setName('bookItem');
 
 // ANCIENNES ROUTES
 $app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItem')->setName('itemsEdit');
@@ -69,6 +70,4 @@ $app->post('/gestion-item/token/{token}[/item/{id}]', ItemController::class . ':
 $app->get('/supprimer-item/item/{id}', ItemController::class . ':deleteItem')->setName('itemDelete');
 
 $app->post('/partager-liste', ListeController::class . ':shareListe')->setName('listeShare');
-
-$app->get('/reservation', ReservationController::class . ':getReservation')->setName('book');
 $app->run();
