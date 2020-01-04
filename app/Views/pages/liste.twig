@@ -12,7 +12,7 @@
             <p class="lead text-muted">{{ liste.description }}</p>
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
             {% if creator == true %}
-                <a href="" class="btn btn-outline-dark float-right">Administrer</a>
+                <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}" class="btn btn-outline-dark float-right">Administrer</a>
             {% endif %}
         </div>
     </section>

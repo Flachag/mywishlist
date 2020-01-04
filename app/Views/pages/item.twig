@@ -45,7 +45,8 @@
                         <p>{{ message }}</p>
                     </div>
                 {% else %}
-                    <div class="modal fade" id="reservation" tabindex="-1" role="dialog" aria-labelledby="reserverLabel" aria-hidden="true">
+                    <div class="modal fade" id="reservation" tabindex="-1" role="dialog" aria-labelledby="reserverLabel"
+                         aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -54,27 +55,32 @@
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form method="POST" action="{{ path_for('bookItem', {'id': item.id, 'token': liste.token}) }}">
+                                <form method="POST"
+                                      action="{{ path_for('bookItem', {'id': item.id, 'token': liste.token}) }}">
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="inputName">Nom*</label>
-                                            <input type="text" name="name" class="form-control" id="inputName" placeholder="Xavier" value="{{ name }}" required>
+                                            <input type="text" name="name" class="form-control" id="inputName"
+                                                   placeholder="Xavier" value="{{ name }}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="textarea">Ajoutez un message à votre réservation</label>
-                                            <textarea class="form-control" id="textarea" rows="4" name="message"></textarea>
+                                            <textarea class="form-control" id="textarea" rows="4"
+                                                      name="message"></textarea>
                                         </div>
                                         Les champs marqués d'un astérisque sont obligatoires.
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
+                                        </button>
                                         <button type="submit" class="btn btn-dark">Réserver</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reservation">Réserver</button>
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reservation">Réserver
+                    </button>
                 {% endif %}
             </div>
         </div>
