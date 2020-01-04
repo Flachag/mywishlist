@@ -58,6 +58,8 @@ $app->get('/create-liste', ListeController::class . ':createForm')->setName('for
 $app->post('/create-liste', ListeController::class . ':createListe')->setName('createListe');
 $app->post('/liste/{token:[a-zA-Z0-9]+}/message', ListeController::class.':addMessage')->setName('addMessage');
 
+$app->get('/liste/{token:[a-zA-Z0-9]+}/admin/{token_edit:[0-9]+}', ListeController::class . ':adminListe')->setName('formListeAdmin');
+
 // ANCIENNES ROUTES
 $app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItem')->setName('itemsEdit');
 

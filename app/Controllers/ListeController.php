@@ -158,4 +158,24 @@ class ListeController extends CookiesController
         }
         return $response;
     }
+
+    public function adminListe(Request $request, Response $response, array $args): Response {
+        try {
+            $liste = Liste::where('token', '=', $args['token'])->where('token_edit', '=', $args['token_edit'])->firstOrFail();
+            $this->loadCookiesFromRequest($request);
+            $this->view->render($response, 'pages/listeAdmin.twig', [
+                "liste" => $liste,
+                "items" => $liste->items()->get(),
+                "creator" => in_array($liste->token_edit, $this->getCreationTokens()),
+                "expiration" => $liste->haveExpired()
+            ]);
+        } catch (ModelNotFoundException $e) {
+            $this->flash->addMessage('error', "Cette liste n'existe pas...");
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        } catch (Exception $e) {
+            $this->flash->addMessage('error', "Une erreur est survenue, veuillez réessayer ultérieurement.");
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        }
+        return $response;
+    }
 }

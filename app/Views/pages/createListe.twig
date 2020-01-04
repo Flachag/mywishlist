@@ -1,20 +1,20 @@
 {% extends "layout.twig" %}
-{% block title 'Gestion liste' %}
+{% block title 'Creer liste' %}
 
 {% block content %}
     <div class="body m-5">
         <form action="{{ path_for('formListe') }}" method="post">
             <div class="form-group">
                 <label for="title">Titre</label>
-                <input class="form-control" type="text" name="titre" value=" {{ liste.titre }}" id="title" required>
+                <input class="form-control" type="text" name="titre" value="" id="title" required>
             </div>
             <div class="form-group">
                 <label for="descr">Description</label>
-                <textarea class="form-control" name="description" id="description" rows="10" id="descr">{{ liste.description }}</textarea>
+                <textarea class="form-control" name="description" id="description" rows="10" id="descr"></textarea>
             </div>
             <div class="form-group">
                 <label for="expiration">Expiration</label>
-                <input type="date" id="expiration" name="expiration" value="{{ liste.expiration }}" required>
+                <input type="date" id="expiration" name="expiration" value="" required>
             </div>
             <button type="Submit" class="btn btn-dark">Créer</button>
         </form>
