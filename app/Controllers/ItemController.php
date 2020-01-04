@@ -2,19 +2,20 @@
 
 namespace App\Controllers;
 
-use App\models\Item;
-use App\models\Liste;
 use App\Models\Reservation;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Slim\Exception\NotFoundException;
+use App\Models\Item;
+use App\Models\Liste;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-class ItemController extends CookiesController
-{
+/**
+* Class ItemController
+ * @package App\Controllers
+*/
+class ItemController extends CookiesController {
+
     /**
      * @param Request $request
      * @param Response $response
@@ -25,11 +26,19 @@ class ItemController extends CookiesController
         try {
             $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
             $item = Item::where(['id' => $args['id'], 'liste_id' => $liste->no])->firstOrFail();
-            $reserver = $item->book;
+            $reserver = $item->book && !$liste->haveExpired() && !in_array($liste->token_edit, $this->getCreationTokens());
+            $this->loadCookiesFromRequest($request);
+            $message = "";
+            if ($item->book){
+                $message = $item->reservation()->get()->first()->message;
+            }
             $this->view->render($response, 'pages/item.twig', [
                 "liste" => $liste,
                 "item" => $item,
-                "reserver" => $reserver
+                "reserver" => $reserver,
+                "name" => $this->getName(),
+                "expiration" => $liste->haveExpired(),
+                "message" => $message
             ]);
         } catch (ModelNotFoundException $e) {
             $this->flash->addMessage('error', "Cet objet n'existe pas...");

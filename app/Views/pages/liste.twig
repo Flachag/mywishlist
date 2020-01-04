@@ -27,17 +27,22 @@
                         <h5 class="text-uppercase font-weight-bold m-auto text-center"><strong>{{ item.nom }}</strong>
                         </h5>
                         <p class="card-text">
-                            {%  if creator and item.book %}
-                                <span class="card-text badge badge-danger">Reservé</span>
-                            {% elseif item.book==true %}
-                                <span class="card-text badge badge-danger">Reservé par {{ item.name }}</span>
-                            {%  elseif expiration==true %}
-                                <span class="card-text badge badge-dark">Expiré</span>
+                            {% if expiration==true %}
+                                {% if item.book==true %}
+                                    <span class="card-text badge badge-danger">Reservé par {{ item.name }}</span>
+                                {% else %}
+                                    <span class="card-text badge badge-dark">Expiré</span>
+                                {% endif %}
                             {% else %}
-                                <span class="card-text badge badge-secondary">{{ item.tarif }} €</span>
-                                <span class="card-text badge badge-success">Disponible</span>
+                                {%  if creator and item.book %}
+                                    <span class="card-text badge badge-danger">Reservé</span>
+                                {% elseif item.book==true %}
+                                    <span class="card-text badge badge-danger">Reservé par {{ item.name }}</span>
+                                {% else %}
+                                    <span class="card-text badge badge-secondary">{{ item.tarif }} €</span>
+                                    <span class="card-text badge badge-success">Disponible</span>
+                                {% endif %}
                             {% endif %}
-
                         </p>
                         {% if  token != "" %}
                             {% if  item.reservation <= 0 %}

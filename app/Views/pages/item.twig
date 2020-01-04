@@ -10,11 +10,6 @@
 {% block content %}
     <section class="jumbotron text-center mt-4">
         <div class="container">
-            {% if  token == liste.token_edit %}
-                <i class="fas fa-wrench"
-                   onclick="document.location = '{{ path_for('listeManage') }}?token={{ liste.token }}';"></i>
-                <br>
-            {% endif %}
             <i class="fas fa-share-alt" id="copie" onclick="copy()"></i>
             <h1 class="jumbotron-heading">{{ liste.titre }}</h1>
             <p class="lead text-muted">{{ liste.description }}</p>
@@ -28,9 +23,17 @@
                 <h5 class="text-uppercase font-weight-bold m-auto text-center"><strong>{{ item.nom }}</strong></h5>
                 <p>{{ item.descr }}</p>
                 <p><strong>{{ item.tarif }} euros </strong></p>
-                {% if item.book %}
+                {% if item.book and expiration==false %}
                     <div class="alert alert-danger">
                         Cet objet est déjà réservé
+                    </div>
+                {% elseif item.book and expiration %}
+                    <div class="alert alert-success">
+                        Cet objet a été réservé par {{ item.name }}.
+                    </div>
+                    <div>
+                        <p>Il vous a laissé un message !</p>
+                        <p>{{ message }}</p>
                     </div>
                 {% else %}
                     <div class="modal fade" id="reservation" tabindex="-1" role="dialog" aria-labelledby="reserverLabel" aria-hidden="true">

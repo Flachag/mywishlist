@@ -23,11 +23,11 @@ En insérant:
 
 ## Fonctionnalités
 Participant
-- [ ] ~~**1. Afficher une liste de souhaits _[EN COURS @Flavien]_**
-- [ ] ~~**2. Afficher un item d'une liste _[EN COURS @Flavien]_**
+- [X] ~~**1. Afficher une liste de souhaits _[FAIT @Flavien]_**~~
+- [X] ~~**2. Afficher un item d'une liste _[EN COURS @Flavien]_**~~
 - [X] ~~**3. Réserver un item d'une liste _[FAIT @Flavien]_**~~
 - [X] ~~**4. Ajouter un message avec sa réservation _[FAIT @Flavien]_**~~
-- [ ] ~~**5. Afficher un item d'une liste _[EN COURS @Flavien]_**
+- [ ] ~~**5. Ajouter un message dans une liste _[EN COURS @Flavien]_**
 Créateur
 - [X] ~~**6. Créer une liste _[FAIT @Flavien]_**~~
 - [ ] ~~**7. Modifier les informations générales d'une de ses listes _[EN COURS @Lucas & @Flavien]_**
