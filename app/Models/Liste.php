@@ -17,4 +17,8 @@ class Liste extends Model {
     public function haveExpired(): bool {
         return new DateTime() > new DateTime($this->expiration);
     }
+
+    public function messages() {
+        return $this->hasMany('\App\Models\Message', 'liste_id');
+    }
 }

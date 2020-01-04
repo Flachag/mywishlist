@@ -14,9 +14,43 @@
             {% if creator == true %}
                 <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}" class="btn btn-outline-dark float-right">Administrer</a>
             {% endif %}
+            {% if expiration==false %}
+                <button class="ml-auto btn btn-outline-dark btn-sm float-left" data-toggle="modal" data-target="#redigerMessage" role="button">
+                    Rédiger un message
+                </button>
+            {% endif %}
         </div>
     </section>
 
+    <div class="modal fade" id="redigerMessage" tabindex="-1" role="dialog" aria-labelledby="redigerMessageLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{{ path_for('addMessage', {'token': liste.token})  }}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="inputName">Nom*</label>
+                            <input type="text" name="name" class="form-control" id="inputName" placeholder="Votre nom" value="{{ name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputMessage">Message*</label>
+                            <textarea class="form-control" id="inputMessage" rows="4" name="message"></textarea>
+                        </div>
+                        Les champs marqués d'un astérisque sont obligatoires.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="d-flex justify-content-center flex-wrap mb-3">
         {% for item in items %}
@@ -54,6 +88,18 @@
                         {% endif %}
                         <a href="{{ path_for('item', {'token': liste.token, 'id': item.id}) }}" class="btn btn-dark">Détails</a>
                     </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="m-auto">
+        {% for message in messages %}
+            <div class="card my-3">
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>{{ message.message }}</p>
+                        <footer class="blockquote-footer">{{ message.expediteur }}</footer>
+                    </blockquote>
                 </div>
             </div>
         {% endfor %}

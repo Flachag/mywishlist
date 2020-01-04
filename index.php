@@ -51,12 +51,12 @@ $container['notFoundHandler'] = function ($c) {
 $app->get('/', HomeController::class . ':home')->setName('home');
 
 $app->get('/liste/{token:[a-zA-Z0-9]+}/{id:[0-9]+}', ItemController::class . ':getItem')->setName('item');
+$app->post('/liste/{token:[a-zA-Z0-9]+}/book/{id:[0-9]+}', ItemController::class . ':bookItem')->setName('bookItem');
 
 $app->get('/liste/{token:[a-zA-Z0-9]+}', ListeController::class . ':getListe')->setName('liste');
 $app->get('/create-liste', ListeController::class . ':createForm')->setName('formListe');
 $app->post('/create-liste', ListeController::class . ':createListe')->setName('createListe');
-
-$app->post('/liste/{token:[a-zA-Z0-9]+}/book/{id:[0-9]+}', ItemController::class . ':bookItem')->setName('bookItem');
+$app->post('/liste/{token:[a-zA-Z0-9]+}/message', ListeController::class.':addMessage')->setName('addMessage');
 
 $app->get('/liste/{token:[a-zA-Z0-9]+}/admin/{token_edit:[0-9]+}', ListeController::class . ':adminListe')->setName('formListeAdmin');
 
