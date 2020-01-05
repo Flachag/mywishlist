@@ -11,17 +11,17 @@
             <h1 class="jumbotron-heading">{{ liste.titre }}</h1>
             <p class="lead text-muted">{{ liste.description }}</p>
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
-            {% if creator == true %}
-                <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}" class="btn btn-outline-dark float-right">Administrer</a>
-            {% endif %}
             {% if expiration==false %}
-                <button class="ml-auto btn btn-outline-dark btn-sm float-left" data-toggle="modal" data-target="#redigerMessage" role="button">
-                    Rédiger un message
-                </button>
+                {% if creator == true %}
+                    <div class="btn-group    float-right">
+                        <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}" class="btn btn-outline-dark float-right">Administrer</a>
+                        <button class="btn btn-outline-dark share-btn float-left" data-toggle="popover" data-content="Lien copié!" data-placement="bottom" data-trigger="focus">Partager la liste</button>
+                    </div>
+                    {% endif %}
+                <a href="" data-toggle="modal" data-target="#redigerMessage" class="btn btn-outline-dark float-left">Rédiger un message</a>
             {% endif %}
         </div>
     </section>
-
     <div class="modal fade" id="redigerMessage" tabindex="-1" role="dialog" aria-labelledby="redigerMessageLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -104,4 +104,39 @@
             </div>
         {% endfor %}
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        function fallbackCopyTextToClipboard(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position="fixed";  //avoid scrolling to bottom
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function copyTextToClipboard(text) {
+            if (!navigator.clipboard) {
+                fallbackCopyTextToClipboard(text);
+                return;
+            }
+            navigator.clipboard.writeText(text);
+        }
+
+        var shareBtn = document.querySelector('.share-btn');
+
+        shareBtn.addEventListener('click', function(event) {
+            copyTextToClipboard(location.href);
+        });
+    </script>
 {% endblock %}
