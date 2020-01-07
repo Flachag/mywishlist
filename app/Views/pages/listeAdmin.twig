@@ -35,33 +35,28 @@
                 </div>
             </div>
 
-
-            <!-- A PARTIR D'ICI FAUT RENOMMER LES NOMS DES ID ET CLASSE -->
-
             <div class="tab-pane" id="items" role="tabpanel">
                 {% for item in items %}
-                    <div class="card my-3">
-                        <div class="card-body">
-                            <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70"
-                                 class="rounded-top"
-                                 alt="{{ item.img }}">
-                            <span style="font-size: 22px; margin-left: 1em;">{{ item.nom }}</span>
-                            <span style="margin-left: 1em;">{{ item.tarif }}€</span>
+                    <a data-toggle="modal" data-target="#modification">
+                        <div id="itemListed" class="card my-3">
+                            <div class="card-body">
+                                <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70"
+                                     class="rounded-top"
+                                     alt="{{ item.img }}">
+                                <span style="font-size: 22px; margin-left: 1em;">{{ item.nom }}</span>
+                                <span style="margin-left: 1em;">{{ item.tarif }}€</span>
+                            </div>
                         </div>
-
-                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reservation">
-                            Modifier
-                        </button>
-                    </div>
+                    </a>
                 {% endfor %}
             </div>
 
-            <div class="modal fade" id="reservation" tabindex="-1" role="dialog" aria-labelledby="reserverLabel"
+            <div class="modal fade" id="modification" tabindex="-1" role="dialog" aria-labelledby="modifierLabel"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="reserverLabel">Modifier objet</h5>
+                            <h5 class="modal-title" id="modifierLabel">Modifier objet</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -84,8 +79,8 @@
                                     <input class="form-control" type="text" name="img" value="{{ item.img }}">
                                 </div>
                                 <div class="form-group">
-                                    <label for="inputImg">Lien externe</label>
-                                    <input class="form-control" type="url" name="url" value="{{ item.url }}">                                </div>
+                                    <label for="inputUrl">Lien externe</label>
+                                    <input class="form-control" type="url" name="url" value="{{ item.url }}"></div>
                                 Les champs marqués d'un astérisque sont obligatoires.
                             </div>
                             <div class="modal-footer">

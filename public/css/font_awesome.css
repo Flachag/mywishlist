@@ -49,3 +49,7 @@
 .fa-share-alt {
     display: block;
 }
+
+#itemListed:hover {
+    background: #e9ecef;
+}
