@@ -9,6 +9,8 @@
     <section class="jumbotron text-center mt-4">
         <div class="container">
             <i class="fas fa-wrench"></i>
+            <br>
+            <i class="fas fa-plus"></i>
             <h1 class="jumbotron-heading">{{ liste.titre }}</h1>
             <p class="lead text-muted">{{ liste.description }}</p>
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
@@ -16,14 +18,6 @@
     </section>
 
 
-    {% for item in items %}
-        <div class="card my-3">
-            <div class="card-body">
-                <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70" class="rounded-top" alt="{{ item.img }}">
-                <span style="font-size: 22px; margin-left: 1em;">{{ item.nom }}</span>
-                <span style="margin-left: 1em;">{{ item.tarif }}€</span>
-            </div>
-        </div>
-    {% endfor %}
+    
 
 {% endblock %}
