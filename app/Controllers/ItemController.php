@@ -98,51 +98,6 @@ class ItemController extends CookiesController
         return $response;
     }
 
-    public function postItem(RequestInterface $request, ResponseInterface $response, $args)
-    {
-        if (array_key_exists('token', $args)) {
-            $liste = Liste::where('token', $args['token']);
-            if ($liste->count() == 1) {
-                $liste = $liste->first();
-                $item = null;
-                if (array_key_exists('id', $args)) {
-                    $img = strip_tags($_POST['img']);
-                    if (!empty($_POST['img']) && !str_contains(strip_tags($_POST['img']), "/mywishlist/public/assets/img/")) {
-                        $dataImg = getimagesize($_POST['img']);
-                        var_dump($dataImg);
-                        if (!isset($dataImg)) {
-                            $img = "/mywishlist/public/assets/img/" . strip_tags($_POST['img']);
-                        }
-                    }
-                    $item = Item::where('id', $args['id'])
-                        ->update(['nom' => strip_tags($_POST['nom']),
-                            'descr' => strip_tags($_POST['description']),
-                            'url' => strip_tags($_POST['url']),
-                            'img' => $img,
-                            'tarif' => strip_tags($_POST['tarif'])]);
-                } else {
-                    $item = new Item();
-                    $obj = json_decode($liste);
-                    $item->liste_id = $obj->no;
-                    $item->nom = strip_tags($_POST['nom']);
-                    $item->descr = strip_tags($_POST['description']);
-                    $item->url = strip_tags($_POST['url']);
-                    $item->tarif = strip_tags($_POST['tarif']);
-                    $img = strip_tags($_POST['img']);
-                    if (!empty($_POST['img']) && !str_contains(strip_tags($_POST['img']), "/mywishlist/public/assets/img/")) {
-                        $headers = get_headers($_POST['img']);
-                        if (!$headers || strpos($headers[0], '404')) {
-                            $img = "/mywishlist/public/assets/img/" . strip_tags($_POST['img']);
-                        }
-                    }
-                    $item->img = $img;
-                    $item->save();
-                }
-            }
-        }
-        //$this->redirect($response, 'home');
-        $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
-    }
 
     public function manageItem(Request $request, Response $response, $args): Response
     {
@@ -164,9 +119,38 @@ class ItemController extends CookiesController
                 $this->flash->addMessage('error', $e->getMessage());
                 $response = $response->withRedirect($this->router->pathFor('home'));
             }
-        }elseif ($_POST['action'] == 'edit'){
+        } elseif ($_POST['action'] == 'edit') {
+            try {
+                $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+                $item = Item::where(['id' => $args['id'], 'liste_id' => $liste->no])->firstOrFail();
+                $reserver = $item->book && !$liste->haveExpired() && !in_array($liste->token_edit, $this->getCreationTokens());
+                $this->loadCookiesFromRequest($request);
 
-        }else{
+                if (!in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous n'êtes pas le créateur de la liste.");
+                if ($reserver) throw new Exception("Cet objet est réservé.");
+
+                $nom = filter_var($request->getParsedBodyParam('nom'), FILTER_SANITIZE_STRING);
+                $descr = filter_var($request->getParsedBodyParam('descr'), FILTER_SANITIZE_STRING);
+                $url = filter_var($request->getParsedBodyParam('url'), FILTER_SANITIZE_URL);
+                $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_SANITIZE_NUMBER_FLOAT);
+                //verifier si img est une url pour hotlinking
+                $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
+                // $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
+
+                $item = Item::where('id', $args['id'])
+                    ->update(['nom' => $nom,
+                        'descr' => $descr,
+                        'url' => $url,
+                        'img' => $img,
+                        'tarif' => $tarif]);
+
+                $this->flash->addMessage('success', "L'objet a été mis à jour!");
+                $response = $response->withRedirect($this->router->pathFor('home'));
+            } catch (Exception $e) {
+                $this->flash->addMessage('error', $e->getMessage());
+                $response = $response->withRedirect($this->router->pathFor('home'));
+            }
+        } else {
             $this->flash->addMessage('error', "Une erreur est survenue, veuillez réessayer ultérieurement.");
             $response = $response->withRedirect($this->router->pathFor('home'));
         }

@@ -65,13 +65,13 @@
                                     <div class="modal-body">
                                         <div class="form-group">
                                             <label for="inputName">Nom*</label>
-                                            <input type="text" name="name" class="form-control" id="inputName"
+                                            <input type="text" name="nom" class="form-control" id="inputName"
                                                    placeholder="" value="{{ item.nom }}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="textarea">Description de l'objet</label>
                                             <textarea class="form-control" id="textarea" rows="4"
-                                                      name="message">{{ item.descr }}</textarea>
+                                                      name="descr">{{ item.descr }}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <label for="inputImg">Image</label>
@@ -81,12 +81,16 @@
                                             <label for="inputUrl">Lien externe</label>
                                             <input class="form-control" type="url" name="url" value="{{ item.url }}">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="inputTarif">Tarif*</label>
+                                            <input class="form-control" type="number" step="0.50" name="tarif" value="{{ item.tarif }}" required>
+                                        </div>
                                         Les champs marqués d'un astérisque sont obligatoires.
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
                                         </button>
-                                        <button type="submit" name="action" value="delete" class="btn btn-danger mt-2">Supprimer</button>
+                                        <button type="submit" name="action" value="delete" class="btn btn-danger">Supprimer</button>
                                         <button type="submit" name="action" value="edit" class="btn btn-dark">Modifier</button>
                                     </div>
                                 </form>
