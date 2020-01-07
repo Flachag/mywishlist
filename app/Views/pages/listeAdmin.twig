@@ -91,6 +91,8 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
                                 </button>
+                                <a class="btn btn-danger mt-2"
+                                   href="{{ path_for('deleteItem', {'id': item.id, 'token': liste.token}) }}">Supprimer</a>
                                 <button type="submit" class="btn btn-dark">Modifier</button>
                             </div>
                         </form>

@@ -143,22 +143,23 @@ class ItemController extends CookiesController {
 
     public function deleteItem(RequestInterface $request, ResponseInterface $response, $args)
     {
-        if (array_key_exists('id', $args)) {
-            $item = Item::where('id', $args['id']);
-            if ($item->count() == 1) {
-                $item = $item->first();
-                $reservation = Reservation::where('id_item', $args['id']);
-                if ($reservation->count() == 1) {
-                    $this->render($response, 'pages/reserved.twig', ["current_page" => "reserved"]);
-                } else {
-                    $item->delete();
-                    $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
-                }
-            } else {
-                $this->render($response, 'pages/404.twig', ["current_page" => "404"]);
-            }
-        } else {
-            $this->view->render($response, 'pages/404.twig', ["current_page" => "404"]);
+        try {
+            $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+            $item = Item::where(['id' => $args['id'], 'liste_id' => $liste->no])->firstOrFail();
+            $reserver = $item->book && !$liste->haveExpired() && !in_array($liste->token_edit, $this->getCreationTokens());
+            $this->loadCookiesFromRequest($request);
+
+            if (!in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous n'êtes pas le créateur de la liste.");
+            if ($reserver) throw new Exception("Cet objet est réservé.");
+
+            $item->delete();
+
+            $this->flash->addMessage('success', "L'objet a été supprimée!");
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        } catch (Exception $e) {
+            $this->flash->addMessage('error', $e->getMessage());
+            $response = $response->withRedirect($this->router->pathFor('home'));
         }
+        return $response;
     }
 }
