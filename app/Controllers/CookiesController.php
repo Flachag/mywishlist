@@ -1,6 +1,6 @@
 <?php
 
-namespace App\controllers;
+namespace App\Controllers;
 
 use Dflydev\FigCookies\Cookies;
 use Dflydev\FigCookies\SetCookie;

@@ -25,5 +25,25 @@
             </div>
         </div>
     {% endfor %}
+    <div class="row">
+        <div class="list-group col-2 text-center" id="options" role="tabOptions">
+            <a class="btn btn-outline-dark" data-toggle="list" href="#liste" role="tab">Gérer ma liste</a>
+            <a class="btn btn-outline-dark mt-2" data-toggle="list" href="#items" role="tab">Gérer mes objets</a>
+        </div>
 
+        <div class="tab-content col-10">
+            <div class="tab-pane active" id="liste" role="tabpanel">
+                <div class="card">
+                    <div class="card-header text-center">Gérer ma liste</div>
+                    <div class="card-body">
+                        <div class="list-group col-3 text-center" id="listOptions" role="tablist">
+                            <a class="btn btn-dark" data-toggle="list" href="#modifListe" role="tab">Modifier la liste</a>
+                            <a class="btn btn-danger mt-2" data-toggle="list" href="#deleteListe" role="tab">Supprimer la liste</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane" id="items" role="tabpanel">2</div>
+        </div>
+    </div>
 {% endblock %}
