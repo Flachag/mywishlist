@@ -16,15 +16,6 @@
     </section>
 
 
-    {% for item in items %}
-        <div class="card my-3">
-            <div class="card-body">
-                <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70" class="rounded-top" alt="{{ item.img }}">
-                <span style="font-size: 22px; margin-left: 1em;">{{ item.nom }}</span>
-                <span style="margin-left: 1em;">{{ item.tarif }}€</span>
-            </div>
-        </div>
-    {% endfor %}
     <div class="row">
         <div class="list-group col-2 text-center" id="options" role="tabOptions">
             <a class="btn btn-outline-dark" data-toggle="list" href="#liste" role="tab">Gérer ma liste</a>
@@ -37,13 +28,75 @@
                     <div class="card-header text-center">Gérer ma liste</div>
                     <div class="card-body">
                         <div class="list-group col-3 text-center" id="listOptions" role="tablist">
-                            <a class="btn btn-dark" data-toggle="list" href="#modifListe" role="tab">Modifier la liste</a>
-                            <a class="btn btn-danger mt-2" href="{{ path_for('deleteListe', { 'token': liste.token}) }}">Supprimer la liste</a>
+                            <a class="btn btn-dark" href="">Modifier la liste</a>
+                            <a class="btn btn-danger mt-2"
+                               href="{{ path_for('deleteListe', { 'token': liste.token}) }}">Supprimer la liste</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="tab-pane" id="items" role="tabpanel">2</div>
+
+
+            <!-- A PARTIR D'ICI FAUT RENOMMER LES NOMS DES ID ET CLASSE -->
+
+            <div class="tab-pane" id="items" role="tabpanel">
+                {% for item in items %}
+                    <div class="card my-3">
+                        <div class="card-body">
+                            <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70"
+                                 class="rounded-top"
+                                 alt="{{ item.img }}">
+                            <span style="font-size: 22px; margin-left: 1em;">{{ item.nom }}</span>
+                            <span style="margin-left: 1em;">{{ item.tarif }}€</span>
+                        </div>
+                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#reservation">
+                            Modifier
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="modal fade" id="reservation" tabindex="-1" role="dialog" aria-labelledby="reserverLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reserverLabel">Modifier objet</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="POST"
+                              action="{{ path_for('editItem', {'id': item.id, 'token': liste.token}) }}">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="inputName">Nom*</label>
+                                    <input type="text" name="name" class="form-control" id="inputName"
+                                           placeholder="" value="{{ item.nom }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="textarea">Description de l'objet</label>
+                                    <textarea class="form-control" id="textarea" rows="4"
+                                              name="message">{{ item.descr }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputImg">Image</label>
+                                    <input class="form-control" type="text" name="img" value="{{ item.img }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputImg">Lien externe</label>
+                                    <input class="form-control" type="url" name="url" value="{{ item.url }}">                                </div>
+                                Les champs marqués d'un astérisque sont obligatoires.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
+                                </button>
+                                <button type="submit" class="btn btn-dark">Réserver</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
