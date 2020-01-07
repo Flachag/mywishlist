@@ -60,6 +60,8 @@ $app->post('/liste/{token:[a-zA-Z0-9]+}/message', ListeController::class.':addMe
 
 $app->get('/liste/{token:[a-zA-Z0-9]+}/admin/{token_edit:[a-zA-Z0-9]+}', ListeController::class . ':adminListe')->setName('formListeAdmin');
 
+$app->get('/liste/{token:[a-zA-Z0-9]+}/delete', ListeController::class . ':deleteListe')->setName('deleteListe');
+
 // ANCIENNES ROUTES
 /*$app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItem')->setName('itemsEdit');
 

@@ -38,7 +38,7 @@
                     <div class="card-body">
                         <div class="list-group col-3 text-center" id="listOptions" role="tablist">
                             <a class="btn btn-dark" data-toggle="list" href="#modifListe" role="tab">Modifier la liste</a>
-                            <a class="btn btn-danger mt-2" data-toggle="list" href="#deleteListe" role="tab">Supprimer la liste</a>
+                            <a class="btn btn-danger mt-2" href="{{ path_for('deleteListe', { 'token': liste.token}) }}">Supprimer la liste</a>
                         </div>
                     </div>
                 </div>

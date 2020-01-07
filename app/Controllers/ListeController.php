@@ -122,6 +122,24 @@ class ListeController extends CookiesController
         return $response;
     }
 
+    public function deleteListe(Request $request, Response $response, array $args): Response{
+        try {
+            $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+            $this->loadCookiesFromRequest($request);
+
+           if (!in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous n'êtes pas le créateur de la liste.");
+
+           $liste->delete();
+
+            $this->flash->addMessage('success', "Votre liste a été supprimée!");
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        } catch (Exception $e) {
+            $this->flash->addMessage('error', $e->getMessage());
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        }
+        return $response;
+    }
+
     public function adminListe(Request $request, Response $response, array $args): Response {
         try {
             $liste = Liste::where('token', '=', $args['token'])->where('token_edit', '=', $args['token_edit'])->firstOrFail();
