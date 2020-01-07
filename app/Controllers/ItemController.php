@@ -11,10 +11,11 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
-* Class ItemController
+ * Class ItemController
  * @package App\Controllers
-*/
-class ItemController extends CookiesController {
+ */
+class ItemController extends CookiesController
+{
 
     /**
      * Methode qui permet d'afficher un item
@@ -23,14 +24,15 @@ class ItemController extends CookiesController {
      * @param array $args
      * @return Response
      */
-    public function getItem(Request $request, Response $response, array $args): Response {
+    public function getItem(Request $request, Response $response, array $args): Response
+    {
         try {
             $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
             $item = Item::where(['id' => $args['id'], 'liste_id' => $liste->no])->firstOrFail();
             $reserver = $item->book && !$liste->haveExpired() && !in_array($liste->token_edit, $this->getCreationTokens());
             $this->loadCookiesFromRequest($request);
             $message = "";
-            if ($item->book){
+            if ($item->book) {
                 $message = $item->reservation()->get()->first()->message;
             }
             $this->view->render($response, 'pages/item.twig', [
@@ -59,7 +61,8 @@ class ItemController extends CookiesController {
      * @param array $args
      * @return Response
      */
-    public function bookItem(Request $request, Response $response, array $args): Response {
+    public function bookItem(Request $request, Response $response, array $args): Response
+    {
         try {
             $name = filter_var($request->getParsedBodyParam('name'), FILTER_SANITIZE_STRING);
             $message = filter_var($request->getParsedBodyParam('message'), FILTER_SANITIZE_STRING);
@@ -69,7 +72,7 @@ class ItemController extends CookiesController {
             $liste = Liste::where('token', '=', $token)->firstOrFail();
             $this->loadCookiesFromRequest($request);
 
-            if(in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous ne pouvez pas réserver un objet de votre prore liste.");
+            if (in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous ne pouvez pas réserver un objet de votre prore liste.");
 
             if ($liste->haveExpired()) throw new Exception("Cette liste a déjà expiré, il n'est plus possible de réserver des objets.");
             if (Reservation::where('item_id', '=', $item_id)->exists()) throw new Exception("Cet objet est déjà reservé.");
@@ -141,23 +144,30 @@ class ItemController extends CookiesController {
         $this->render($response, 'pages/home.twig', ["current_page" => "home"]);
     }
 
-    public function deleteItem(RequestInterface $request, ResponseInterface $response, $args)
+    public function manageItem(Request $request, Response $response, $args): Response
     {
-        try {
-            $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
-            $item = Item::where(['id' => $args['id'], 'liste_id' => $liste->no])->firstOrFail();
-            $reserver = $item->book && !$liste->haveExpired() && !in_array($liste->token_edit, $this->getCreationTokens());
-            $this->loadCookiesFromRequest($request);
+        if ($_POST['action'] == 'delete') {
+            try {
+                $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+                $item = Item::where(['id' => $args['id'], 'liste_id' => $liste->no])->firstOrFail();
+                $reserver = $item->book && !$liste->haveExpired() && !in_array($liste->token_edit, $this->getCreationTokens());
+                $this->loadCookiesFromRequest($request);
 
-            if (!in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous n'êtes pas le créateur de la liste.");
-            if ($reserver) throw new Exception("Cet objet est réservé.");
+                if (!in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous n'êtes pas le créateur de la liste.");
+                if ($reserver) throw new Exception("Cet objet est réservé.");
 
-            $item->delete();
+                $item->delete();
 
-            $this->flash->addMessage('success', "L'objet a été supprimée!");
-            $response = $response->withRedirect($this->router->pathFor('home'));
-        } catch (Exception $e) {
-            $this->flash->addMessage('error', $e->getMessage());
+                $this->flash->addMessage('success', "L'objet a été supprimée!");
+                $response = $response->withRedirect($this->router->pathFor('home'));
+            } catch (Exception $e) {
+                $this->flash->addMessage('error', $e->getMessage());
+                $response = $response->withRedirect($this->router->pathFor('home'));
+            }
+        }elseif ($_POST['action'] == 'edit'){
+
+        }else{
+            $this->flash->addMessage('error', "Une erreur est survenue, veuillez réessayer ultérieurement.");
             $response = $response->withRedirect($this->router->pathFor('home'));
         }
         return $response;

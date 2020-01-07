@@ -48,52 +48,55 @@
                             </div>
                         </div>
                     </a>
+
+                    <div class="modal fade" id="modification" tabindex="-1" role="dialog"
+                         aria-labelledby="modifierLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modifierLabel">Modifier objet</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form method="POST"
+                                      action="{{ path_for('manageItem', {'id': item.id, 'token': liste.token}) }}">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="inputName">Nom*</label>
+                                            <input type="text" name="name" class="form-control" id="inputName"
+                                                   placeholder="" value="{{ item.nom }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="textarea">Description de l'objet</label>
+                                            <textarea class="form-control" id="textarea" rows="4"
+                                                      name="message">{{ item.descr }}</textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputImg">Image</label>
+                                            <input class="form-control" type="text" name="img" value="{{ item.img }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputUrl">Lien externe</label>
+                                            <input class="form-control" type="url" name="url" value="{{ item.url }}">
+                                        </div>
+                                        Les champs marqués d'un astérisque sont obligatoires.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
+                                        </button>
+                                        <button type="submit" name="action" value="delete" class="btn btn-danger mt-2">Supprimer</button>
+                                        <button type="submit" name="action" value="edit" class="btn btn-dark">Modifier</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
 
-            <div class="modal fade" id="modification" tabindex="-1" role="dialog" aria-labelledby="modifierLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modifierLabel">Modifier objet</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form method="POST"
-                              action="{{ path_for('editItem', {'id': item.id, 'token': liste.token}) }}">
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="inputName">Nom*</label>
-                                    <input type="text" name="name" class="form-control" id="inputName"
-                                           placeholder="" value="{{ item.nom }}" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="textarea">Description de l'objet</label>
-                                    <textarea class="form-control" id="textarea" rows="4"
-                                              name="message">{{ item.descr }}</textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputImg">Image</label>
-                                    <input class="form-control" type="text" name="img" value="{{ item.img }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="inputUrl">Lien externe</label>
-                                    <input class="form-control" type="url" name="url" value="{{ item.url }}"></div>
-                                Les champs marqués d'un astérisque sont obligatoires.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
-                                </button>
-                                <a class="btn btn-danger mt-2"
-                                   href="{{ path_for('deleteItem', {'id': item.id, 'token': liste.token}) }}">Supprimer</a>
-                                <button type="submit" class="btn btn-dark">Modifier</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
 {% endblock %}
