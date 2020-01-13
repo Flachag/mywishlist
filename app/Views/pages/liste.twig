@@ -12,13 +12,15 @@
             <p class="lead text-muted">{{ liste.description }}</p>
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
             {% if expiration==false %}
-                {% if creator == true %}
-                    <div class="btn-group float-right">
-                        <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}" class="btn btn-outline-dark float-right">Administrer</a>
-                        <button class="btn btn-outline-dark share-btn float-left" data-toggle="popover" data-content="Lien copié!" data-placement="bottom" data-trigger="focus">Partager la liste</button>
-                    </div>
+                <div class="d-sm-flex justify-content-between">
+                    <a href="" data-toggle="modal" data-target="#redigerMessage" class="btn btn-outline-dark">Rédiger un message</a>
+                    {% if creator == true %}
+                        <div class="btn-group mt-lg-0 mt-md-0 mt-2">
+                            <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}" class="btn btn-outline-dark float-right">Administrer</a>
+                            <button class="btn btn-outline-dark share-btn" data-toggle="popover" data-content="Lien copié!" data-placement="bottom" data-trigger="focus">Partager la liste</button>
+                        </div>
                     {% endif %}
-                <a href="" data-toggle="modal" data-target="#redigerMessage" class="btn btn-outline-dark float-left">Rédiger un message</a>
+                </div>
             {% endif %}
         </div>
     </section>
@@ -97,7 +99,7 @@
             <div class="card my-3">
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
-                        <p>{{ message.message }}</p>
+                        <p>{{ message.message | raw }}</p>
                         <footer class="blockquote-footer">{{ message.expediteur }}</footer>
                     </blockquote>
                 </div>

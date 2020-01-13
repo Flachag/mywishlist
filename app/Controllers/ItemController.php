@@ -132,7 +132,7 @@ class ItemController extends CookiesController
                 $nom = filter_var($request->getParsedBodyParam('nom'), FILTER_SANITIZE_STRING);
                 $descr = filter_var($request->getParsedBodyParam('descr'), FILTER_SANITIZE_STRING);
                 $url = filter_var($request->getParsedBodyParam('url'), FILTER_SANITIZE_URL);
-                $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_SANITIZE_NUMBER_FLOAT);
+                $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
                 //verifier si img est une url pour hotlinking
                 $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
                 // $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
@@ -155,5 +155,38 @@ class ItemController extends CookiesController
             $response = $response->withRedirect($this->router->pathFor('home'));
         }
         return $response;
+    }
+
+    public function ajoutItem(Request $request, Response $response, $args): Response
+    {
+        try {
+            $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+            $expired = $liste->haveExpired();
+            $this->loadCookiesFromRequest($request);
+
+            if (!in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous n'êtes pas le créateur de la liste.");
+            if ($expired) throw new Exception("Cette liste est expirée.");
+
+            $nom = filter_var($request->getParsedBodyParam('nom'), FILTER_SANITIZE_STRING);
+            $descr = filter_var($request->getParsedBodyParam('descr'), FILTER_SANITIZE_STRING);
+            $url = filter_var($request->getParsedBodyParam('url'), FILTER_SANITIZE_URL);
+            $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
+            //verifier si img est une url pour hotlinking
+            $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
+            // $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
+            $item = new Item();
+            $item->liste_id = $liste->no;
+            $item->nom = $nom;
+            $item->descr = $descr;
+            $item->url = $url;
+            $item->img = $img;
+            $item->tarif = $tarif;
+            $item->save();
+
+            $this->flash->addMessage('success', "L'objet a été mis à jour!");
+        } catch (Exception $e) {
+            $this->flash->addMessage('error', $e->getMessage());
+        }
+        return $response->withRedirect($this->router->pathFor('home'));
     }
 }
