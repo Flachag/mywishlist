@@ -2,18 +2,18 @@
 {% block title 'Connexion' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/css/app.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/public/css/app.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/public/css/login.css" id="bootstrap-css">
 {% endblock %}
 
 {% block content %}
-    <section class="jumbotron text-center mt-4">
-        <div align="center">
+        <div>
             <div id="loginbox" style="margin-top:50px;"
                  class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <div class="panel-title">Se connecter</div>
-                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Mot de passe
+                        <div style="float:right; font-size: 80%; position: relative; top:-10px"><a style="color:whitesmoke" href="#">Mot de passe
                                 oublié?</a></div>
                     </div>
 
@@ -24,13 +24,13 @@
                         <form id="loginform" class="form-horizontal" role="form">
 
                             <div style="margin-bottom: 25px" class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <span class="input-group-addon"><i class="fas fa-user"></i></span>
                                 <input id="login-username" type="text" class="form-control" name="username" value=""
                                        placeholder="adresse email">
                             </div>
 
                             <div style="margin-bottom: 25px" class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <span class="input-group-addon"><i class="fas fa-lock"></i></span>
                                 <input id="login-password" type="password" class="form-control" name="password"
                                        placeholder="mot de passe">
                             </div>
@@ -51,7 +51,6 @@
                                 </div>
                             </div>
 
-
                             <div class="form-group">
                                 <div class="col-md-12 control">
                                     <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%">
@@ -63,18 +62,15 @@
                                 </div>
                             </div>
                         </form>
-
-
                     </div>
                 </div>
             </div>
 
-            <div id="signupbox" style="display:none; margin-top:50px"
-                 class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+            <div id="signupbox" style="display:none; margin-top:50px"  class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
                 <div class="panel panel-info">
                     <div class="panel-heading">
                         <div class="panel-title">Inscription</div>
-                        <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink"
+                        <div style="float:right; font-size: 85%; position: relative; top:-10px"><a style="color: whitesmoke" id="signinlink"
                                                                                                    href="#"
                                                                                                    onclick="$('#signupbox').hide(); $('#loginbox').show()">Se
                                 connecter</a></div>
@@ -107,6 +103,7 @@
                                     <input type="text" class="form-control" name="lastname" placeholder="Nom">
                                 </div>
                             </div>
+
                             <div class="form-group">
                                 <label for="password" class="col-md-3 control-label">Mot de passe</label>
                                 <div class="col-md-9">
@@ -126,7 +123,7 @@
                             <div class="form-group">
                                 <div class="col-md-offset-3 col-md-9">
                                     <button id="btn-signup" type="button" class="btn btn-info"><i
-                                                class="icon-hand-right"></i> &nbsp S'inscrire
+                                                class="icon-hand-right"></i>S'inscrire
                                     </button>
                                 </div>
                             </div>
@@ -135,5 +132,4 @@
                 </div>
             </div>
         </div>
-    </section>
 {% endblock %}
