@@ -98,6 +98,14 @@ class ItemController extends CookiesController
         return $response;
     }
 
+    private function isUrlImage($str) : bool {
+        $flag = true;
+        $array = getimagesize($str);
+        if(!isset($array) || empty($array)){
+            $flag = false;
+        }
+        return $flag;
+    }
 
     public function manageItem(Request $request, Response $response, $args): Response
     {
@@ -133,21 +141,20 @@ class ItemController extends CookiesController
                 $descr = filter_var($request->getParsedBodyParam('descr'), FILTER_SANITIZE_STRING);
                 $url = filter_var($request->getParsedBodyParam('url'), FILTER_SANITIZE_URL);
                 $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
-                //verifier si img est une url pour hotlinking
+
                 $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
                 //verifier si img est une url pour hotlinking
-                $verifImg = getimagesize($img);
-                if(isset($verifImg) && !str_contains($img, "/mywishlist/public/assets/img/")){
-                    $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
+                if($this->isUrlImage($img)){
+                    $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
                 }else{
-
+                    $image = "/mywishlist/public/img/" . $img;
                 }
 
                 $item = Item::where('id', $args['id'])
                     ->update(['nom' => $nom,
                         'descr' => $descr,
                         'url' => $url,
-                        'img' => $img,
+                        'img' => $image,
                         'tarif' => $tarif]);
 
                 $this->flash->addMessage('success', "L'objet a été mis à jour!");
@@ -177,15 +184,21 @@ class ItemController extends CookiesController
             $descr = filter_var($request->getParsedBodyParam('descr'), FILTER_SANITIZE_STRING);
             $url = filter_var($request->getParsedBodyParam('url'), FILTER_SANITIZE_URL);
             $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
-            //verifier si img est une url pour hotlinking
+
             $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
-            // $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
+            //verifier si img est une url pour hotlinking
+            if($this->isUrlImage($img)){
+                $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
+            }else{
+                $image = "/mywishlist/public/img/" . $img;
+            }
+
             $item = new Item();
             $item->liste_id = $liste->no;
             $item->nom = $nom;
             $item->descr = $descr;
             $item->url = $url;
-            $item->img = $img;
+            $item->img = $image;
             $item->tarif = $tarif;
             $item->save();
 

@@ -121,7 +121,8 @@
                     <a data-toggle="modal" data-target="#modification{{ item.id }}">
                         <div id="itemListed" class="card my-3">
                             <div class="card-body">
-                                <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70"
+                                <!-- <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70" -->
+                                <img src="{{ item.img }}" width="70" height="70"
                                      class="rounded-top"
                                      alt="{{ item.img }}">
                                 <span style="font-size: 22px; margin-left: 1em;">{{ item.nom }}</span>
