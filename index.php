@@ -63,7 +63,7 @@ $app->get('/liste/{token:[a-zA-Z0-9]+}/admin/{token_edit:[a-zA-Z0-9]+}', ListeCo
 $app->post('/liste/{token:[a-zA-Z0-9]+}/delete', ListeController::class . ':deleteListe')->setName('deleteListe');
 $app->post('/liste/{token:[a-zA-Z0-9]+}/edit', ListeController::class . ':editListe')->setName('editListe');
 
-$app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/{id:[0-9]+}', ItemController::class . ':manageItem')->setName('manageItem');
+$app->post('/liste/{token:[a-zA-Z0-9]+}/manage/{id:[0-9]+}', ItemController::class . ':manageItem')->setName('manageItem');
 
 // ANCIENNES ROUTES
 /*$app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItem')->setName('itemsEdit');

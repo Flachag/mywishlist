@@ -133,9 +133,14 @@ class ItemController extends CookiesController
                 $descr = filter_var($request->getParsedBodyParam('descr'), FILTER_SANITIZE_STRING);
                 $url = filter_var($request->getParsedBodyParam('url'), FILTER_SANITIZE_URL);
                 $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_SANITIZE_NUMBER_FLOAT);
-                //verifier si img est une url pour hotlinking
                 $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
-                // $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
+                //verifier si img est une url pour hotlinking
+                $verifImg = getimagesize($img);
+                if(isset($verifImg) && !str_contains($img, "/mywishlist/public/assets/img/")){
+                    $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
+                }else{
+
+                }
 
                 $item = Item::where('id', $args['id'])
                     ->update(['nom' => $nom,
