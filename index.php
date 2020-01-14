@@ -60,22 +60,11 @@ $app->post('/liste/{token:[a-zA-Z0-9]+}/message', ListeController::class.':addMe
 
 $app->get('/liste/{token:[a-zA-Z0-9]+}/admin/{token_edit:[a-zA-Z0-9]+}', ListeController::class . ':adminListe')->setName('formListeAdmin');
 
-$app->post('/liste/{token:[a-zA-Z0-9]+}/delete', ListeController::class . ':deleteListe')->setName('deleteListe');
-$app->post('/liste/{token:[a-zA-Z0-9]+}/edit', ListeController::class . ':editListe')->setName('editListe');
+$app->post('/liste/{token:[a-zA-Z0-9]+}/edit', ListeController::class . ':manageListe')->setName('manageListe');
 
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manage/{id:[0-9]+}', ItemController::class . ':manageItem')->setName('manageItem');
 
-// ANCIENNES ROUTES
-/*$app->get('/liste/{no}/token/{token}[/item/{id}]', ItemController::class . ':getItem')->setName('itemsEdit');
+$app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/', ItemController::class . ':ajoutItem')->setName('ajoutItem');
+$app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/{id:[0-9]+}', ItemController::class . ':manageItem')->setName('manageItem');
 
-$app->get('/gestion-liste[/token/{token}]', ListeController::class . ':getListeManage')->setName('listeManage');
-$app->post('/gestion-liste[/token/{token}]', ListeController::class . ':postListe')->setName('listeSend');
-
-$app->get('/gestion-item/token/{token}[/item/{id}]', ItemController::class . ':getItemManage')->setName('itemManage');
-$app->post('/gestion-item/token/{token}[/item/{id}]', ItemController::class . ':postItem')->setName('itemSend');
-
-$app->get('/supprimer-item/item/{id}', ItemController::class . ':deleteItem')->setName('itemDelete');
-
-$app->post('/partager-liste', ListeController::class . ':shareListe')->setName('listeShare');
-*/
 $app->run();

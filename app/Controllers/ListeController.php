@@ -122,40 +122,27 @@ class ListeController extends CookiesController
         return $response;
     }
 
-    public function deleteListe(Request $request, Response $response, array $args): Response{
+    public function manageListe(Request $request, Response $response, array $args): Response{
         try {
             $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
+            $expired = $liste->haveExpired();
             $this->loadCookiesFromRequest($request);
 
             if (!in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous n'êtes pas le créateur de la liste.");
+            if ($expired) throw new Exception("Cette liste est expirée.");
 
-            $liste->delete();
+            $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
+            $descr = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
 
-            $this->flash->addMessage('success', "Votre liste a été supprimée!");
-            $response = $response->withRedirect($this->router->pathFor('home'));
+            Liste::where('token', '=', $args['token'])
+                ->update(['titre' => $titre,
+                    'description' => $descr]);
+
+            $this->flash->addMessage('success', "La liste a été mise à jour!");
         } catch (Exception $e) {
             $this->flash->addMessage('error', $e->getMessage());
-            $response = $response->withRedirect($this->router->pathFor('home'));
         }
-        return $response;
-    }
-
-    public function editListe(Request $request, Response $response, array $args): Response{
-        try {
-            $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
-            $this->loadCookiesFromRequest($request);
-
-            if (!in_array($liste->token_edit, $this->getCreationTokens())) throw new Exception("Vous n'êtes pas le créateur de la liste.");
-
-            $liste->delete();
-
-            $this->flash->addMessage('success', "Votre liste a été supprimée!");
-            $response = $response->withRedirect($this->router->pathFor('home'));
-        } catch (Exception $e) {
-            $this->flash->addMessage('error', $e->getMessage());
-            $response = $response->withRedirect($this->router->pathFor('home'));
-        }
-        return $response;
+        return $response->withRedirect($this->router->pathFor('home'));
     }
 
     public function adminListe(Request $request, Response $response, array $args): Response {

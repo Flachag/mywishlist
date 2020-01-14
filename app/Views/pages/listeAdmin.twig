@@ -16,28 +16,110 @@
 
 
     <div class="row">
-        <div class="list-group col-2 text-center" id="options" role="tabOptions">
+        <div class="list-group col-sm-2 text-center ml-3 mb-2" id="options" role="tabOptions">
             <a class="btn btn-outline-dark" data-toggle="list" href="#liste" role="tab">Gérer ma liste</a>
             <a class="btn btn-outline-dark mt-2" data-toggle="list" href="#items" role="tab">Gérer mes objets</a>
         </div>
 
-        <div class="tab-content col-10">
+        <div class="tab-content col-sm-9 m-0">
             <div class="tab-pane active" id="liste" role="tabpanel">
                 <div class="card">
                     <div class="card-header text-center">Gérer ma liste</div>
-                    <div class="card-body">
-                        <div class="list-group col-3 text-center" id="listOptions" role="tablist">
-                            <a class="btn btn-dark" href="">Modifier la liste</a>
-                            <a class="btn btn-danger mt-2"
-                               href="{{ path_for('deleteListe', { 'token': liste.token}) }}">Supprimer la liste</a>
+                    <div class="card-body d-flex">
+                        <div class="list-group col-sm-3 text-center" id="listOptions" role="tablist">
+                            <a class="btn btn-dark" data-toggle="modal" data-target="#modificationListe" href="">Modifier la liste</a>
                         </div>
+                        <div class="list-group col-sm-3 text-center" id="listOptions" role="tablist">
+                            <a class="btn btn-dark" data-toggle="modal" data-target="#ajoutItem" href="">Ajouter un objet</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="modificationListe" tabindex="-1" role="dialog"
+                 aria-labelledby="modifierLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modifierLabel">Modifier la liste</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="POST"
+                              action="{{ path_for('manageListe', {'token': liste.token}) }}">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="inputName">Nom*</label>
+                                    <input type="text" name="titre" class="form-control" id="inputName"
+                                           placeholder="" value="{{ liste.titre }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="textarea">Description de la liste</label>
+                                    <textarea class="form-control" id="textarea" rows="4"
+                                              name="description">{{ liste.description }}</textarea>
+                                </div>
+                                Les champs marqués d'un astérisque sont obligatoires.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
+                                </button>
+                                <button type="submit" name="action" value="edit" class="btn btn-dark">Modifier</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="ajoutItem" tabindex="-1" role="dialog"
+                 aria-labelledby="modifierLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modifierLabel">Créer un objet</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form method="POST"
+                              action="{{ path_for('ajoutItem', {'token': liste.token}) }}">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="inputName">Nom*</label>
+                                    <input type="text" name="nom" class="form-control" id="inputName"
+                                           placeholder="" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="textarea">Description de l'objet</label>
+                                    <textarea class="form-control" id="textarea" rows="4"
+                                              name="descr"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputImg">Image</label>
+                                    <input class="form-control" type="text" name="img">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputTarif">Tarif*</label>
+                                    <input class="form-control" step="0.01" min="0" name="tarif" required>
+                                </div>
+                                Les champs marqués d'un astérisque sont obligatoires.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
+                                </button>
+                                <button type="submit" name="action" value="delete" class="btn btn-danger">Supprimer</button>
+                                <button type="submit" name="action" value="edit" class="btn btn-dark">Modifier</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
 
             <div class="tab-pane" id="items" role="tabpanel">
                 {% for item in items %}
-                    <a data-toggle="modal" data-target="#modification">
+                    <a data-toggle="modal" data-target="#modification{{ item.id }}">
                         <div id="itemListed" class="card my-3">
                             <div class="card-body">
                                 <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70"
@@ -49,7 +131,7 @@
                         </div>
                     </a>
 
-                    <div class="modal fade" id="modification" tabindex="-1" role="dialog"
+                    <div class="modal fade" id="modification{{ item.id }}" tabindex="-1" role="dialog"
                          aria-labelledby="modifierLabel"
                          aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -83,7 +165,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="inputTarif">Tarif*</label>
-                                            <input class="form-control" type="number" step="0.50" name="tarif" value="{{ item.tarif }}" required>
+                                            <input class="form-control" step="0.01" min="0" name="tarif" value="{{ item.tarif }}" required>
                                         </div>
                                         Les champs marqués d'un astérisque sont obligatoires.
                                     </div>
@@ -99,8 +181,6 @@
                     </div>
                 {% endfor %}
             </div>
-
-
         </div>
     </div>
 {% endblock %}
