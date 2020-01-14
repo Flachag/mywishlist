@@ -100,9 +100,11 @@ class ItemController extends CookiesController
 
     private function isUrlImage($str) : bool {
         $flag = true;
-        $array = getimagesize($str);
-        if(!isset($array) || empty($array)){
-            $flag = false;
+        if(isset($str) && !empty($str)) {
+            $array = getimagesize($str);
+            if (!isset($array) || empty($array)) {
+                $flag = false;
+            }
         }
         return $flag;
     }
@@ -143,7 +145,6 @@ class ItemController extends CookiesController
                 $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
 
                 $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
-                //verifier si img est une url pour hotlinking
                 if($this->isUrlImage($img)){
                     $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
                 }else{
