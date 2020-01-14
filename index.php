@@ -34,6 +34,7 @@ $container['view'] = function ($container) {
     $view->addExtension(new TwigExtension($router, $uri));
 
     $view->getEnvironment()->addGlobal("base_path", $container->request->getUri()->getBasePath());
+    $view->getEnvironment()->addGlobal("session", $_SESSION);
     return $view;
 };
 
@@ -68,8 +69,10 @@ $app->post('/liste/{token:[a-zA-Z0-9]+}/manage/{id:[0-9]+}', ItemController::cla
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/', ItemController::class . ':ajoutItem')->setName('ajoutItem');
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/{id:[0-9]+}', ItemController::class . ':manageItem')->setName('manageItem');
 
-$app->get('/login', HomeController::class . ':getLogin')->setName('loginPage');
-
+$app->get('/login', ConnectionController::class . ':getLogin')->setName('loginPage');
+$app->post('/log', ConnectionController::class.':login')->setName('sendLogin');
 $app->post('/register', ConnectionController::class.':inscription')->setName('sendInscription');
 $app->get('/inscription', ConnectionController::class.':getInscription')->setName('inscriptionPage');
+$app->get('/account', ConnectionController::class.':getAccount')->setName('accountPage');
+$app->get('/logout', ConnectionController::class.':logout')->setName('logout');
 $app->run();

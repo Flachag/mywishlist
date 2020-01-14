@@ -1,9 +1,8 @@
 {% extends "layout.twig" %}
-{% block title 'Connexion' %}
+{% block title 'Inscription' %}
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{{ base_path }}/public/css/app.css">
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/public/css/login.css" id="bootstrap-css">
 {% endblock %}
 
 {% block content %}
@@ -27,67 +26,76 @@
             </div>
         {% endfor %}
     {% endif %}
-        <div id="signupbox" style="margin-top:50px"  class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <div class="panel-title">Inscription</div>
-                    <div style="float:right; font-size: 85%; position: relative; top:-10px"><a style="color: whitesmoke" id="signinlink" href="{{ path_for('loginPage') }}">
-                            Se connecter</a></div>
-                </div>
-                <div class="panel-body">
-                    <form method="post" id="signupform" class="form-horizontal" role="form" action="{{ path_for('inscription') }}">
-                        <div class="form-group">
-                            <label for="email" class="col-md-3 control-label">Email</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" name="email" placeholder="Email">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="pseudo" class="col-md-3 control-label">Pseudo</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" name="pseudo" placeholder="Pseudo">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prenom" class="col-md-3 control-label">Prénom</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" name="prenom" placeholder="Prénom">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="nom" class="col-md-3 control-label">Nom</label>
-                            <div class="col-md-9">
-                                <input type="text" class="form-control" name="nom" placeholder="Nom">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="password" class="col-md-3 control-label">Mot de passe</label>
-                            <div class="col-md-9">
-                                <input type="password" class="form-control" name="password" placeholder="Mot de passe">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="passwordconfirm" class="col-md-3 control-label">Confirmer mot de
-                                passe</label>
-                            <div class="col-md-9">
-                                <input type="password" class="form-control" name="passwordconfirm"
-                                       placeholder="Mot de passe">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-offset-3 col-md-9">
-                                <button id="btn-signup" type="submit" class="btn btn-info"><i
-                                            class="icon-hand-right"></i>S'inscrire
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <div class="card mt-3 ml-auto mr-auto" style="max-width: 32rem; min-width: 25rem;">
+        <div class="card-header text-white bg-dark">
+            Inscription
         </div>
+        <div class="card-body">
+            <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+            <form id="registerform" class="form-horizontal" role="form" method="post" action="{{ path_for("sendInscription") }}" >
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="register-email">Email</label>
+                        <input type="email" class="form-control" id="register-email" name="email" placeholder="Adresse Email" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Adresse email valide requis.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="register-pseudo">Pseudo</label>
+                        <input type="text" class="form-control" id="register-pseudo" name="pseudo" placeholder="Pseudo" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Pseudo requis.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="register-prenom">Prénom</label>
+                        <input type="text" class="form-control" id="register-prenom" name="prenom" placeholder="Prénom" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Prénom requis.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="register-nom">Nom</label>
+                        <input type="text" class="form-control" id="register-nom" name="nom" placeholder="Nom" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Nom requis.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="register-password">Mot de passe</label>
+                        <input type="password" class="form-control" id="register-password" name="password" placeholder="Mot de Passe" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Mot de passe requis.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="form-group">
+                        <label for="register-password">Confirmer le Mot de passe</label>
+                        <input type="password" class="form-control" id="register-password" name="passwordconfirm" placeholder="Mot de Passe" required>
+                        <div class="invalid-feedback" style="width: 100%;">
+                            Mot de passe requis.
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-12 control">
+                        <button class="btn btn-success btn-block" type="submit">Se connecter</button>
+                        <small class="form-text text-muted">
+                            Vous avez déjà un compte ? <a href="{{ path_for("inscriptionPage") }}">Je me connecte</a>
+                        </small>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}
