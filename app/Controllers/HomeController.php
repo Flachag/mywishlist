@@ -34,4 +34,5 @@ class HomeController extends CookiesController {
             "flash" => $this->flash->getMessages(),
         ]);
     }
+
 }
