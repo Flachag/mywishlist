@@ -4,14 +4,11 @@
 namespace App\Controllers;
 
 
-use App\models\Item;
 use App\models\Liste;
 use App\Models\Message;
 use DateTime;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
@@ -97,7 +94,11 @@ class ListeController extends CookiesController
             $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
             $description = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
             $expiration = $request->getParsedBodyParam('expiration');
-
+            if($request->getParsedBodyParam('public') != null){
+                $public=true;
+            }else {
+                $public = false;
+            }
             $this->loadCookiesFromRequest($request);
 
             if (new DateTime() > new DateTime($expiration)) throw new Exception("La date d'expiration ne peut être déjà passée.");
@@ -108,6 +109,7 @@ class ListeController extends CookiesController
             $liste->expiration = $expiration;
             $liste->token = bin2hex(random_bytes(10));
             $liste->token_edit = bin2hex(random_bytes(10));
+            $liste->public = $public;
             $liste->save();
 
             $this->addCreationToken($liste->token_edit);
@@ -140,10 +142,15 @@ class ListeController extends CookiesController
 
             $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
             $descr = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
-
+            if($request->getParsedBodyParam('public') != null){
+                $public=true;
+            }else {
+                $public = false;
+            }
             Liste::where('token', '=', $args['token'])
                 ->update(['titre' => $titre,
-                    'description' => $descr]);
+                    'description' => $descr,
+                    'public' => $public]);
 
             $this->flash->addMessage('success', "La liste a été mise à jour!");
         } catch (Exception $e) {

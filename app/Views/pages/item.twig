@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="{{ base_path }}/public/css/app.css">
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/css/app.css">
 {% endblock %}
 
 {% block content %}
@@ -23,6 +23,7 @@
     </section>
     <div class="container mt-4">
         <div class="row">
+            <!--<img class="col-sm-4 rounded" style="height: 18rem" src="{{ base_path }}/public/img/{{ item.img }}">-->
             <img class="col-sm-4 rounded" style="height: 18rem" src="{{ item.img }}">
             <div class="col-sm-8 text-center">
                 <h5 class="text-uppercase font-weight-bold m-auto text-center"><strong>{{ item.nom }}</strong></h5>
@@ -102,7 +103,7 @@
             try {
                 document.execCommand('copy');
             } catch (err) {
-                console.error('Oups, impossible de copier', err);
+                console.error('Fallback: Oops, unable to copy', err);
             }
 
             document.body.removeChild(textArea);

@@ -34,9 +34,15 @@ En insérant:
 - [X] ~~**8. Ajouter des items _[FAIT @Flavien]_**~~
 - [X] ~~**9. Modifier un item _[FAIT @Lucas]_**~~
 - [X] ~~**10. Supprimer un item _[FAIT @Lucas]_**~~
-- [X] ~~**11. Rajouter une image à un item _[FAIT @Lucas]_**
-- [X] ~~**12. Modifier une image d'un item _[FAIT @Lucas]_**
-- [X] ~~**13. Supprimer une image d'un item _[FAIT @Lucas]_**
+- [X] ~~**11. Rajouter une image à un item _[FAIT @Lucas]_**~~
+- [X] ~~**12. Modifier une image d'un item _[FAIT @Lucas]_**~~
+- [X] ~~**13. Supprimer une image d'un item _[FAIT @Lucas]_**~~
 - [X] ~~**14. Partager une liste _[FAIT @Flavien]_**~~
 - [X] ~~**15. Consulter les réservations d'une de ses listes avant échéance _[FAIT @Flavien]_**~~
 - [X] ~~**16. Consulter les réservations et messages d'une de ses listes après échéance _[FAIT @Flavien]_**~~
+####Extensions
+- [X] ~~**17. Créer un compte _[FAIT @Flavien]_**~~
+- [X] ~~**18. S'authentifier _[FAIT @Flavien]_**~~
+- [X] ~~**19. Modifier son compte _[FAIT @Flavien]_**~~
+- [X] ~~**20. Rendre une liste publique _[FAIT @Flavien]_**~~
+- [X] ~~**21. Afficher les listes de souhaits publiques _[FAIT @Flavien]_**~~

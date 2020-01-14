@@ -20,26 +20,13 @@ class HomeController extends CookiesController {
      */
     public function home(Request $request, Response $response, array $args) {
         $this->loadCookiesFromRequest($request);
-        $listes = Liste::whereIn('token_edit', $this->getCreationTokens())->get();
+        $listes = Liste::whereIn('token_edit', $this->getCreationTokens())->orderby('expiration', 'ASC')->get();
+        $publiques = Liste::where('public', true)->where('expiration', '>=', date("Y-m-d"))->orderby('expiration', 'ASC')->get();
         $this->view->render($response, 'pages/home.twig', [
             "current_page" => "home",
             "flash" => $this->flash->getMessages(),
-            "listes" => $listes
+            "listes" => $listes,
+            "publiques" => $publiques
         ]);
     }
-
-    /**
-     * Méthode qui redirige vers la page login
-     * @param Request $request
-     * @param Response $response
-     * @param array $args
-     */
-    public function login(Request $request, Response $response, array $args) {
-        $this->loadCookiesFromRequest($request);
-        $this->view->render($response, 'pages/login.twig', [
-            "current_page" => "login",
-            "flash" => $this->flash->getMessages(),
-        ]);
-    }
-
 }

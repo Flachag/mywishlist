@@ -60,6 +60,12 @@
                                     <textarea class="form-control" id="textarea" rows="4"
                                               name="description">{{ liste.description }}</textarea>
                                 </div>
+                                <div class="form-group">
+                                    <div class="custom-checkbox custom-control">
+                                        <input type="checkbox" name="public" id="public" class="custom-control-input" {% if liste.public == true %} checked {% endif %}>
+                                        <label for="public" class="custom-control-label">Rendre la liste publique</label>
+                                    </div>
+                                </div>
                                 Les champs marqués d'un astérisque sont obligatoires.
                             </div>
                             <div class="modal-footer">
@@ -121,7 +127,6 @@
                     <a data-toggle="modal" data-target="#modification{{ item.id }}">
                         <div id="itemListed" class="card my-3">
                             <div class="card-body">
-                                <!-- <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70" -->
                                 <img src="{{ item.img }}" width="70" height="70"
                                      class="rounded-top"
                                      alt="{{ item.img }}">
@@ -157,7 +162,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="inputImg">Image</label>
-                                            <input class="form-control" type="text" name="img" value="{{ item.img }}">
+                                            <input class="form-control" type="text" name="img">
                                         </div>
                                         <div class="form-group">
                                             <label for="inputUrl">Lien externe</label>

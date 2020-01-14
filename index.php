@@ -1,20 +1,19 @@
 <?php
-session_start();
-require_once("vendor/autoload.php");
-
 use App\Config\Database;
 use App\Controllers\HomeController;
 use App\Controllers\ItemController;
 use App\Controllers\ListeController;
+use App\Controllers\ConnectionController;
 use Slim\App;
 use Slim\Flash\Messages;
 use Slim\Http\Environment;
-use Slim\Http\Request;
-use Slim\Http\Response;
 use Slim\Http\Uri;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 
+session_start();
+
+require_once("vendor/autoload.php");
 Database::connect();
 
 $app = new App([
@@ -25,7 +24,7 @@ $app = new App([
 
 $container = $app->getContainer();
 $container['view'] = function ($container) {
-    $view = new Twig(__DIR__ . '/app/Views', [
+    $view = new Twig(__DIR__ . '/App/Views', [
         'cache' => false
     ]);
 
@@ -69,6 +68,8 @@ $app->post('/liste/{token:[a-zA-Z0-9]+}/manage/{id:[0-9]+}', ItemController::cla
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/', ItemController::class . ':ajoutItem')->setName('ajoutItem');
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/{id:[0-9]+}', ItemController::class . ':manageItem')->setName('manageItem');
 
-$app->get('/login', HomeController::class . ':login')->setName('loginPage');
+$app->get('/login', HomeController::class . ':getLogin')->setName('loginPage');
 
+$app->post('/register', ConnectionController::class.':inscription')->setName('sendInscription');
+$app->get('/inscription', ConnectionController::class.':getInscription')->setName('inscriptionPage');
 $app->run();

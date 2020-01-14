@@ -25,7 +25,7 @@
 {% block content %}
     <div class="jumbotron my-2">
         <h1 class="display-4">Bienvenue!</h1>
-        <p class="lead">Charl-WishList est un espace sur lequel vous pouvez exprimer toutes vos envies pour ensuite les partager avec ceux que vous aimez. Et si vous êtes en manque d’inspiration pour offrir un cadeau à un ami, vous pourrez également consulter sa liste et ainsi combler ses attentes.</p>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque metus magna, egestas quis tortor sed, imperdiet sodales diam. Suspendisse odio massa, tristique sed felis id, volutpat sagittis felis. Etiam quis feugiat metus. Vivamus eu maximus nibh. Nulla laoreet porttitor felis id semper. Mauris quis libero sit amet tellus cursus tristique. Nunc dignissim urna non erat ullamcorper mattis. </p>
     </div>
 
     {% if listes is not empty %}
@@ -35,7 +35,6 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">Titre</th>
-                    <th scope="col">Description</th>
                     <th scope="col">Expiration</th>
                 </tr>
                 </thead>
@@ -43,8 +42,27 @@
                 {% for liste in listes %}
                     <tr onclick="document.location = '{{ path_for('liste', { 'token': liste.token }) }}';">
                         <td>{{ liste.titre }}</td>
-                        <td>{{ liste.description }}</td>
                         <td>{{ liste.expiration }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+
+    {% if publiques is not empty %}
+        <div class="body mt-5">
+            <h1>Listes publiques</h1>
+            <table class="table text-center table-bordered table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Titre</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for liste in publiques %}
+                    <tr onclick="document.location = '{{ path_for('liste', { 'token': liste.token }) }}';">
+                        <td>{{ liste.titre }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
