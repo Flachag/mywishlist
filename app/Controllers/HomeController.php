@@ -13,6 +13,7 @@ use Slim\Http\Response;
 class HomeController extends CookiesController {
 
     /**
+     * Méthode qui redirige vers la page home
      * @param Request $request
      * @param Response $response
      * @param array $args
@@ -27,6 +28,12 @@ class HomeController extends CookiesController {
         ]);
     }
 
+    /**
+     * Méthode qui redirige vers la page login
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     */
     public function login(Request $request, Response $response, array $args) {
         $this->loadCookiesFromRequest($request);
         $this->view->render($response, 'pages/login.twig', [

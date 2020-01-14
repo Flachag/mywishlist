@@ -1,10 +1,18 @@
 <?php
 
 namespace App\Config;
+
 use Illuminate\Database\Capsule\Manager as DB;
 
+/**
+ * Class Database
+ * @package App\Config
+ */
 class Database {
 
+    /**
+     * Méthode qui permet de se connecter a la BDD
+     */
     public static function connect(){
         $bddConfig = parse_ini_file('config.ini');
 

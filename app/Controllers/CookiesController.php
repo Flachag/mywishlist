@@ -16,7 +16,7 @@ use Slim\Http\Response;
 abstract class CookiesController extends Controller {
 
     /**
-     * @var array Stock les informations de cookie sous forme de tableau
+     * @var array - Attribut qui stock les informations de cookie sous forme de tableau
      */
     private $infos;
 
@@ -81,7 +81,7 @@ abstract class CookiesController extends Controller {
     }
 
     /**
-     * Renvoie le nom stocké
+     * Méthode qui renvoie le nom stocké
      * @return String
      */
     public function getName() {
@@ -89,7 +89,7 @@ abstract class CookiesController extends Controller {
     }
 
     /**
-     * Change le nom stocké
+     * Méthode qui permet de changer le nom stocké
      * @param String $name
      */
     public function changeName(String $name) {
@@ -97,7 +97,7 @@ abstract class CookiesController extends Controller {
     }
 
     /**
-     * Renvoie le booléen stocké
+     * Méthode qui renvoie le booléen stocké
      * @return String
      */
     public function getShowRes() {
@@ -105,7 +105,7 @@ abstract class CookiesController extends Controller {
     }
 
     /**
-     * Change le booléen stocké
+     * Méthode qui permet de changer le booléen stocké
      * @param String $name
      */
     public function changeShowRes(bool $b) {
@@ -113,7 +113,7 @@ abstract class CookiesController extends Controller {
     }
 
     /**
-     * Retourne les tokens de création stockés
+     * Méthode qui retourne les tokens de création stockés
      * @return array
      */
     public function getCreationTokens() {
@@ -121,7 +121,7 @@ abstract class CookiesController extends Controller {
     }
 
     /**
-     * Ajoute un token de creation dans le tableau stocké
+     * Méthode qui ajoute un token de creation dans le tableau stocké
      * @param String $token
      */
     public function addCreationToken(String $token) {
@@ -131,7 +131,7 @@ abstract class CookiesController extends Controller {
     }
 
     /**
-     * Supprime un token de creation dans le tableau stocké
+     * Méthode qui supprime un token de creation dans le tableau stocké
      * @param String $token
      */
     public function deleteCreationToken(String $token) {

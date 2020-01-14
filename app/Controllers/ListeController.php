@@ -18,7 +18,7 @@ use Slim\Http\Response;
 class ListeController extends CookiesController
 {
     /**
-     * Methode qui permet d'afficher une liste
+     * Méthode qui permet d'afficher une liste avec ses objets
      * @param Request $request
      * @param Response $response
      * @param array $args
@@ -45,7 +45,7 @@ class ListeController extends CookiesController
 
 
     /**
-     * Permet d'ajouter un message publique à une liste
+     * Méthode qui permet d'ajouter un message publique à une liste
      *
      * @param Request $request
      * @param Response $response
@@ -76,7 +76,7 @@ class ListeController extends CookiesController
     }
 
     /**
-     * Methode qui redirige vers la forme de creation de liste
+     * Méthode qui redirige vers la forme de création de liste
      * @param Request $request
      * @param Response $response
      * @param array $args
@@ -86,7 +86,7 @@ class ListeController extends CookiesController
     }
 
     /**
-     * Methode permettant la creation de liste
+     * Méthode permettant la création de liste
      * @param Request $request
      * @param Response $response
      * @param array $args
@@ -122,6 +122,13 @@ class ListeController extends CookiesController
         return $response;
     }
 
+    /**
+     * Méthode qui permet de modifier la liste
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function manageListe(Request $request, Response $response, array $args): Response{
         try {
             $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
@@ -145,6 +152,13 @@ class ListeController extends CookiesController
         return $response->withRedirect($this->router->pathFor('home'));
     }
 
+    /**
+     * Méthode qui récupère les informations de la liste et des objets lors de l'edition
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function adminListe(Request $request, Response $response, array $args): Response {
         try {
             $liste = Liste::where('token', '=', $args['token'])->where('token_edit', '=', $args['token_edit'])->firstOrFail();

@@ -11,22 +11,22 @@ use Slim\Container;
 abstract class Controller {
 
     /**
-     * @var mixed
+     * @var mixed - Attribut permettant de gérer les vues
      */
     protected $view;
 
     /**
-     * @var mixed
+     * @var mixed - Attribut permettant de gérer les routes
      */
     protected $router;
 
     /**
-     * @var mixed
+     * @var mixed - Attribut permettant de gérer les messages flash
      */
     protected $flash;
 
     /**
-     * Controller constructor.
+     * Constructeur de Controller.
      * @param Container $container
      */
     public function __construct(Container $container){

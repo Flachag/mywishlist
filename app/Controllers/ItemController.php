@@ -18,7 +18,7 @@ class ItemController extends CookiesController
 {
 
     /**
-     * Methode qui permet d'afficher un item
+     * Méthode qui permet d'afficher un item
      * @param Request $request
      * @param Response $response
      * @param array $args
@@ -55,7 +55,7 @@ class ItemController extends CookiesController
     }
 
     /**
-     * Methode qui permet de reserver un item
+     * Méthode qui permet de réserver un item
      * @param Request $request
      * @param Response $response
      * @param array $args
@@ -98,6 +98,11 @@ class ItemController extends CookiesController
         return $response;
     }
 
+    /**
+     * Méthode qui permet de vérifier si l'url est une image
+     * @param $str
+     * @return bool
+     */
     private function isUrlImage($str) : bool {
         $flag = true;
         if(isset($str) && !empty($str)) {
@@ -109,6 +114,13 @@ class ItemController extends CookiesController
         return $flag;
     }
 
+    /**
+     * Méthode qui permet de supprimer ou modifier un objet
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return Response
+     */
     public function manageItem(Request $request, Response $response, $args): Response
     {
         if ($_POST['action'] == 'delete') {
@@ -171,6 +183,13 @@ class ItemController extends CookiesController
         return $response;
     }
 
+    /**
+     * Méthode qui permet d'ajouter un objet
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return Response
+     */
     public function ajoutItem(Request $request, Response $response, $args): Response
     {
         try {
