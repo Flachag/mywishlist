@@ -124,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
                                              `login` varchar(255) COLLATE utf8_unicode_ci DEFAULT NOT NULL,
                                              `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NOT NULL,
                                              PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+)  ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
