@@ -117,12 +117,12 @@ CREATE TABLE IF NOT EXISTS `reservation` (
 
 DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE IF NOT EXISTS `utilisateur` (
-                                             `id` int(11) NOT NULL,
+                                             `id` int(11) NOT NULL AUTO_INCREMENT,
                                              `nom` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
                                              `prenom` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-                                             `mail` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-                                             `login` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-                                             `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+                                             `mail` varchar(255) COLLATE utf8_unicode_ci DEFAULT NOT NULL,
+                                             `login` varchar(255) COLLATE utf8_unicode_ci DEFAULT NOT NULL,
+                                             `password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NOT NULL,
                                              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 COMMIT;
