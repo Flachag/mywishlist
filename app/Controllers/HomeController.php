@@ -26,4 +26,12 @@ class HomeController extends CookiesController {
             "listes" => $listes
         ]);
     }
+
+    public function login(Request $request, Response $response, array $args) {
+        $this->loadCookiesFromRequest($request);
+        $this->view->render($response, 'pages/login.twig', [
+            "current_page" => "login",
+            "flash" => $this->flash->getMessages(),
+        ]);
+    }
 }

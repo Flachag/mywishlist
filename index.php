@@ -9,6 +9,8 @@ use App\Controllers\ListeController;
 use Slim\App;
 use Slim\Flash\Messages;
 use Slim\Http\Environment;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Slim\Http\Uri;
 use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
@@ -66,5 +68,7 @@ $app->post('/liste/{token:[a-zA-Z0-9]+}/manage/{id:[0-9]+}', ItemController::cla
 
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/', ItemController::class . ':ajoutItem')->setName('ajoutItem');
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/{id:[0-9]+}', ItemController::class . ':manageItem')->setName('manageItem');
+
+$app->get('/login', HomeController::class . ':login')->setName('loginPage');
 
 $app->run();
