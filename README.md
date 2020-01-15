@@ -43,7 +43,7 @@ En insérant:
 ####Extensions
 - [X] ~~**17. Créer un compte _[FAIT @Flavien]_**~~
 - [X] ~~**18. S'authentifier _[FAIT @Flavien]_**~~
-- [X] ~~**19. Modifier son compte _[FAIT @Flavien]_**~~
+- [X] ~~**19. Modifier son compte _[FAIT @Lucas]_**~~
 - [X] ~~**20. Rendre une liste publique _[FAIT @Flavien]_**~~
 - [X] ~~**21. Afficher les listes de souhaits publiques _[FAIT @Flavien]_**~~
 - [X] ~~**26. Afficher la liste des créateurs _[FAIT @Lucas]_**~~

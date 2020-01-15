@@ -7,58 +7,109 @@
 
 {% block content %}
     <div class="container">
-        <div class="row">
-            <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
-                <a href="edit.html">Modifier Profile</a>
-                <a href="{{ path_for('logout') }}">Se deconnecter</a>
-                <br>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+    <div class="row">
+        <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
+            <a data-toggle="modal" data-target="#modificationCompte" href="">Modifier compte</a>
+            <a href="{{ path_for('logout') }}">Se deconnecter</a>
+            <br>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
 
 
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{ session.user.nom }} {{ session.user.prenom }}</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-3 col-lg-3 " align="center"><img alt="User Pic"
-                                                                                src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png"
-                                                                                class="img-circle img-responsive"></div>
-
-                            <div class=" col-md-9 col-lg-9 ">
-                                <table class="table table-user-information">
-                                    <tbody>
-                                    <tr>
-                                        <td>Nom</td>
-                                        <td>{{ session.user.nom }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Prénom</td>
-                                        <td>{{ session.user.prenom }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td><a href="mailto:{{ session.user.mail }}">{{ session.user.mail }}</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pseudo</td>
-                                        <td>{{ session.user.login }}</td>
-                                    </tr>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ session.user.nom }} {{ session.user.prenom }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center">
+                            <img alt="{{ session.user.img }}"
+                                 src="{{ session.user.img }}"
+                                 class="img-circle img-responsive">
+                        </div>
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                    <td>Nom</td>
+                                    <td>{{ session.user.nom }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Prénom</td>
+                                    <td>{{ session.user.prenom }}</td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><a href="mailto:{{ session.user.mail }}">{{ session.user.mail }}</a></td>
+                                </tr>
+                                <tr>
+                                    <td>Pseudo</td>
+                                    <td>{{ session.user.login }}</td>
+                                </tr>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="panel-footer">
-                        <form method="POST"
-                              action="{{ path_for('manageAccount', {'id': session.user.id }) }}">
-                            <button type="submit" name="action" value="edit" class="btn btn-sm btn-warning"><i style="color: whitesmoke" class="fas fa-edit"></i></button>
-                            <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger"><i style="color: whitesmoke" class="fas fa-times"></i></button>
-                        </form>
-                    </div>
-
+                </div>
+                <div class="panel-footer">
+                    <form method="POST" action="{{ path_for('manageAccount', {'id': session.user.id }) }}" enctype="multipart/form-data">
+                        <div class="modal fade" id="modificationCompte" tabindex="-1" role="dialog"
+                             aria-labelledby="modifierLabel"
+                             aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modifierLabel">Modifier le compte</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="inputName">Nom</label>
+                                            <input type="text" name="nom" class="form-control" id="inputName"
+                                                   placeholder="" value="{{ session.user.nom }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputName">Prénom</label>
+                                            <input type="text" name="prenom" class="form-control" id="inputName"
+                                                   placeholder="" value="{{ session.user.prenom }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputName">Image</label>
+                                            <br>
+                                            <input type="file" name="fileToUpload" id="fileToUpload">
+                                        </div>
+                                        <hr>
+                                        <div class="form-group">
+                                            <label for="inputTarif">Mot de passe</label>
+                                            <input type="password" class="form-control" id="register-password"
+                                                   name="password" placeholder="Mot de Passe">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="inputTarif">Confirmation mot de passe</label>
+                                            <input type="password" class="form-control" id="register-password-"
+                                                   name="passwordconfirm" placeholder="Mot de Passe">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer
+                                        </button>
+                                        <button type="submit" name="action" value="edit" class="btn btn-dark">Modifier
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a data-toggle="modal" data-target="#modificationCompte" name="action"
+                                value="edit" class="btn btn-sm btn-warning">
+                            <i style="color: whitesmoke" class="fas fa-edit"></i>
+                        </a>
+                        <button type="submit" name="action" value="delete" class="btn btn-sm btn-danger"><i
+                                    style="color: whitesmoke" class="fas fa-times"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

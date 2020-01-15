@@ -51,6 +51,7 @@ class ConnectionController extends CookiesController
             $user->mail = $mail;
             $user->login = $pseudo;
             $user->password = password_hash($password, PASSWORD_DEFAULT);
+            $user->img = "/";
             $user->save();
             $this->flash->addMessage('success', "Le compte a bien été créé !");
         } catch (Exception $e) {
@@ -182,7 +183,71 @@ class ConnectionController extends CookiesController
                 $response = $response->withRedirect($this->router->pathFor('home'));
             }
         } else if ($_POST['action'] == 'edit') {
+            try {
+                $nom = filter_var($request->getParsedBodyParam('nom'), FILTER_SANITIZE_STRING);
+                $prenom = filter_var($request->getParsedBodyParam('prenom'), FILTER_SANITIZE_STRING);
+                $password = filter_var($request->getParsedBodyParam('password'), FILTER_SANITIZE_STRING);
+                $passwordconfirm = filter_var($request->getParsedBodyParam('passwordconfirm'), FILTER_SANITIZE_STRING);
+                $img = filter_var($request->getParsedBodyParam('fileToUpload'), FILTER_SANITIZE_STRING);
+                $user = Utilisateur::where('id', $_SESSION['user']->id)->firstOrFail();
 
+                $user->nom = $nom;
+                $_SESSION['user']->nom = $nom;
+                $user->prenom = $prenom;
+                $_SESSION['user']->prenom = $prenom;
+
+                $user->img = '/';
+                $_SESSION['user']->img = '/';
+                if (isset($img)) {
+                    //throw new Exception(var_dump($_FILES["fileToUpload"]));
+                    $target_dir = "/mywishlist/public/img/users/";
+                    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+                    $uploadOk = 1;
+                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+                    if ($check !== false) {
+                        $uploadOk = 1;
+                    } else {
+                        $uploadOk = 0;
+                        //throw new Exception("Le fichier n'est pas une image.");
+                    }
+
+                    if (file_exists($target_file)) {
+                        //throw new Exception("L'image existe déjà.");
+                        $uploadOk = 0;
+                    }
+                    if ($_FILES["fileToUpload"]["size"] > 500000) {
+                        //throw new Exception("L'image est trop lourde");
+                        $uploadOk = 0;
+                    }
+                    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+                        && $imageFileType != "gif") {
+                        //throw new Exception("Le fichier ne possède pas le bon format.");
+                        $uploadOk = 0;
+                    }
+                    if ($uploadOk == 0) {
+                       // throw new Exception("Le fichier n'a pas été téléchargé");
+                    } else {
+                        move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file);
+                    }
+                    $user->img = $target_file;
+                    $_SESSION['user']->img = $target_file;
+                }
+
+                if (!empty($password) && !empty($passwordconfirm)) {
+                    if ($password != $passwordconfirm) throw new Exception("La confirmation du mot de passe n'est pas bonne");
+                    if (mb_strlen($password, 'utf8') < 8) throw new Exception("Votre mot de passe doit contenir au moins 8 caractères");
+                    $user->password = password_hash($password, PASSWORD_DEFAULT);
+                    $this->logout($request, $response, $args);
+                }
+
+                $user->save();
+
+                $this->flash->addMessage('success', "Votre compte a été mis à jour!");
+                $response = $response->withRedirect($this->router->pathFor('home'));
+            } catch (Exception $e) {
+                $this->flash->addMessage('error', $e->getMessage());
+            }
         } else {
             $this->flash->addMessage('error', "Une erreur est survenue, veuillez réessayer ultérieurement.");
         }
