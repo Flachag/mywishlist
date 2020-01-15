@@ -4,6 +4,8 @@
 namespace App\Controllers;
 
 
+use App\Models\Item;
+use App\Models\Liste;
 use App\Models\Utilisateur;
 use BadMethodCallException;
 use Exception;
@@ -138,5 +140,28 @@ class ConnectionController extends CookiesController
             "current_page" => "account",
             "flash" => $this->flash->getMessages()
         ]);
+    }
+
+    public function manageAccount(Request $request, Response $response, $args){
+        if (!isset($_SESSION['user'])) throw new BadMethodCallException("Vous n'êtes pas connecté.");
+        $user = $_SESSION['user'];
+        if($user->id != $args['id']) throw new Exception("Vous ne possédez pas le bon compte.");
+        if ($_POST['action'] == 'delete') {
+            try {
+                $util = Utilisateur::where('id', '=', $args['id'])->firstOrFail();
+                $this->logout($request, $response, $args);
+                $util->delete();
+                $this->flash->addMessage('success', "Le compte a été supprimée");
+                $response = $response->withRedirect($this->router->pathFor('home'));
+            } catch (Exception $e) {
+                $this->flash->addMessage('error', $e->getMessage());
+                $response = $response->withRedirect($this->router->pathFor('home'));
+            }
+        }else if($_POST['action'] == 'edit'){
+
+        }else{
+            $this->flash->addMessage('error', "Une erreur est survenue, veuillez réessayer ultérieurement.");
+        }
+        return $response->withRedirect($this->router->pathFor('home'));
     }
 }
