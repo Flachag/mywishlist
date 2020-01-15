@@ -65,15 +65,17 @@
                 </thead>
                 <tbody>
                 {% for liste in publiques %}
-                    <tr onclick="document.location = '{{ path_for('liste', { 'token': liste.token }) }}';">
-                        {% if auteur is empty %}
-                            <td>Anonyme</td>
-                        {% else %}
-                            <td>{{ auteur }}</td>
-                        {% endif %}
-                        <td>{{ liste.titre }}</td>
-                        <td>{{ liste.expiration }}</td>
-                    </tr>
+                    {% for auteur in auteurs %}
+                        <tr onclick="document.location = '{{ path_for('liste', { 'token': liste.token }) }}';">
+                            {% if auteur.id == liste.user_id %}
+                                <td>{{ auteur.login }}</td>
+                            {% else %}
+                                <td>Anonyme</td>
+                            {% endif %}
+                            <td>{{ liste.titre }}</td>
+                            <td>{{ liste.expiration }}</td>
+                        </tr>
+                    {% endfor %}
                 {% endfor %}
                 </tbody>
             </table>

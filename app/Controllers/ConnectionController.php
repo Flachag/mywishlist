@@ -156,6 +156,10 @@ class ConnectionController extends CookiesController
                         foreach ($items as $item){
                             $item->delete();
                         }
+                        $messages = $liste->messages()->get();
+                        foreach ($messages as $message){
+                            $message->delete();
+                        }
                         $liste->delete();
                     }
                 }
