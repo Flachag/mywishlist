@@ -72,4 +72,6 @@ $app->get('/compte', ConnectionController::class.':getAccount')->setName('accoun
 $app->get('/logout', ConnectionController::class.':logout')->setName('logout');
 $app->post('/manageAccount/{id:[0-9]+}', ConnectionController::class.':manageAccount')->setName('manageAccount');
 
+$app->get('/createurs', ListeController::class . ':getCreators')->setName('creators');
+
 $app->run();

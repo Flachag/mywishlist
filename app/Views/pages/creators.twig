@@ -1,0 +1,32 @@
+{% extends "layout.twig" %}
+{% block title 'Createurs' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ base_path }}/public/css/app.css">
+{% endblock %}
+
+{% block content %}
+
+    {% if creators is not empty %}
+        <div class="body mt-5">
+            <h1>Listes des créateurs</h1>
+            <table class="table text-center table-bordered table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Créateur(s) publique</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for creator in creators %}
+                    <tr>
+                        <td>{{ creator.login }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+
+    {% endif %}
+
+{% endblock %}

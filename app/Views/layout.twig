@@ -27,6 +27,10 @@
                     Créer une liste
                 </a>
             </li>
+            <li><a class="nav-link {{ current_page == 'voir_creators' ? 'active': '' }}" href="{{ path_for('creators') }}">
+                    Les créateurs
+                </a>
+            </li>
         </ul>
     </div>
     {% if session.user is null %}

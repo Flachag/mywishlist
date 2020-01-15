@@ -22,7 +22,8 @@ class ListeController extends CookiesController
      * @param array $args
      * @return Response
      */
-    public function getListe(Request $request, Response $response, array $args): Response {
+    public function getListe(Request $request, Response $response, array $args): Response
+    {
         try {
             $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
             $this->loadCookiesFromRequest($request);
@@ -42,6 +43,22 @@ class ListeController extends CookiesController
         return $response;
     }
 
+    public function getCreators(Request $request, Response $response, array $args): Response
+    {
+        try {
+            $creators = Utilisateur::select('login')->distinct('login')->join('Liste', 'Liste.user_id', '=', 'Utilisateur.id')
+                ->where('Liste.public', 1)
+                ->where('Liste.expiration', '>=', date("Y-m-d"))
+                ->get();
+            $this->view->render($response, 'pages/creators.twig', [
+                "creators" => $creators
+            ]);
+        } catch (Exception $e) {
+            $this->flash->addMessage('error', $e->getMessage());
+            $response = $response->withRedirect($this->router->pathFor('home'));
+        }
+        return $response;
+    }
 
     /**
      * Méthode qui permet d'ajouter un message publique à une liste
@@ -51,7 +68,8 @@ class ListeController extends CookiesController
      * @param array $args
      * @return Response
      */
-    public function addMessage(Request $request, Response $response, array $args): Response {
+    public function addMessage(Request $request, Response $response, array $args): Response
+    {
         try {
             $name = filter_var($request->getParsedBodyParam('name'), FILTER_SANITIZE_STRING);
             $message = filter_var($request->getParsedBodyParam('message'), FILTER_SANITIZE_STRING);
@@ -62,9 +80,9 @@ class ListeController extends CookiesController
             $msg = new Message();
             $msg->liste_id = $liste->no;
             $msg->message = $message;
-            if(isset($_SESSION['user'])){
+            if (isset($_SESSION['user'])) {
                 $msg->expediteur = $_SESSION['user']->login;
-            }else{
+            } else {
                 $msg->expediteur = $name;
             }
             $msg->save();
@@ -84,7 +102,8 @@ class ListeController extends CookiesController
      * @param Response $response
      * @param array $args
      */
-    public function createForm(Request $request, Response $response, array $args){
+    public function createForm(Request $request, Response $response, array $args)
+    {
         $this->view->render($response, 'pages/createListe.twig');
     }
 
@@ -95,14 +114,15 @@ class ListeController extends CookiesController
      * @param array $args
      * @return Response
      */
-    public function createListe(Request $request, Response $response, array $args): Response {
+    public function createListe(Request $request, Response $response, array $args): Response
+    {
         try {
             $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
             $description = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
             $expiration = $request->getParsedBodyParam('expiration');
-            if($request->getParsedBodyParam('public') != null){
-                $public=true;
-            }else {
+            if ($request->getParsedBodyParam('public') != null) {
+                $public = true;
+            } else {
                 $public = false;
             }
             $this->loadCookiesFromRequest($request);
@@ -110,7 +130,7 @@ class ListeController extends CookiesController
             if (new DateTime() > new DateTime($expiration)) throw new Exception("La date d'expiration ne peut être déjà passée.");
 
             $liste = new Liste();
-            if(isset($_SESSION['user'])){
+            if (isset($_SESSION['user'])) {
                 $liste->user_id = $_SESSION['user']->id;
             }
             $liste->titre = $titre;
@@ -140,7 +160,8 @@ class ListeController extends CookiesController
      * @param array $args
      * @return Response
      */
-    public function manageListe(Request $request, Response $response, array $args): Response{
+    public function manageListe(Request $request, Response $response, array $args): Response
+    {
         try {
             $liste = Liste::where('token', '=', $args['token'])->firstOrFail();
             $expired = $liste->haveExpired();
@@ -151,9 +172,9 @@ class ListeController extends CookiesController
 
             $titre = filter_var($request->getParsedBodyParam('titre'), FILTER_SANITIZE_STRING);
             $descr = filter_var($request->getParsedBodyParam('description'), FILTER_SANITIZE_STRING);
-            if($request->getParsedBodyParam('public') != null){
-                $public=true;
-            }else {
+            if ($request->getParsedBodyParam('public') != null) {
+                $public = true;
+            } else {
                 $public = false;
             }
             Liste::where('token', '=', $args['token'])
@@ -175,7 +196,8 @@ class ListeController extends CookiesController
      * @param array $args
      * @return Response
      */
-    public function adminListe(Request $request, Response $response, array $args): Response {
+    public function adminListe(Request $request, Response $response, array $args): Response
+    {
         try {
             $liste = Liste::where('token', '=', $args['token'])->where('token_edit', '=', $args['token_edit'])->firstOrFail();
             $this->loadCookiesFromRequest($request);
