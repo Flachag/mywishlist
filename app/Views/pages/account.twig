@@ -8,39 +8,34 @@
 {% block content %}
     <div align="center" class="container">
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
-        <div class="panel panel-info">
-            <div class="card mt-3 ml-auto mr-auto" style="max-width: 32rem; min-width: 25rem;">
-                <div class="card-header text-white bg-dark">
-                    {{ session.user.nom }} {{ session.user.prenom }}
-                </div>
+        <div class="card mt-3 ml-auto mr-auto" style="max-width: 32rem; min-width: 25rem;">
+            <div class="card-header text-white bg-dark">
+                {{ session.user.nom }} {{ session.user.prenom }}
             </div>
-            <div class="card-body">
-                <div class="mb-3">
-                    <table class="table table-user-information">
-                        <tbody>
-                        <tr>
-                            <td>Nom</td>
-                            <td>{{ session.user.nom }}</td>
-                        </tr>
-                        <tr>
-                            <td>Prénom</td>
-                            <td>{{ session.user.prenom }}</td>
-                        </tr>
-                        <tr>
-                            <td>Email</td>
-                            <td><a href="mailto:{{ session.user.mail }}">{{ session.user.mail }}</a></td>
-                        </tr>
-                        <tr>
-                            <td>Pseudo</td>
-                            <td>{{ session.user.login }}</td>
-                        </tr>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class=" col-md-9 col-lg-9 ">
-
+        </div>
+        <div class="card-body">
+            <div class="mb-3">
+                <table class="table table-user-information">
+                    <tbody>
+                    <tr>
+                        <td>Nom</td>
+                        <td>{{ session.user.nom }}</td>
+                    </tr>
+                    <tr>
+                        <td>Prénom</td>
+                        <td>{{ session.user.prenom }}</td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td><a href="mailto:{{ session.user.mail }}">{{ session.user.mail }}</a></td>
+                    </tr>
+                    <tr>
+                        <td>Pseudo</td>
+                        <td>{{ session.user.login }}</td>
+                    </tr>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="panel-footer">
