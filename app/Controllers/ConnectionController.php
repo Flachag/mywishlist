@@ -51,7 +51,6 @@ class ConnectionController extends CookiesController
             $user->mail = $mail;
             $user->login = $pseudo;
             $user->password = password_hash($password, PASSWORD_DEFAULT);
-            $user->img = "/";
             $user->save();
             $this->flash->addMessage('success', "Le compte a bien été créé !");
         } catch (Exception $e) {
@@ -163,8 +162,10 @@ class ConnectionController extends CookiesController
                     foreach ($listes as $liste) {
                         $items = $liste->items()->get();
                         foreach ($items as $item) {
-                            $reservation = Reservation::where('item_id', $item->id)->firstOrFail();
-                            $reservation->delete();
+                            $reservation = Reservation::where('item_id', $item->id)->get();
+                            if(isset($reservation)) {
+                                $reservation->delete();
+                            }
                             $item->delete();
                         }
                         $messages = $liste->messages()->get();

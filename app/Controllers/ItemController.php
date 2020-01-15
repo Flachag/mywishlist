@@ -194,10 +194,10 @@ class ItemController extends CookiesController
             $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
 
             //verifier si img est une url pour hotlinking
-            if($this->isUrlImage($img)){
-                $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
+            if(filter_var($request->getParsedBodyParam('img'), FILTER_VALIDATE_URL)){
+                $image = $request->getParsedBodyParam('img');
             }else{
-                $image = "/mywishlist/public/img/" . $img;
+                $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
             }
 
             $item = new Item();

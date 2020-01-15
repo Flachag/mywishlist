@@ -23,7 +23,7 @@ class HomeController extends CookiesController {
         $this->loadCookiesFromRequest($request);
         $listes = Liste::whereIn('token_edit', $this->getCreationTokens())->orderby('expiration', 'ASC')->get();
         $publiques = Liste::where('public', true)->where('expiration', '>=', date("Y-m-d"))->orderby('expiration', 'ASC')->get();
-        $auteurs = Utilisateur::join('Liste', 'Liste.user_id', '=', 'Utilisateur.id')->where('Liste.expiration', '>=', date("Y-m-d"))->orderby('Liste.expiration', 'ASC')->get();
+        $auteurs = Utilisateur::join('liste', 'liste.user_id', '=', 'utilisateur.id')->where('liste.expiration', '>=', date("Y-m-d"))->orderby('liste.expiration', 'ASC')->get();
 
         $this->view->render($response, 'pages/home.twig', [
             "current_page" => "home",

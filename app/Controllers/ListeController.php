@@ -4,7 +4,7 @@
 namespace App\Controllers;
 
 
-use App\models\Liste;
+use App\Models\Liste;
 use App\Models\Message;
 use App\Models\Utilisateur;
 use DateTime;
@@ -53,9 +53,9 @@ class ListeController extends CookiesController
     public function getCreators(Request $request, Response $response, array $args): Response
     {
         try {
-            $creators = Utilisateur::select('login')->distinct('login')->join('Liste', 'Liste.user_id', '=', 'Utilisateur.id')
-                ->where('Liste.public', 1)
-                ->where('Liste.expiration', '>=', date("Y-m-d"))
+            $creators = Utilisateur::select('login')->distinct('login')->join('liste', 'liste.user_id', '=', 'utilisateur.id')
+                ->where('liste.public', 1)
+                ->where('liste.expiration', '>=', date("Y-m-d"))
                 ->get();
             $this->view->render($response, 'pages/creators.twig', [
                 "creators" => $creators
