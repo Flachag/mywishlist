@@ -1,7 +1,7 @@
 ## Installation
 
 Utilisez [composer](https://getcomposer.org/) pour installer MyWishList.
-
+adresse du site webetu: https://webetu.iutnc.univ-lorraine.fr/www/chagras1u/mywishlist/
 ```bash
 git clone https://github.com/Flachag/mywishlist.git
 cd MyWishList
