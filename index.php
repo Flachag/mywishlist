@@ -71,4 +71,5 @@ $app->get('/inscription', ConnectionController::class.':getInscription')->setNam
 $app->get('/compte', ConnectionController::class.':getAccount')->setName('accountPage');
 $app->get('/logout', ConnectionController::class.':logout')->setName('logout');
 $app->post('/manageAccount/{id:[0-9]+}', ConnectionController::class.':manageAccount')->setName('manageAccount');
+
 $app->run();

@@ -1,4 +1,4 @@
-{% extends "layout.twig"%}
+{% extends "layout.twig" %}
 
 {% block flash %}
     {% if flash.error is defined %}
@@ -25,7 +25,9 @@
 {% block content %}
     <div class="jumbotron my-2">
         <h1 class="display-4">Bienvenue!</h1>
-        <p class="lead">Charl-Wishlist est un espace sur lequel vous pouvez exprimer toutes vos envies pour ensuite les partager avec ceux que vous aimez. Et si vous êtes en manque d’inspiration pour offrir un cadeau à un ami, vous pourrez également consulter sa liste et ainsi combler ses attentes.</p>
+        <p class="lead">Charl-Wishlist est un espace sur lequel vous pouvez exprimer toutes vos envies pour ensuite les
+            partager avec ceux que vous aimez. Et si vous êtes en manque d’inspiration pour offrir un cadeau à un ami,
+            vous pourrez également consulter sa liste et ainsi combler ses attentes.</p>
     </div>
 
     {% if listes is not empty %}
@@ -64,7 +66,11 @@
                 <tbody>
                 {% for liste in publiques %}
                     <tr onclick="document.location = '{{ path_for('liste', { 'token': liste.token }) }}';">
-                        <td>lll</td>
+                        {% if auteur is empty %}
+                            <td>Anonyme</td>
+                        {% else %}
+                            <td>{{ auteur }}</td>
+                        {% endif %}
                         <td>{{ liste.titre }}</td>
                         <td>{{ liste.expiration }}</td>
                     </tr>

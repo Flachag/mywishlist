@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\models\Liste;
 use App\Models\Message;
+use App\Models\Utilisateur;
 use DateTime;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -31,7 +32,8 @@ class ListeController extends CookiesController
                 "creator" => in_array($liste->token_edit, $this->getCreationTokens()),
                 "name" => $this->getName(),
                 "expiration" => $liste->haveExpired(),
-                "messages" => $liste->messages()->get()
+                "messages" => $liste->messages()->get(),
+                "connecter" => isset($_SESSION['user'])
             ]);
         } catch (ModelNotFoundException $e) {
             $this->flash->addMessage('error', "Cette liste n'existe pas...");
@@ -60,7 +62,11 @@ class ListeController extends CookiesController
             $msg = new Message();
             $msg->liste_id = $liste->no;
             $msg->message = $message;
-            $msg->expediteur = $name;
+            if(isset($_SESSION['user'])){
+                $msg->expediteur = $_SESSION['user']->login;
+            }else{
+                $msg->expediteur = $name;
+            }
             $msg->save();
 
             $this->flash->addMessage('success', "$name, Votre message a été envoyé");

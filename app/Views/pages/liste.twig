@@ -13,18 +13,24 @@
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
             {% if expiration==false %}
                 <div class="d-sm-flex justify-content-between">
-                    <a href="" data-toggle="modal" data-target="#redigerMessage" class="btn btn-outline-dark">Rédiger un message</a>
+                    <a href="" data-toggle="modal" data-target="#redigerMessage" class="btn btn-outline-dark">Rédiger un
+                        message</a>
                     {% if creator == true %}
                         <div class="btn-group mt-lg-0 mt-md-0 mt-2">
-                            <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}" class="btn btn-outline-dark float-right">Administrer</a>
-                            <button class="btn btn-outline-dark share-btn" data-toggle="popover" data-content="Lien copié!" data-placement="bottom" data-trigger="focus">Partager la liste</button>
+                            <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}"
+                               class="btn btn-outline-dark float-right">Administrer</a>
+                            <button class="btn btn-outline-dark share-btn" data-toggle="popover"
+                                    data-content="Lien copié!" data-placement="bottom" data-trigger="focus">Partager la
+                                liste
+                            </button>
                         </div>
                     {% endif %}
                 </div>
             {% endif %}
         </div>
     </section>
-    <div class="modal fade" id="redigerMessage" tabindex="-1" role="dialog" aria-labelledby="redigerMessageLabel" aria-hidden="true">
+    <div class="modal fade" id="redigerMessage" tabindex="-1" role="dialog" aria-labelledby="redigerMessageLabel"
+         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -33,12 +39,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="POST" action="{{ path_for('addMessage', {'token': liste.token})  }}">
+
+                <form method="POST" action="{{ path_for('addMessage', {'token': liste.token}) }}">
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="inputName">Nom*</label>
-                            <input type="text" name="name" class="form-control" id="inputName" placeholder="Votre nom" value="{{ name }}">
-                        </div>
+                        {% if connecter == false %}
+                            <div class="form-group">
+                                <label for="inputName">Nom*</label>
+                                <input type="text" name="name" class="form-control" id="inputName"
+                                       placeholder="Votre nom" value="{{ name }}">
+                            </div>
+                        {% endif %}
                         <div class="form-group">
                             <label for="inputMessage">Message*</label>
                             <textarea class="form-control" id="inputMessage" rows="4" name="message"></textarea>
@@ -71,7 +81,7 @@
                                     <span class="card-text badge badge-dark">Expiré</span>
                                 {% endif %}
                             {% else %}
-                                {%  if creator and item.book %}
+                                {% if creator and item.book %}
                                     <span class="card-text badge badge-danger">Reservé</span>
                                 {% elseif item.book==true %}
                                     <span class="card-text badge badge-danger">Reservé par {{ item.name }}</span>
@@ -114,7 +124,7 @@
         function fallbackCopyTextToClipboard(text) {
             var textArea = document.createElement("textarea");
             textArea.value = text;
-            textArea.style.position="fixed";  //avoid scrolling to bottom
+            textArea.style.position = "fixed";  //avoid scrolling to bottom
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
@@ -138,7 +148,7 @@
 
         var shareBtn = document.querySelector('.share-btn');
 
-        shareBtn.addEventListener('click', function(event) {
+        shareBtn.addEventListener('click', function (event) {
             copyTextToClipboard(location.href);
         });
     </script>

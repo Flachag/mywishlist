@@ -31,7 +31,7 @@ class Utilisateur extends Model{
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function reservation(){
-        return $this->hasMany('Models\Reservation', 'id');
+        return $this->hasMany('App\Models\Reservation', 'id');
     }
 
     /**
@@ -39,6 +39,6 @@ class Utilisateur extends Model{
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function listes(){
-        return $this->hasMany('Models\Liste', 'user_id');
+        return $this->hasMany('App\Models\Liste', 'user_id');
     }
 }
