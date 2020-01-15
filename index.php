@@ -73,6 +73,6 @@ $app->get('/connexion', ConnectionController::class . ':getLogin')->setName('log
 $app->post('/log', ConnectionController::class.':login')->setName('sendLogin');
 $app->post('/register', ConnectionController::class.':inscription')->setName('sendInscription');
 $app->get('/inscription', ConnectionController::class.':getInscription')->setName('inscriptionPage');
-$app->get('/account', ConnectionController::class.':getAccount')->setName('accountPage');
+$app->get('/compte', ConnectionController::class.':getAccount')->setName('accountPage');
 $app->get('/logout', ConnectionController::class.':logout')->setName('logout');
 $app->run();

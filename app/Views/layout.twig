@@ -29,7 +29,12 @@
             </li>
         </ul>
     </div>
-    <a class="navbar-brand" href="{{ path_for('loginPage') }}"><i class="fas fa-sign-in-alt"></i></a>
+    {% if session.user is null %}
+        <a class="navbar-brand" href="{{ path_for('loginPage') }}"><i class="fas fa-sign-in-alt"></i></a>
+    {% else %}
+        <a class="navbar-brand" href="{{ path_for('accountPage') }}"><i class="fas fa-user"></i></a>
+        <a class="navbar-brand" href="{{ path_for('logout') }}"><i class="fas fa-sign-out-alt"></i></a>
+    {% endif %}
 
 </nav>
 <div class="container">
