@@ -33,6 +33,12 @@
             </li>
         </ul>
     </div>
+    {% if session.user is defined %}
+        <a href="{{ path_for("logout") }}" class="btn btn-dark">Déconnexion</a>
+        <a href="{{ path_for("accountPage") }}" class="btn btn-dark">Mon compte</a>
+    {% else %}
+        <a class="navbar-brand" href="{{ path_for('loginPage') }}"><i class="fas fa-sign-in-alt"></i></a>
+    {% endif %}
     {% if session.user is null %}
         <a class="navbar-brand" href="{{ path_for('loginPage') }}"><i class="fas fa-sign-in-alt"></i></a>
     {% else %}
