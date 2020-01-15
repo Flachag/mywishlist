@@ -154,6 +154,10 @@ class ConnectionController extends CookiesController
                     foreach ($listes as $liste){
                         $items = $liste->items()->get();
                         foreach ($items as $item){
+                            $reservation = $item->rereservation()->get();
+                            if(isset($reservation)){
+                                $reservation->delete();
+                            }
                             $item->delete();
                         }
                         $messages = $liste->messages()->get();

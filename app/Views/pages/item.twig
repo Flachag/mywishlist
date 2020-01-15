@@ -15,8 +15,11 @@
             <p class="lead text-muted">{{ liste.expiration|date("d/m/Y") }}</p>
             {% if creator == true %}
                 <div class="btn-group mt-lg-0 mt-md-0 mt-2">
-                    <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}" class="btn btn-outline-dark float-right">Administrer</a>
-                    <button class="btn btn-outline-dark share-btn" data-toggle="popover" data-content="Lien copié!" data-placement="bottom" data-trigger="focus">Partager l'objet</button>
+                    <a href="{{ path_for('formListeAdmin', { 'token': liste.token, 'token_edit': liste.token_edit }) }}"
+                       class="btn btn-outline-dark float-right">Administrer</a>
+                    <button class="btn btn-outline-dark share-btn" data-toggle="popover" data-content="Lien copié!"
+                            data-placement="bottom" data-trigger="focus">Partager l'objet
+                    </button>
                 </div>
             {% endif %}
         </div>
@@ -61,11 +64,13 @@
                                 <form method="POST"
                                       action="{{ path_for('bookItem', {'id': item.id, 'token': liste.token}) }}">
                                     <div class="modal-body">
-                                        <div class="form-group">
-                                            <label for="inputName">Nom*</label>
-                                            <input type="text" name="name" class="form-control" id="inputName"
-                                                   placeholder="Votre nom" value="{{ name }}" required>
-                                        </div>
+                                        {% if connecter == false %}
+                                            <div class="form-group">
+                                                <label for="inputName">Nom*</label>
+                                                <input type="text" name="name" class="form-control" id="inputName"
+                                                       placeholder="Votre nom" value="{{ name }}" required>
+                                            </div>
+                                        {% endif %}
                                         <div class="form-group">
                                             <label for="textarea">Ajoutez un message à votre réservation</label>
                                             <textarea class="form-control" id="textarea" rows="4"

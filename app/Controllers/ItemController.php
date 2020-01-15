@@ -43,6 +43,7 @@ class ItemController extends CookiesController
                 "expiration" => $liste->haveExpired(),
                 "message" => $message,
                 "creator" => in_array($liste->token_edit, $this->getCreationTokens()),
+                "connecter" => isset($_SESSION['user'])
             ]);
         } catch (ModelNotFoundException $e) {
             $this->flash->addMessage('error', "Cet objet n'existe pas...");
@@ -80,7 +81,11 @@ class ItemController extends CookiesController
             $r = new Reservation();
             $r->item_id = $item_id;
             $r->message = $message;
-            $r->nom = $name;
+            if (isset($_SESSION['user'])) {
+                $r->nom = $_SESSION['user']->login;
+            } else {
+                $r->nom = $name;
+            }
             $r->save();
 
             $this->changeName($name);
@@ -103,9 +108,10 @@ class ItemController extends CookiesController
      * @param $str
      * @return bool
      */
-    private function isUrlImage($str) : bool {
+    private function isUrlImage($str): bool
+    {
         $flag = true;
-        if(isset($str) && !empty($str)) {
+        if (isset($str) && !empty($str)) {
             $array = getimagesize($str);
             if (!isset($array) || empty($array)) {
                 $flag = false;
@@ -157,9 +163,9 @@ class ItemController extends CookiesController
                 $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
 
                 $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
-                if($this->isUrlImage($img)){
+                if ($this->isUrlImage($img)) {
                     $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
-                }else{
+                } else {
                     $image = "/mywishlist/public/img/" . $img;
                 }
 
@@ -207,9 +213,9 @@ class ItemController extends CookiesController
 
             $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
             //verifier si img est une url pour hotlinking
-            if($this->isUrlImage($img)){
+            if ($this->isUrlImage($img)) {
                 $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
-            }else{
+            } else {
                 $image = "/mywishlist/public/img/" . $img;
             }
 

@@ -43,6 +43,13 @@ class ListeController extends CookiesController
         return $response;
     }
 
+    /**
+     * Méthode qui affiche les créateurs actifs publique
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function getCreators(Request $request, Response $response, array $args): Response
     {
         try {
