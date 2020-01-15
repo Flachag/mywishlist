@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="panel-footer">
-                    <form method="POST" action="{{ path_for('manageAccount', {'id': session.user.id }) }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ path_for('manageAccount', {'id': session.user.id }) }}">
                         <div class="modal fade" id="modificationCompte" tabindex="-1" role="dialog"
                              aria-labelledby="modifierLabel"
                              aria-hidden="true">
@@ -75,11 +75,6 @@
                                             <label for="inputName">Prénom</label>
                                             <input type="text" name="prenom" class="form-control" id="inputName"
                                                    placeholder="" value="{{ session.user.prenom }}">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputName">Image</label>
-                                            <br>
-                                            <input type="file" name="fileToUpload" id="fileToUpload">
                                         </div>
                                         <hr>
                                         <div class="form-group">
