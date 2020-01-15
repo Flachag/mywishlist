@@ -104,6 +104,9 @@ class ListeController extends CookiesController
             if (new DateTime() > new DateTime($expiration)) throw new Exception("La date d'expiration ne peut être déjà passée.");
 
             $liste = new Liste();
+            if(isset($_SESSION['user'])){
+                $liste->user_id = $_SESSION['user']->id;
+            }
             $liste->titre = $titre;
             $liste->description = $description;
             $liste->expiration = $expiration;

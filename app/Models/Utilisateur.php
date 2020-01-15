@@ -33,4 +33,12 @@ class Utilisateur extends Model{
     public function reservation(){
         return $this->hasMany('Models\Reservation', 'id');
     }
+
+    /**
+     * Méthode d'association qui donne les listes d'un utilisateur
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function listes(){
+        return $this->hasMany('Models\Liste', 'user_id');
+    }
 }

@@ -149,6 +149,16 @@ class ConnectionController extends CookiesController
         if ($_POST['action'] == 'delete') {
             try {
                 $util = Utilisateur::where('id', '=', $args['id'])->firstOrFail();
+                $listes = $util->listes()->get();
+                if(isset($listes)){
+                    foreach ($listes as $liste){
+                        $items = $liste->items()->get();
+                        foreach ($items as $item){
+                            $item->delete();
+                        }
+                        $liste->delete();
+                    }
+                }
                 $this->logout($request, $response, $args);
                 $util->delete();
                 $this->flash->addMessage('success', "Le compte a été supprimée");

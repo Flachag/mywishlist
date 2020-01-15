@@ -56,13 +56,17 @@
             <table class="table text-center table-bordered table-hover">
                 <thead class="thead-dark">
                 <tr>
+                    <th scope="col">Auteur</th>
                     <th scope="col">Titre</th>
+                    <th scope="col">Expiration</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for liste in publiques %}
                     <tr onclick="document.location = '{{ path_for('liste', { 'token': liste.token }) }}';">
+                        <td>lll</td>
                         <td>{{ liste.titre }}</td>
+                        <td>{{ liste.expiration }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
