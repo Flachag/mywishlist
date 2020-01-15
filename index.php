@@ -1,4 +1,5 @@
 <?php
+
 use App\Config\Database;
 use App\Controllers\HomeController;
 use App\Controllers\ItemController;

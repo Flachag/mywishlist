@@ -104,23 +104,6 @@ class ItemController extends CookiesController
     }
 
     /**
-     * Méthode qui permet de vérifier si l'url est une image
-     * @param $str
-     * @return bool
-     */
-    private function isUrlImage($str): bool
-    {
-        $flag = true;
-        if (isset($str) && !empty($str)) {
-            $array = getimagesize($str);
-            if (!isset($array) || empty($array)) {
-                $flag = false;
-            }
-        }
-        return $flag;
-    }
-
-    /**
      * Méthode qui permet de supprimer ou modifier un objet
      * @param Request $request
      * @param Response $response
@@ -163,9 +146,9 @@ class ItemController extends CookiesController
                 $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
 
                 $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
-                if ($this->isUrlImage($img)) {
+                if($this->isUrlImage($img)){
                     $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
-                } else {
+                }else{
                     $image = "/mywishlist/public/img/" . $img;
                 }
 
@@ -211,11 +194,10 @@ class ItemController extends CookiesController
             $url = filter_var($request->getParsedBodyParam('url'), FILTER_SANITIZE_URL);
             $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
 
-            $img = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
             //verifier si img est une url pour hotlinking
-            if ($this->isUrlImage($img)) {
+            if($this->isUrlImage($img)){
                 $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_URL);
-            } else {
+            }else{
                 $image = "/mywishlist/public/img/" . $img;
             }
 
