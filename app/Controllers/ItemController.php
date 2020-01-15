@@ -145,11 +145,10 @@ class ItemController extends CookiesController
                 $url = filter_var($request->getParsedBodyParam('url'), FILTER_SANITIZE_URL);
                 $tarif = filter_var($request->getParsedBodyParam('tarif'), FILTER_VALIDATE_FLOAT);
 
-                if( filter_var($request->getParsedBodyParam('img'), FILTER_VALIDATE_URL)){
+                if(filter_var($request->getParsedBodyParam('img'), FILTER_VALIDATE_URL)){
                     $image = $request->getParsedBodyParam('img');
-                    $url = true;
                 }else{
-                    $image = $this->router->request->getUri()->getBasePath()."/public/img/".filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
+                    $image = filter_var($request->getParsedBodyParam('img'), FILTER_SANITIZE_STRING);
                 }
 
                 $item = Item::where('id', $args['id'])

@@ -127,9 +127,13 @@
                     <a data-toggle="modal" data-target="#modification{{ item.id }}">
                         <div id="itemListed" class="card my-3">
                             <div class="card-body">
+                            {% if isUrl(item.img) == false %}
                                 <img src="{{ base_path }}/public/img/{{ item.img }}" width="70" height="70"
                                      class="rounded-top"
                                      alt="{{ item.img }}">
+                            {% else %}
+                                <img src="{{ item.img }}" width="70" height="70" class="rounded-top" alt="{{ item.img }}">
+                            {% endif %}
                                 <span style="font-size: 22px; margin-left: 1em;">{{ item.nom }}</span>
                                 <span style="margin-left: 1em;">{{ item.tarif }}€</span>
                             </div>
