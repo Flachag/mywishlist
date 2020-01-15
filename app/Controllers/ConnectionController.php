@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Models\Item;
 use App\Models\Liste;
+use App\Models\Reservation;
 use App\Models\Utilisateur;
 use BadMethodCallException;
 use Exception;
@@ -27,8 +28,9 @@ class ConnectionController extends CookiesController
      * @param $args
      * @return Response
      */
-    public function inscription(Request $request, Response $response, $args): Response{
-        try{
+    public function inscription(Request $request, Response $response, $args): Response
+    {
+        try {
 
             $nom = filter_var($request->getParsedBodyParam('nom'), FILTER_SANITIZE_STRING);
             $prenom = filter_var($request->getParsedBodyParam('prenom'), FILTER_SANITIZE_STRING);
@@ -65,7 +67,8 @@ class ConnectionController extends CookiesController
      * @param array $args
      * @return Response
      */
-    public function login(Request $request, Response $response, array $args): Response {
+    public function login(Request $request, Response $response, array $args): Response
+    {
         try {
             if (isset($_SESSION['user'])) throw new BadMethodCallException("Vous êtes déjà connecté");
 
@@ -73,7 +76,7 @@ class ConnectionController extends CookiesController
             $password = filter_var($request->getParsedBodyParam('password'), FILTER_SANITIZE_STRING);
             $user = Utilisateur::where('login', '=', $login)->orWhere('mail', '=', $login)->firstOrFail();
 
-            if(!password_verify($password, $user->password)) throw new Exception('Login ou Mot de Passe incorrect');
+            if (!password_verify($password, $user->password)) throw new Exception('Login ou Mot de Passe incorrect');
             $_SESSION['user'] = $user;
             $response = $response->withRedirect($this->router->pathFor('accountPage'));
         } catch (BadMethodCallException $e) {
@@ -95,7 +98,8 @@ class ConnectionController extends CookiesController
      * @param Response $response
      * @param array $args
      */
-    public function getLogin(Request $request, Response $response, array $args) {
+    public function getLogin(Request $request, Response $response, array $args)
+    {
         $this->loadCookiesFromRequest($request);
         $this->view->render($response, 'pages/login.twig', [
             "current_page" => "login",
@@ -109,7 +113,8 @@ class ConnectionController extends CookiesController
      * @param Response $response
      * @param $args
      */
-    public function getInscription(Request $request, Response $response, $args){
+    public function getInscription(Request $request, Response $response, $args)
+    {
         $this->view->render($response, 'pages/register.twig', [
             "current_page" => "register",
             "flash" => $this->flash->getMessages()
@@ -123,7 +128,8 @@ class ConnectionController extends CookiesController
      * @param array $args
      * @return Response
      */
-    public function logout(Request $request, Response $response, array $args): Response {
+    public function logout(Request $request, Response $response, array $args): Response
+    {
         unset($_SESSION['user']);
         $this->flash->addMessage('success', 'Vous vous êtes deconnecté');
         return $response->withRedirect($this->router->pathFor('home'));
@@ -135,33 +141,33 @@ class ConnectionController extends CookiesController
      * @param Response $response
      * @param $args
      */
-    public function getAccount(Request $request, Response $response, $args){
+    public function getAccount(Request $request, Response $response, $args)
+    {
         $this->view->render($response, 'pages/account.twig', [
             "current_page" => "account",
             "flash" => $this->flash->getMessages()
         ]);
     }
 
-    public function manageAccount(Request $request, Response $response, $args){
+    public function manageAccount(Request $request, Response $response, $args)
+    {
         if (!isset($_SESSION['user'])) throw new BadMethodCallException("Vous n'êtes pas connecté.");
         $user = $_SESSION['user'];
-        if($user->id != $args['id']) throw new Exception("Vous ne possédez pas le bon compte.");
+        if ($user->id != $args['id']) throw new Exception("Vous ne possédez pas le bon compte.");
         if ($_POST['action'] == 'delete') {
             try {
                 $util = Utilisateur::where('id', '=', $args['id'])->firstOrFail();
                 $listes = $util->listes()->get();
-                if(isset($listes)){
-                    foreach ($listes as $liste){
+                if (isset($listes)) {
+                    foreach ($listes as $liste) {
                         $items = $liste->items()->get();
-                        foreach ($items as $item){
-                            $reservation = $item->rereservation()->get();
-                            if(isset($reservation)){
-                                $reservation->delete();
-                            }
+                        foreach ($items as $item) {
+                            $reservation = Reservation::where('item_id', $item->id)->firstOrFail();
+                            $reservation->delete();
                             $item->delete();
                         }
                         $messages = $liste->messages()->get();
-                        foreach ($messages as $message){
+                        foreach ($messages as $message) {
                             $message->delete();
                         }
                         $liste->delete();
@@ -175,9 +181,9 @@ class ConnectionController extends CookiesController
                 $this->flash->addMessage('error', $e->getMessage());
                 $response = $response->withRedirect($this->router->pathFor('home'));
             }
-        }else if($_POST['action'] == 'edit'){
+        } else if ($_POST['action'] == 'edit') {
 
-        }else{
+        } else {
             $this->flash->addMessage('error', "Une erreur est survenue, veuillez réessayer ultérieurement.");
         }
         return $response->withRedirect($this->router->pathFor('home'));
