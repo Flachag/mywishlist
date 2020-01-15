@@ -69,7 +69,7 @@ $app->post('/liste/{token:[a-zA-Z0-9]+}/manage/{id:[0-9]+}', ItemController::cla
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/', ItemController::class . ':ajoutItem')->setName('ajoutItem');
 $app->post('/liste/{token:[a-zA-Z0-9]+}/manageItem/{id:[0-9]+}', ItemController::class . ':manageItem')->setName('manageItem');
 
-$app->get('/login', ConnectionController::class . ':getLogin')->setName('loginPage');
+$app->get('/connexion', ConnectionController::class . ':getLogin')->setName('loginPage');
 $app->post('/log', ConnectionController::class.':login')->setName('sendLogin');
 $app->post('/register', ConnectionController::class.':inscription')->setName('sendInscription');
 $app->get('/inscription', ConnectionController::class.':getInscription')->setName('inscriptionPage');

@@ -11,8 +11,20 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
+/**
+ * Class ConnectionController
+ * @package App\Controllers
+ */
 class ConnectionController extends CookiesController
 {
+
+    /**
+     * Méthode qui permet d'inscire un utilisateur
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     * @return Response
+     */
     public function inscription(Request $request, Response $response, $args): Response{
         try{
 
@@ -44,6 +56,13 @@ class ConnectionController extends CookiesController
         return $response->withRedirect($this->router->pathFor('loginPage'));
     }
 
+    /**
+     * Méthode qui permet de connecter un utilisateur
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function login(Request $request, Response $response, array $args): Response {
         try {
             if (isset($_SESSION['user'])) throw new BadMethodCallException("Vous êtes déjà connecté");
@@ -82,6 +101,12 @@ class ConnectionController extends CookiesController
         ]);
     }
 
+    /**
+     * Méthode qui redirige vers la page d'inscription
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     */
     public function getInscription(Request $request, Response $response, $args){
         $this->view->render($response, 'pages/register.twig', [
             "current_page" => "register",
@@ -89,12 +114,25 @@ class ConnectionController extends CookiesController
         ]);
     }
 
+    /**
+     * Méthode qui permet de déconnecter un utilisateur
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
+     */
     public function logout(Request $request, Response $response, array $args): Response {
         unset($_SESSION['user']);
         $this->flash->addMessage('success', 'Vous vous êtes deconnecté');
         return $response->withRedirect($this->router->pathFor('home'));
     }
 
+    /**
+     * Méthode qui récupère les informations du compte
+     * @param Request $request
+     * @param Response $response
+     * @param $args
+     */
     public function getAccount(Request $request, Response $response, $args){
         $this->view->render($response, 'pages/account.twig', [
             "current_page" => "account",
